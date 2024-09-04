@@ -101,15 +101,15 @@ local plugins = {
   {
     "hrsh7th/cmp-cmdline",
   },
-  {
-    "uga-rosa/cmp-dictionary",
-    config = function()
-      require("cmp_dictionary").setup {
-        paths = { "/usr/share/dict/words" },
-        exact_length = 2,
-      }
-    end,
-  },
+  -- {
+  --   "uga-rosa/cmp-dictionary",
+  --   config = function()
+  --     require("cmp_dictionary").setup {
+  --       paths = { "/usr/share/dict/words" },
+  --       exact_length = 2,
+  --     }
+  --   end,
+  -- },
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
   {
     "nvim-tree/nvim-tree.lua",
@@ -159,7 +159,6 @@ local plugins = {
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
-        "uga-rosa/cmp-dictionary",
       },
     },
     opts = function()
