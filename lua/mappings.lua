@@ -58,5 +58,19 @@ map("n", "<leader>bh", function()
 end, { desc = "buffer goto prev" })
 
 map("n", "<leader>bl", function()
+  require("nvchad.tabufline").next()
+end, { desc = "buffer goto next" })
+
+map("n", "<leader>bk", function()
   require("nvchad.tabufline").close_buffer()
 end, { desc = "buffer close" })
+
+map("n", "<leader>bn", "<cmd>enew<CR>", { desc = "buffer new" })
+
+-- add comment.nvim mappings
+map("v", "<C-/>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle Comment (Visual)"})
+map("n", "<C-/>", "<Plug>(comment_toggle_linewise_current)", { desc = "Toggle Comment"})
+
+-- old mappings
+map('n', '<C-p>', '<CMD>lua require"telescope.builtin".commands() <CR>', { desc = "Search commands"})
+map('n', '<C-f>', '<CMD>Telescope live_grep<CR>', { desc = "Search files"})

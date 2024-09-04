@@ -12,7 +12,6 @@ vim.opt.ignorecase = true
 vim.opt.incsearch = true
 vim.opt.smartcase = true
 
-vim.opt.complete:remove('i')
 vim.opt.lazyredraw = true
 
 vim.opt.display:append('lastline')
@@ -23,7 +22,7 @@ vim.opt.sidescrolloff = 5
 vim.opt.wrap = true
 
 vim.opt.ruler = true
-vim.opt.wildmenu = true
+-- vim.opt.wildmenu = true
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.mouse = 'a'
@@ -46,24 +45,32 @@ vim.api.nvim_set_keymap('n', '<C-->', '<cmd>lua ChangeScaleFactor(1/1.25)<CR>', 
 
 vim.opt.guifont = 'JetBrainsMono Nerd Font Mono:h14'
 
--- open dashboard when all buffers are closed
--- vim.api.nvim_create_autocmd({ "BufEnter", "BufDelete", "FileType" }, {
---   callback = function(args)
---     if args.event == "FileType" then
---       vim.o.showtabline = vim.bo.ft == "nvdash" and 0 or 2
---       return
---     end
---
---     local buf = args.buf
---
---     if not vim.bo[buf].buflisted then
---       return
---     end
---
---     vim.schedule(function()
---       if #vim.t.bufs == 1 and vim.api.nvim_buf_get_name(buf) == "" then
---         vim.cmd "Nvdash"
---       end
---     end)
---   end,
--- })
+-- just cmp things
+local cmp = require'cmp'
+
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' }
+    }
+})
+cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+        { name = 'path' },
+        { name = 'cmdline' },
+    }),
+    matching = { disallow_symbol_nonprefix_matching = false }
+})
+cmp.setup({
+  -- other settings
+  sources = {
+    -- other sources
+    {
+      name = "dictionary",
+      keyword_length = 2,
+    },
+  }
+})
+vim.keymap.set('c', '<Tab>', '<C-z>', { silent = false })
