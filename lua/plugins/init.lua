@@ -201,6 +201,27 @@ local plugins = {
       }
       return conf
     end,
+    init = function()
+      -- just cmp things
+      local cmp = require "cmp"
+
+      -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+      cmp.setup.cmdline({ "/", "?" }, {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = "buffer" },
+        },
+      })
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources {
+          { name = "path" },
+          { name = "cmdline" },
+        },
+        matching = { disallow_symbol_nonprefix_matching = false },
+      })
+      vim.keymap.set("c", "<Tab>", "<C-z>", { silent = false })
+    end,
   },
 }
 return plugins
