@@ -32,7 +32,6 @@ map("n", "<leader>wh", "<C-W>h", { desc = "Switch to left window" })
 map("n", "<leader>wl", "<C-W>l", { desc = "Switch to right window" })
 map("n", "<leader>wj", "<C-W>j", { desc = "Switch to down window" })
 map("n", "<leader>wk", "<C-W>k", { desc = "Switch to up window" })
-map("n", "<leader>gg", "<CMD>Neogit<CR>", { desc = "Open Neogit" })
 
 -- open commands
 map("n", "<leader>gn", "<CMD>NvimTreeOpen ~/orgfiles/<CR>", { desc = "Open Notes" })
@@ -41,18 +40,19 @@ map("n", "<leader>gc", "<CMD>NvimTreeOpen " .. conf_path .. "<CR>", { desc = "Op
 local data_path = vim.fn.stdpath "data"
 map("n", "<leader>god", "<CMD>NvimTreeOpen " .. data_path .. "<CR>", { desc = "Open Nvim Data" })
 map("n", "<leader>g.", "<CMD>NvimTreeOpen .<CR>", { desc = "Open Here" })
-map("n", "<leader>gd", "<CMD>Dashboard<CR>", { desc = "Open Neogit" })
+map("n", "<leader>gd", "<CMD>Dashboard<CR>", { desc = "Open Dashboard" })
+map("n", "<leader>gg", "<CMD>Neogit<CR>", { desc = "Open Neogit" })
 
 -- neorg dates
 map("i", "<leader>id", "<Plug>(neorg.tempus.insert-date.insert-mode)", { desc = "Insert Date" })
 map("n", "<leader>id", "<Plug>(neorg.tempus.insert-date)", { desc = "Insert Date" })
 
 -- tab/window management
-map("n", "<leader>tn", "<CMD>tab split<CR>", { desc = "Tab Split" })
-map("n", "<leader>ts", "<CMD>tab split<CR>", { desc = "Tab Split" })
-map("n", "<leader>tk", "<CMD>tab close<CR>", { desc = "Tab Close" })
-map("n", "<leader>tl", "<CMD>tabnext<CR>", { desc = "Tab Next" })
-map("n", "<leader>th", "<CMD>tabprevious<CR>", { desc = "Tab Previous" })
+map("n", "<leader><tab>n", "<CMD>tab split<CR>", { desc = "Tab Split" })
+map("n", "<leader><tab>s", "<CMD>tab split<CR>", { desc = "Tab Split" })
+map("n", "<leader><tab>k", "<CMD>tab close<CR>", { desc = "Tab Close" })
+map("n", "<leader><tab>l", "<CMD>tabnext<CR>", { desc = "Tab Next" })
+map("n", "<leader><tab>h", "<CMD>tabprevious<CR>", { desc = "Tab Previous" })
 map("n", "<leader>wv", "<CMD>vsplit<CR>", { desc = "Window VSplit" })
 map("n", "<leader>ws", "<CMD>split<CR>", { desc = "Window Split" })
 map("n", "<leader>wk", "<CMD>close<CR>", { desc = "Window Kill" })

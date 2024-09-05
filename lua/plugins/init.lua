@@ -16,7 +16,7 @@ local plugins = {
   { "tpope/vim-repeat", commit = "65846025c15494983dafe5e3b46c8f88ab2e9635" },
   { "nvim-lua/plenary.nvim", tag = "v0.1.4" },
   { "haya14busa/is.vim", commit = "d393cb346dcdf733fecd7bbfc45b70b8c05e9eb4" },
-  { "github/copilot.vim", tag = "v1.39.0" },
+  { "github/copilot.vim", tag = "v1.39.0", lazy = false },
   { "BurntSushi/ripgrep", tag = "14.1.0" },
   { "sindrets/diffview.nvim", commit = "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   {
@@ -100,6 +100,7 @@ local plugins = {
   },
   {
     "hrsh7th/cmp-cmdline",
+    commit = "d250c63aa13ead745e3a40f61fdd3470efde3923",
   },
   -- {
   --   "uga-rosa/cmp-dictionary",
@@ -110,6 +111,12 @@ local plugins = {
   --     }
   --   end,
   -- },
+  { "rcarriga/nvim-notify", tag = "v3.13.5" },
+  {
+    "goerz/jupytext.vim",
+    commit = "ec8f337bd5799e16a02816d04b7c91b9555d79c2",
+    lazy = false,
+  },
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
   {
     "nvim-tree/nvim-tree.lua",
