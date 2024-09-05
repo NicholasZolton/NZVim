@@ -91,7 +91,7 @@ local plugins = {
             project = { enable = true, limit = 8, icon = "", label = "", cwd_only = false },
             mru = { limit = 5 },
             footer = {},
-            disable_move = true,
+            disable_move = false,
           },
         }
       end
@@ -102,22 +102,41 @@ local plugins = {
     "hrsh7th/cmp-cmdline",
     commit = "d250c63aa13ead745e3a40f61fdd3470efde3923",
   },
-  -- {
-  --   "uga-rosa/cmp-dictionary",
-  --   config = function()
-  --     require("cmp_dictionary").setup {
-  --       paths = { "/usr/share/dict/words" },
-  --       exact_length = 2,
-  --     }
-  --   end,
-  -- },
   { "rcarriga/nvim-notify", tag = "v3.13.5" },
   {
     "goerz/jupytext.vim",
     commit = "ec8f337bd5799e16a02816d04b7c91b9555d79c2",
     lazy = false,
   },
+  {
+    "ahmedkhalf/project.nvim",
+    commit = "8c6bad7d22eef1b71144b401c9f74ed01526a4fb",
+    lazy = "VeryLazy",
+    config = function()
+      require("project_nvim").setup {
+        show_hidden = false,
+      }
+    end,
+  },
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
+  {
+    "nvim-telescope/telescope.nvim",
+    opts = function()
+      local conf = require "nvchad.configs.telescope"
+      conf.defaults.file_ignore_patterns = { ".git", "node_modules", ".venv" }
+      return conf
+    end,
+    config = function(_, opts)
+      local telescope = require "telescope"
+      telescope.setup(opts)
+
+      -- load extensions
+      for _, ext in ipairs(opts.extensions_list) do
+        telescope.load_extension(ext)
+      end
+      require("telescope").load_extension "projects"
+    end,
+  },
   {
     "nvim-tree/nvim-tree.lua",
     cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeOpen" },

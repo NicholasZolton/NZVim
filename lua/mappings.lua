@@ -6,10 +6,12 @@ local map = vim.keymap.set
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
--- personal mappings
+-- personal remappings
 map("n", "<tab>", "za")
 map("n", "<leader>qs", "<CMD>wq<CR>", { desc = "Close file save" })
 map("n", "<leader>qq", "<CMD>q<CR>", { desc = "Close file nosave" })
+
+-- telescope mappings
 map("n", "<leader>ff", "<CMD>Telescope find_files<CR>", { desc = "Find files" })
 map("n", "<leader>fg", "<CMD>lua require('telescope.builtin').live_grep()<CR>", { desc = "Find word" })
 map("n", "<leader>fb", "<CMD>lua require('telescope.builtin').buffers()<CR>", { desc = "Find buffers" })
@@ -22,6 +24,9 @@ map(
   "<CMD>lua require('telescope').extensions.recent_files.pick()<CR>",
   { desc = "Find recent files" }
 )
+map("n", "<leader>fc", '<CMD>lua require"telescope.builtin".commands() <CR>', { desc = "Find commands" })
+map("n", "<leader>fp", "<CMD>Telescope projects<CR>", { desc = "Find projects" })
+
 map("n", "<leader>e", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
 map("n", "<leader>pi", "<CMD>Lazy install<CR>", { desc = "Install plugins" })
 map("n", "<leader>pu", "<CMD>Lazy update<CR>", { desc = "Update plugins" })
@@ -83,6 +88,7 @@ map("n", "<leader>bn", "<cmd>enew<CR>", { desc = "buffer new" })
 map("v", "<C-/>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle Comment (Visual)" })
 map("n", "<C-/>", "<Plug>(comment_toggle_linewise_current)", { desc = "Toggle Comment" })
 
--- old mappings
-map("n", "<C-p>", '<CMD>lua require"telescope.builtin".commands() <CR>', { desc = "Search commands" })
-map("n", "<C-f>", "<CMD>Telescope live_grep<CR>", { desc = "Search files" })
+-- leap mapping
+map("n", "c", function()
+  require("leap").leap { target_windows = { vim.api.nvim_get_current_win() } }
+end)
