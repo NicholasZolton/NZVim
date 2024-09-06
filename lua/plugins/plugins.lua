@@ -118,6 +118,30 @@ local plugins = {
       }
     end,
   },
+  { "nvim-telescope/telescope-fzy-native.nvim", commit = "282f069504515eec762ab6d6c89903377252bf5b", lazy = false },
+  {
+    "nvim-telescope/telescope-file-browser.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+    commit = "c5a14e0550699a7db575805cdb9ddc969ba0f1f5",
+  },
+  {
+    "stevearc/overseer.nvim",
+    cmd = { "OverseerRun", "OverseerToggle" },
+    commit = "236e60cdac6410dd95ea5cecafdb801a304d6a41",
+    config = function()
+      require("overseer").setup()
+    end,
+  },
+  { "mfussenegger/nvim-dap", tag = "0.8.0" },
+  {
+    "robitx/gp.nvim",
+    config = function()
+      local conf = {}
+      require("gp").setup(conf)
+    end,
+    tag = "v3.9.0",
+    cmd = { "GpChatNew" },
+  },
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
   {
     "nvim-telescope/telescope.nvim",
@@ -135,6 +159,8 @@ local plugins = {
         telescope.load_extension(ext)
       end
       require("telescope").load_extension "projects"
+      require("telescope").load_extension "fzy_native"
+      require("telescope").load_extension "file_browser"
     end,
   },
   {
@@ -238,4 +264,5 @@ local plugins = {
     end,
   },
 }
+
 return plugins

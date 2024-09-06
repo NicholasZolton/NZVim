@@ -22,13 +22,12 @@ vim.opt.sidescrolloff = 5
 vim.opt.wrap = true
 
 vim.opt.ruler = true
--- vim.opt.wildmenu = true
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.mouse = "a"
 vim.opt.title = true
 vim.opt.timeoutlen = 0
-vim.opt.autochdir = true
+vim.opt.autochdir = false
 
 vim.opt.clipboard = "unnamedplus"
 vim.opt.history = 1000

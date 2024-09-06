@@ -26,6 +26,7 @@ map(
 )
 map("n", "<leader>fc", '<CMD>lua require"telescope.builtin".commands() <CR>', { desc = "Find commands" })
 map("n", "<leader>fp", "<CMD>Telescope projects<CR>", { desc = "Find projects" })
+map("n", "<leader>fb", "<CMD>Telescope file_browser<CR>", { desc = "Find projects" })
 
 map("n", "<leader>e", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
 map("n", "<leader>pi", "<CMD>Lazy install<CR>", { desc = "Install plugins" })
@@ -92,3 +93,13 @@ map("n", "<C-/>", "<Plug>(comment_toggle_linewise_current)", { desc = "Toggle Co
 map("n", "c", function()
   require("leap").leap { target_windows = { vim.api.nvim_get_current_win() } }
 end)
+
+-- gpt mappings
+map("n", "<leader>oc", "<CMD>GpChatNew vsplit<CR>", { desc = "Open Chat" })
+
+-- overseer mappings
+map("n", "<leader>tr", "<CMD>OverseerRun<CR>", { desc = "Task Run" })
+map("n", "<leader>tt", "<CMD>OverseerToggle<CR>", { desc = "Task Run" })
+
+-- neorg mappings
+map("n", "<CR>", "<Plug>(neorg.esupports.hop.hop-link)", { noremap = false, silent = true })
