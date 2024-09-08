@@ -103,3 +103,5 @@ map("n", "<leader>tt", "<CMD>OverseerToggle<CR>", { desc = "Task Run" })
 
 -- neorg mappings
 map("n", "<CR>", "<Plug>(neorg.esupports.hop.hop-link)", { noremap = false, silent = true })
+map("n", "<leader>md", "<Plug>(neorg.qol.todo-items.todo.task-done)", { desc = "Mark Task Done" })
+map("n", "<leader>mu", "<Plug>(neorg.qol.todo-items.todo.task-undone)", { desc = "Mark Task Undone" })
