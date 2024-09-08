@@ -95,7 +95,14 @@ map("n", "c", function()
 end)
 
 -- gpt mappings
-map("n", "<leader>oc", "<CMD>GpChatNew vsplit<CR>", { desc = "Open Chat" })
+map("n", "<leader>ccn", "<CMD>GpChatNew vsplit<CR>", { desc = "Chat New" })
+map("n", "<leader>ccr", "<CMD>GpChatRespond<CR>", { desc = "Chat Respond" })
+map("n", "<leader>cct", "<CMD>GpChatToggle<CR>", { desc = "Chat Toggle" })
+map("n", "<leader>ccf", "<CMD>GpChatFinder<CR>", { desc = "Chat Find" })
+map("n", "<leader>ccd", "<CMD>GpChatDelete<CR>", { desc = "Chat Delete" })
+map("n", "<leader>ccp", "<CMD>GpPopup<CR>", { desc = "Chat Popup" })
+map("n", "<leader>cah", "<CMD>GpAgent<CR>", { desc = "Agent Help" })
+map("n", "<leader>can", "<CMD>GpAgentNext<CR>", { desc = "Agent Next" })
 
 -- overseer mappings
 map("n", "<leader>tr", "<CMD>OverseerRun<CR>", { desc = "Task Run" })

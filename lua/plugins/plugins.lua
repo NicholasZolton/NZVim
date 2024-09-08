@@ -136,11 +136,24 @@ local plugins = {
   {
     "robitx/gp.nvim",
     config = function()
-      local conf = {}
+      local conf = require "configs.gpt"
       require("gp").setup(conf)
     end,
     tag = "v3.9.0",
     cmd = { "GpChatNew" },
+  },
+  {
+    "3rd/image.nvim",
+    -- Disable on Windows system
+    cond = function()
+      return vim.fn.has "win32" ~= 1
+    end,
+    dependencies = {
+      "leafo/magick",
+    },
+    opts = {
+      -- image.nvim config
+    },
   },
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
   {

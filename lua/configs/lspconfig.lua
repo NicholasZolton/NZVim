@@ -16,26 +16,50 @@ for _, lsp in ipairs(servers) do
   }
 end
 
--- credit to https://github.com/neovim/nvim-lspconfig/issues/500
+-- some credit to https://github.com/neovim/nvim-lspconfig/issues/500, adjusted for cross-platform
 local util = require "lspconfig/util"
 local path = util.path
 
 local function get_python_path(workspace)
-  -- Use activated virtualenv.
-  if vim.env.VIRTUAL_ENV then
-    return path.join(vim.env.VIRTUAL_ENV, "bin", "python")
-  end
-
-  -- Find and use virtualenv in workspace directory.
-  for _, pattern in ipairs { "*", ".*" } do
-    local match = vim.fn.glob(path.join(workspace, pattern, "pyvenv.cfg"))
-    if match ~= "" then
-      return path.join(path.dirname(match), "bin", "python")
+  if vim.fn.has "win32" == 1 then
+    -- use activated virtualenv on windows
+    if vim.env.VIRTUAL_ENV then
+      print("Using activated virtualenv", vim.env.VIRTUAL_ENV)
+      return path.join(vim.env.VIRTUAL_ENV, "Scripts", "python.exe")
     end
-  end
 
-  -- Fallback to system Python.
-  return "python3"
+    -- find and use virtualenv in workspace directory
+    for _, pattern in ipairs { "*", ".*" } do
+      local match = vim.fn.glob(path.join(workspace, pattern, "pyvenv.cfg"))
+      if match ~= "" then
+        print("Using workspace virtualenv", path.dirname(match))
+        return path.join(path.dirname(match), "Scripts", "python.exe")
+      end
+    end
+
+    -- fallback to system python
+    print "Using system python"
+    return "python"
+  else
+    -- Use activated virtualenv.
+    if vim.env.VIRTUAL_ENV then
+      print("Using activated virtualenv", vim.env.VIRTUAL_ENV)
+      return path.join(vim.env.VIRTUAL_ENV, "bin", "python")
+    end
+
+    -- Find and use virtualenv in workspace directory.
+    for _, pattern in ipairs { "*", ".*" } do
+      local match = vim.fn.glob(path.join(workspace, pattern, "pyvenv.cfg"))
+      if match ~= "" then
+        print("Using workspace virtualenv", path.dirname(match))
+        return path.join(path.dirname(match), "bin", "python")
+      end
+    end
+
+    -- Fallback to system Python.
+    print "Using system python"
+    return "python3"
+  end
 end
 
 lspconfig.pyright.setup {
