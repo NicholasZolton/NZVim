@@ -24,7 +24,7 @@ map(
   "<CMD>lua require('telescope').extensions.recent_files.pick()<CR>",
   { desc = "Find recent files" }
 )
-map("n", "<leader>fc", '<CMD>lua require"telescope.builtin".commands() <CR>', { desc = "Find commands" })
+map("n", "<leader>fc", '<CMD>lua require"telescope.builtin".commands()<CR>', { desc = "Find commands" })
 map("n", "<leader>fp", "<CMD>Telescope projects<CR>", { desc = "Find projects" })
 map("n", "<leader>fb", "<CMD>Telescope file_browser<CR>", { desc = "Find projects" })
 
@@ -98,7 +98,13 @@ end)
 map("n", "<leader>ccn", "<CMD>GpChatNew vsplit<CR>", { desc = "Chat New" })
 map("n", "<leader>ccr", "<CMD>GpChatRespond<CR>", { desc = "Chat Respond" })
 map("n", "<leader>cct", "<CMD>GpChatToggle<CR>", { desc = "Chat Toggle" })
-map("n", "<leader>ccf", "<CMD>GpChatFinder<CR>", { desc = "Chat Find" })
+local chat_path = data_path .. "/gp/chats/"
+map(
+  "n",
+  "<leader>ccf",
+  "<CMD>Telescope live_grep search_dirs=" .. chat_path .. " default_text=topic<CR>",
+  { desc = "Chat Find" }
+)
 map("n", "<leader>ccd", "<CMD>GpChatDelete<CR>", { desc = "Chat Delete" })
 map("n", "<leader>ccp", "<CMD>GpPopup<CR>", { desc = "Chat Popup" })
 map("n", "<leader>cah", "<CMD>GpAgent<CR>", { desc = "Agent Help" })
@@ -112,3 +118,7 @@ map("n", "<leader>tt", "<CMD>OverseerToggle<CR>", { desc = "Task Run" })
 map("n", "<CR>", "<Plug>(neorg.esupports.hop.hop-link)", { noremap = false, silent = true })
 map("n", "<leader>md", "<Plug>(neorg.qol.todo-items.todo.task-done)", { desc = "Mark Task Done" })
 map("n", "<leader>mu", "<Plug>(neorg.qol.todo-items.todo.task-undone)", { desc = "Mark Task Undone" })
+
+map("n", "<leader>fs", "<cmd>SessionSearch<CR>", { desc = "Session Search" })
+map("n", "<leader>ss", "<cmd>SessionSave<CR>", { desc = "Session Save" })
+map("n", "<leader>sa", "<cmd>SessionToggleAutoSave<CR>", { desc = "Session Toggle Autosave" })

@@ -46,3 +46,6 @@ vim.opt.guifont = "JetBrainsMono Nerd Font Mono:h14"
 
 -- this is a hacky fix for cmp not working on :, /, and ?.
 vim.keymap.set("c", "<Tab>", "<C-z>", { silent = false })
+
+-- session management
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"

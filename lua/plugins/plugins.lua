@@ -107,6 +107,7 @@ local plugins = {
   { "mfussenegger/nvim-dap", tag = "0.8.0" },
   {
     "robitx/gp.nvim",
+    lazy = "VeryLazy",
     config = function()
       local conf = require "configs.gpt"
       require("gp").setup(conf)
@@ -114,19 +115,40 @@ local plugins = {
     tag = "v3.9.0",
     cmd = { "GpChatNew" },
   },
-  -- {
-  --   "3rd/image.nvim",
-  --   -- Disable on Windows system
-  --   cond = function()
-  --     return vim.fn.has "win32" ~= 1
-  --   end,
-  --   dependencies = {
-  --     "leafo/magick",
-  --   },
-  --   opts = {
-  --     -- image.nvim config
-  --   },
-  -- },
+  {
+    "3rd/image.nvim",
+    -- Disable on Windows system
+    cond = function()
+      return vim.fn.has "win32" ~= 1
+    end,
+    dependencies = {
+      "leafo/magick",
+    },
+    opts = {
+      -- image.nvim config
+    },
+  },
+  {
+    "rmagatti/auto-session",
+    commit = "a90aa7730efa60fdcc7e00497a8f36d94a6da709",
+    lazy = false,
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
+
+    ---enables autocomplete for opts
+    ---@module "auto-session"
+    ---@type AutoSession.Config
+    opts = {
+      -- ⚠️ This will only work if Telescope.nvim is installed
+      -- The following are already the default values, no need to provide them if these are already the settings you want.
+      session_lens = {
+        -- If load_on_setup is false, make sure you use `:SessionSearch` to open the picker as it will initialize everything first
+        load_on_setup = true,
+      },
+    },
+  },
+>>>>>>> bfd4439eca17318933e8016e1c1a1708c5a8da4b
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
   {
     "nvim-telescope/telescope.nvim",
