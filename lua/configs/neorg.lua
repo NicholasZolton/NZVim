@@ -30,8 +30,8 @@ local options = {
 if vim.fn.has "win32" == 1 then
 else
   -- add the latex renderer
-  options.load["core.latex.renderer"] = {
-    render_on_enter = true,
-  }
+  -- options.load["core.latex.renderer"] = {
+  --   render_on_enter = false,
+  -- }
 end
 return options

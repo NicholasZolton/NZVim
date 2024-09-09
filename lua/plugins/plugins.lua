@@ -34,35 +34,7 @@ local plugins = {
     "nvim-neorg/neorg",
     tag = "v9.1.1",
     lazy = false,
-    opts = {
-      load = {
-        ["core.defaults"] = {}, -- Loads default behaviour
-        ["core.concealer"] = {}, -- Adds pretty icons to your documents
-        ["core.dirman"] = { -- Manages Neorg workspaces
-          config = {
-            workspaces = {
-              notes = "~/orgfiles",
-            },
-            default_workspace = "notes",
-            index = "dashboard.norg",
-          },
-        },
-        ["core.export"] = {}, -- Allows for the exporting of documents using the ":Neorg export file_path" command
-        ["core.export.markdown"] = {}, -- Allows for the exporting of documents using the ":Neorg export file_path" command
-        ["core.completion"] = {
-          config = {
-            engine = "nvim-cmp",
-          },
-        }, -- Allows for the exporting of documents using the ":Neorg export file_path" command
-        ["core.esupports.metagen"] = {
-          config = {
-            author = "NicholasZolton",
-            type = "auto",
-          },
-        },
-        ["core.integrations.nvim-cmp"] = {},
-      },
-    },
+    opts = require "configs.neorg",
     dependencies = {
       { "nvim-lua/plenary.nvim" },
     },
@@ -142,19 +114,19 @@ local plugins = {
     tag = "v3.9.0",
     cmd = { "GpChatNew" },
   },
-  {
-    "3rd/image.nvim",
-    -- Disable on Windows system
-    cond = function()
-      return vim.fn.has "win32" ~= 1
-    end,
-    dependencies = {
-      "leafo/magick",
-    },
-    opts = {
-      -- image.nvim config
-    },
-  },
+  -- {
+  --   "3rd/image.nvim",
+  --   -- Disable on Windows system
+  --   cond = function()
+  --     return vim.fn.has "win32" ~= 1
+  --   end,
+  --   dependencies = {
+  --     "leafo/magick",
+  --   },
+  --   opts = {
+  --     -- image.nvim config
+  --   },
+  -- },
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
   {
     "nvim-telescope/telescope.nvim",
