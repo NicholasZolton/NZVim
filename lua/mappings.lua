@@ -27,6 +27,7 @@ map(
 map("n", "<leader>fc", '<CMD>lua require"telescope.builtin".commands()<CR>', { desc = "Find commands" })
 map("n", "<leader>fp", "<CMD>Telescope projects<CR>", { desc = "Find projects" })
 map("n", "<leader>fb", "<CMD>Telescope file_browser<CR>", { desc = "Find projects" })
+map("n", "<leader>fo", "<CMD>ObsidianSearch<CR>", { desc = "Find Obsidian", remap = true })
 
 map("n", "<leader>e", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
 map("n", "<leader>pi", "<CMD>Lazy install<CR>", { desc = "Install plugins" })
@@ -122,3 +123,13 @@ map("n", "<leader>mu", "<Plug>(neorg.qol.todo-items.todo.task-undone)", { desc =
 map("n", "<leader>fs", "<cmd>SessionSearch<CR>", { desc = "Session Search" })
 map("n", "<leader>ss", "<cmd>SessionSave<CR>", { desc = "Session Save" })
 map("n", "<leader>sa", "<cmd>SessionToggleAutoSave<CR>", { desc = "Session Toggle Autosave" })
+
+-- Sniprun mappings
+map("v", "<leader>sr", "<cmd>SnipRun<CR>", { desc = "Snip Run" })
+map("n", "<leader>ss", "<cmd>SnipReset<CR>", { desc = "Snip Reset" })
+
+-- window jump
+map("n", "<leader>wj", "<cmd>lua require('nvim-window').pick()<cr>", { desc = "nvim-window: Jump to window" })
+
+--obsidian mappings
+map("n", "<leader>op", "<cmd>ObsidianPasteImg<cr>", { desc = "nvim-window: Jump to window" })
