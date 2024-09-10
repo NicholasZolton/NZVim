@@ -118,37 +118,232 @@ local plugins = {
   {
     "3rd/image.nvim",
     -- Disable on Windows system
+    ft = { "markdown", "md" },
     cond = function()
-      return vim.fn.has "win32" ~= 1
+      return false
+      -- return vim.fn.has "win32" ~= 1
     end,
     dependencies = {
       "leafo/magick",
     },
     opts = {
-      -- image.nvim config
+      backend = "kitty",
+      integrations = {
+        markdown = {
+          enabled = true,
+          clear_in_insert_mode = false,
+          download_remote_images = true,
+          only_render_image_at_cursor = false,
+          filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
+        },
+        neorg = {
+          enabled = true,
+          clear_in_insert_mode = false,
+          download_remote_images = true,
+          only_render_image_at_cursor = false,
+          filetypes = { "norg" },
+        },
+        html = {
+          enabled = false,
+        },
+        css = {
+          enabled = false,
+        },
+      },
+      max_width = nil,
+      max_height = nil,
+      max_width_window_percentage = nil,
+      max_height_window_percentage = 50,
+      window_overlap_clear_enabled = false, -- toggles images when windows are overlapped
+      window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+      editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
+      tmux_show_only_in_active_window = false, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
+      hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif" }, -- render image files as images when opened
     },
   },
   {
     "rmagatti/auto-session",
     commit = "a90aa7730efa60fdcc7e00497a8f36d94a6da709",
     lazy = false,
+    opts = function()
+      local home_dir = vim.fn.expand "~"
+      return { suppressed_dirs = { home_dir } }
+    end,
+    config = function()
+      require("auto-session").setup {
+        auto_session_root_dir = vim.fn.stdpath "data" .. "/sessions/",
+      }
+    end,
     dependencies = {
       "nvim-telescope/telescope.nvim",
     },
+  },
+  {
+    "epwalsh/obsidian.nvim",
+    tag = "v3.9.0", -- recommended, use latest release instead of latest commit
+    lazy = true,
+    cond = function()
+      return vim.fn.isdirectory(vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault")
+    end,
+    event = function()
+      local vault_path = vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault"
+      return {
+        "BufReadPre " .. vault_path .. "/*.md",
+        "BufNewFile " .. vault_path .. "/*.md",
+      }
+    end,
+    dependencies = {
+      -- Required.
+      "nvim-lua/plenary.nvim",
 
-    ---enables autocomplete for opts
-    ---@module "auto-session"
-    ---@type AutoSession.Config
+      -- see below for full list of optional dependencies 👇
+    },
     opts = {
-      -- ⚠️ This will only work if Telescope.nvim is installed
-      -- The following are already the default values, no need to provide them if these are already the settings you want.
-      session_lens = {
-        -- If load_on_setup is false, make sure you use `:SessionSearch` to open the picker as it will initialize everything first
-        load_on_setup = true,
+      workspaces = {
+        {
+          name = "personal",
+          path = function()
+            return vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault"
+          end,
+        },
+      },
+      -- see below for full list of options 👇
+      log_level = vim.log.levels.INFO,
+      daily_notes = {
+        -- Optional, if you keep daily notes in a separate directory.
+        folder = "PeriodicNotes/DailyNotes",
+        -- Optional, if you want to change the date format for the ID of daily notes.
+        date_format = "%Y-%m-%d",
+        -- Optional, default tags to add to each new daily note created.
+        default_tags = { "daily-notes" },
+        -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
+        template = "DailyTemplate.md",
+      },
+      -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
+      completion = {
+        nvim_cmp = true,
+      },
+
+      -- Optional, configure key mappings. These are the defaults. If you don't want to set any keymappings this
+      -- way then set 'mappings = {}'.
+      mappings = {
+        -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+        ["gf"] = {
+          action = function()
+            return require("obsidian").util.gf_passthrough()
+          end,
+          opts = { noremap = false, expr = true, buffer = true },
+        },
+      },
+
+      -- Either 'wiki' or 'markdown'.
+      preferred_link_style = "wiki",
+
+      -- Optional, boolean or a function that takes a filename and returns a boolean.
+      -- `true` indicates that you don't want obsidian.nvim to manage frontmatter.
+      disable_frontmatter = false,
+
+      -- Optional, for templates (see below).
+      templates = {
+        folder = "Templates",
+        date_format = "%Y-%m-%d",
+        time_format = "%H:%M",
+        -- A map for custom variables, the key should be the variable and the value a function
+        substitutions = {},
+      },
+
+      -- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
+      -- URL it will be ignored but you can customize this behavior here.
+      ---@param url string
+      follow_url_func = function(url)
+        -- Open the URL in the default web browser.
+        -- vim.fn.jobstart({"open", url})  -- Mac OS
+        -- vim.fn.jobstart({"xdg-open", url})  -- linux
+        -- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
+        vim.ui.open(url) -- need Neovim 0.10.0+
+      end,
+      -- Optional, set to true if you use the Obsidian Advanced URI plugin.
+      -- https://github.com/Vinzent03/obsidian-advanced-uri
+      use_advanced_uri = true,
+      -- Optional, set to true to force ':ObsidianOpen' to bring the app to the foreground.
+      open_app_foreground = true,
+      picker = {
+        -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
+        name = "telescope.nvim",
+        -- Optional, configure key mappings for the picker. These are the defaults.
+        -- Not all pickers support all mappings.
+        note_mappings = {
+          -- Create a new note from your query.
+          new = "<C-x>",
+          -- Insert a link to the selected note.
+          insert_link = "<C-l>",
+        },
+        tag_mappings = {
+          -- Add tag(s) to current note.
+          tag_note = "<C-x>",
+          -- Insert a tag at the current location.
+          insert_tag = "<C-l>",
+        },
+      },
+      -- Optional, sort search results by "path", "modified", "accessed", or "created".
+      -- The recommend value is "modified" and `true` for `sort_reversed`, which means, for example,
+      -- that `:ObsidianQuickSwitch` will show the notes sorted by latest modified time
+      sort_by = "modified",
+      sort_reversed = true,
+
+      -- Set the maximum number of lines to read from notes on disk when performing certain searches.
+      search_max_lines = 1000,
+
+      -- Optional, customize the default name or prefix when pasting images via `:ObsidianPasteImg`.
+      ---@return string
+      image_name_func = function()
+        return string.format("%s", os.time())
+      end,
+
+      -- Optional, determines how certain commands open notes. The valid options are:
+      -- 1. "current" (the default) - to always open in the current window
+      -- 2. "vsplit" - to open in a vertical split if there's not already a vertical split
+      -- 3. "hsplit" - to open in a horizontal split if there's not already a horizontal split
+      open_notes_in = "current",
+
+      -- Specify how to handle attachments.
+      attachments = {
+        img_folder = "Assets/imgs", -- This is the default
+        confirm_img_paste = false,
       },
     },
   },
+  { "nvim-treesitter/nvim-treesitter-context", commit = "895ec44f5c89bc67ba5440aef3d1f2efa3d59a41" },
+  {
+    "michaelb/sniprun",
+    tag = "v1.3.15",
+    cond = function()
+      return vim.fn.has "win32" ~= 1
+    end,
+    cmd = { "SnipRun", "SnipReset", "SnipInfo" },
+    config = function()
+      require("sniprun").setup {
+        display = { "Terminal" },
+      }
+    end,
+    mappings = {},
+  },
+  {
+    "yorickpeterse/nvim-window",
+    lazy = false,
+    commit = "81f29840ac3aaeea6fc2153edfabebd00d692476",
+    keys = {},
+    config = true,
+  },
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function()
+      local conf = require "nvchad.configs.treesitter"
+      conf.highlight.additional_vim_regex_highlighting = { "markdown", "markdown_inline" }
+      return conf
+    end,
+  },
   {
     "nvim-telescope/telescope.nvim",
     opts = function()
