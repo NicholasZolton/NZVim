@@ -74,7 +74,7 @@ local plugins = {
     "hrsh7th/cmp-cmdline",
     commit = "d250c63aa13ead745e3a40f61fdd3470efde3923",
   },
-  { "rcarriga/nvim-notify", tag = "v3.13.5" },
+  { "rcarriga/nvim-notify", lazy = false, tag = "v3.13.5" },
   {
     "goerz/jupytext.vim",
     commit = "ec8f337bd5799e16a02816d04b7c91b9555d79c2",
@@ -313,7 +313,7 @@ local plugins = {
       },
     },
   },
-  { "nvim-treesitter/nvim-treesitter-context", commit = "895ec44f5c89bc67ba5440aef3d1f2efa3d59a41" },
+  { "nvim-treesitter/nvim-treesitter-context", lazy = "VeryLazy", commit = "895ec44f5c89bc67ba5440aef3d1f2efa3d59a41" },
   {
     "michaelb/sniprun",
     tag = "v1.3.15",

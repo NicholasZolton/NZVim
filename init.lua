@@ -35,6 +35,8 @@ require("lazy").setup({
   { import = "plugins" },
 }, lazy_config)
 
+vim.notify = require "notify"
+
 -- load theme
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
@@ -45,3 +47,5 @@ require "nvchad.autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+vim.notify "NvChad Loaded!"
