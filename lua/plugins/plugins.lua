@@ -148,7 +148,6 @@ local plugins = {
       },
     },
   },
->>>>>>> bfd4439eca17318933e8016e1c1a1708c5a8da4b
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
   {
     "nvim-telescope/telescope.nvim",
