@@ -181,17 +181,26 @@ local plugins = {
   {
     "epwalsh/obsidian.nvim",
     tag = "v3.9.0", -- recommended, use latest release instead of latest commit
-    lazy = true,
     cond = function()
-      return vim.fn.isdirectory(vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault")
+      if vim.fn.has "win32" ~= 1 then
+        return vim.fn.isdirectory(vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault")
+      else
+        return vim.fn.isdirectory(vim.fn.expand "~" .. "\\Documents\\Projects\\ObsidianVault")
+      end
     end,
     event = function()
-      local vault_path = vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault"
+      local vault_files = nil
+      if vim.fn.has "win32" ~= 1 then
+        vault_files = vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault" .. "/*.md"
+      else
+        vault_files = vim.fn.expand "~" .. "\\Documents\\Projects\\ObsidianVault" .. "\\*.md"
+      end
       return {
-        "BufReadPre " .. vault_path .. "/*.md",
-        "BufNewFile " .. vault_path .. "/*.md",
+        "BufReadPre " .. vault_files,
+        "BufNewFile " .. vault_files,
       }
     end,
+    -- ft = { "markdown", "md" },
     dependencies = {
       -- Required.
       "nvim-lua/plenary.nvim",
@@ -203,7 +212,11 @@ local plugins = {
         {
           name = "personal",
           path = function()
-            return vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault"
+            if vim.fn.has "win32" ~= 1 then
+              return vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault"
+            else
+              return vim.fn.expand "~" .. "\\Documents\\Projects\\ObsidianVault"
+            end
           end,
         },
       },
