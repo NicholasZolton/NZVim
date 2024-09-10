@@ -49,3 +49,15 @@ vim.schedule(function()
 end)
 
 vim.notify "NvChad Loaded!"
+
+local xdg_session = os.getenv "XDG_SESSION_TYPE"
+local cmd_output = io.popen "wl-paste --list-types"
+vim.notify(
+  string.format(
+    "wl-paste available: %d, xclip available: %d, OS: %s, cmd_output: %s",
+    vim.fn.executable "wl-paste",
+    vim.fn.executable "xclip",
+    xdg_session,
+    cmd_output[0]
+  )
+)

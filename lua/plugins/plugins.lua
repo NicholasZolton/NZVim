@@ -118,7 +118,7 @@ local plugins = {
   {
     "3rd/image.nvim",
     -- Disable on Windows system
-    ft = { "markdown", "md" },
+    ft = "markdown",
     cond = function()
       return false
       -- return vim.fn.has "win32" ~= 1
@@ -188,19 +188,19 @@ local plugins = {
         return vim.fn.isdirectory(vim.fn.expand "~" .. "\\Documents\\Projects\\ObsidianVault")
       end
     end,
-    event = function()
-      local vault_files = nil
-      if vim.fn.has "win32" ~= 1 then
-        vault_files = vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault" .. "/*.md"
-      else
-        vault_files = vim.fn.expand "~" .. "\\Documents\\Projects\\ObsidianVault" .. "\\*.md"
-      end
-      return {
-        "BufReadPre " .. vault_files,
-        "BufNewFile " .. vault_files,
-      }
-    end,
-    -- ft = { "markdown", "md" },
+    -- event = function()
+    --   local vault_files = nil
+    --   if vim.fn.has "win32" ~= 1 then
+    --     vault_files = vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault" .. "/*.md"
+    --   else
+    --     vault_files = vim.fn.expand "~" .. "\\Documents\\Projects\\ObsidianVault" .. "\\*.md"
+    --   end
+    --   return {
+    --     "BufReadPre " .. vault_files,
+    --     "BufNewFile " .. vault_files,
+    --   }
+    -- end,
+    ft = "markdown",
     dependencies = {
       -- Required.
       "nvim-lua/plenary.nvim",
