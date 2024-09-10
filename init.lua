@@ -51,13 +51,25 @@ end)
 vim.notify "NvChad Loaded!"
 
 local xdg_session = os.getenv "XDG_SESSION_TYPE"
-local cmd_output = io.popen "wl-paste --list-types"
+local cmd_output = assert(io.popen "wl-paste --list-types"):lines()
+local cmd_output2 = assert(io.popen "xclip -selection clipboard -o -t TARGETS"):lines()
+-- concat all the lines into a string for each command
+local cmd_output_line = ""
+for line in cmd_output do
+  cmd_output_line = cmd_output_line .. ";" .. line
+end
+local cmd_output_line2 = ""
+for line in cmd_output2 do
+  cmd_output_line2 = cmd_output_line2 .. ";" .. line
+end
+
 vim.notify(
   string.format(
-    "wl-paste available: %d, xclip available: %d, OS: %s, cmd_output: %s",
+    "wl-paste available: %d, xclip available: %d, OS: %s, cmd_output1: %s, cmd_output2: %s",
     vim.fn.executable "wl-paste",
     vim.fn.executable "xclip",
     xdg_session,
-    cmd_output[0]
+    cmd_output_line,
+    cmd_output_line2
   )
 )
