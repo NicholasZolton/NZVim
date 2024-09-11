@@ -16,7 +16,7 @@ local plugins = {
   { "tpope/vim-repeat", commit = "65846025c15494983dafe5e3b46c8f88ab2e9635" },
   { "nvim-lua/plenary.nvim", tag = "v0.1.4" },
   { "haya14busa/is.vim", commit = "d393cb346dcdf733fecd7bbfc45b70b8c05e9eb4" },
-  { "github/copilot.vim", tag = "v1.39.0", lazy = false },
+  { "github/copilot.vim", tag = "v1.39.0", lazy = false, cond = true },
   { "BurntSushi/ripgrep", tag = "14.1.0" },
   { "sindrets/diffview.nvim", commit = "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   {
@@ -113,7 +113,7 @@ local plugins = {
       require("gp").setup(conf)
     end,
     tag = "v3.9.0",
-    cmd = { "GpChatNew" },
+    cmd = { "GpChatNew", "GpChatRespond" },
   },
   {
     "3rd/image.nvim",
@@ -437,8 +437,7 @@ local plugins = {
           behavior = cmp.ConfirmBehavior.Insert,
           select = true,
         },
-
-        ["<C-j"] = cmp.mapping(function(fallback)
+        ["<C-j>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
           elseif require("luasnip").expand_or_jumpable() then

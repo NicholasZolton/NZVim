@@ -51,7 +51,6 @@ map("n", "<leader>gd", "<CMD>Dashboard<CR>", { desc = "Open Dashboard" })
 map("n", "<leader>gg", "<CMD>Neogit<CR>", { desc = "Open Neogit" })
 
 -- neorg dates
-map("i", "<leader>id", "<Plug>(neorg.tempus.insert-date.insert-mode)", { desc = "Insert Date" })
 map("n", "<leader>id", "<Plug>(neorg.tempus.insert-date)", { desc = "Insert Date" })
 
 -- tab/window management
@@ -103,7 +102,7 @@ local chat_path = data_path .. "/gp/chats/"
 map(
   "n",
   "<leader>ccf",
-  "<CMD>Telescope live_grep search_dirs=" .. chat_path .. " default_text=topic<CR>",
+  "<CMD>Telescope live_grep search_dirs=" .. chat_path .. " default_text=topic: <CR>",
   { desc = "Chat Find" }
 )
 map("n", "<leader>ccd", "<CMD>GpChatDelete<CR>", { desc = "Chat Delete" })
@@ -129,7 +128,10 @@ map("v", "<leader>sr", "<cmd>SnipRun<CR>", { desc = "Snip Run" })
 map("n", "<leader>ss", "<cmd>SnipReset<CR>", { desc = "Snip Reset" })
 
 -- window jump
-map("n", "<leader>wj", "<cmd>lua require('nvim-window').pick()<cr>", { desc = "nvim-window: Jump to window" })
+map("n", "<leader>wj", "<cmd>lua require('nvim-window').pick()<cr>", { desc = "Window Jump to Window" })
 
 --obsidian mappings
 map("n", "<leader>op", "<cmd>ObsidianPasteImg<cr>", { desc = "nvim-window: Jump to window" })
+
+-- lsp mappings
+map("n", "<C-.>", "<CMD>lua vim.lsp.buf.code_action()<CR>")
