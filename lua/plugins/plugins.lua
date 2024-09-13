@@ -326,7 +326,12 @@ local plugins = {
       },
     },
   },
-  { "nvim-treesitter/nvim-treesitter-context", lazy = "VeryLazy", commit = "895ec44f5c89bc67ba5440aef3d1f2efa3d59a41" },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    cond = false,
+    lazy = "VeryLazy",
+    commit = "895ec44f5c89bc67ba5440aef3d1f2efa3d59a41",
+  },
   {
     "michaelb/sniprun",
     tag = "v1.3.15",
@@ -348,12 +353,12 @@ local plugins = {
     keys = {},
     config = true,
   },
+  { "pteroctopus/faster.nvim", commit = "e85c5bdff0cd1e17cbee855ae23c25e7b8e597cb", event = "BufReadPre" },
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
   {
     "nvim-treesitter/nvim-treesitter",
     opts = function()
       local conf = require "nvchad.configs.treesitter"
-      conf.highlight.additional_vim_regex_highlighting = { "markdown", "markdown_inline" }
       return conf
     end,
   },
@@ -477,5 +482,4 @@ local plugins = {
     end,
   },
 }
-
 return plugins
