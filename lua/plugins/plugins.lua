@@ -285,18 +285,8 @@ local plugins = {
         name = "telescope.nvim",
         -- Optional, configure key mappings for the picker. These are the defaults.
         -- Not all pickers support all mappings.
-        note_mappings = {
-          -- Create a new note from your query.
-          new = "<C-x>",
-          -- Insert a link to the selected note.
-          insert_link = "<C-l>",
-        },
-        tag_mappings = {
-          -- Add tag(s) to current note.
-          tag_note = "<C-x>",
-          -- Insert a tag at the current location.
-          insert_tag = "<C-l>",
-        },
+        note_mappings = {},
+        tag_mappings = {},
       },
       -- Optional, sort search results by "path", "modified", "accessed", or "created".
       -- The recommend value is "modified" and `true` for `sort_reversed`, which means, for example,
@@ -388,6 +378,7 @@ local plugins = {
     opts = function()
       local conf = require "nvchad.configs.nvimtree"
       conf.renderer.root_folder_label = true
+      conf.filters = { dotfiles = false, git_ignored = false }
       return conf
     end,
   },

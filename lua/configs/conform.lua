@@ -4,6 +4,7 @@ local options = {
     -- css = { "prettier" },
     -- html = { "prettier" },
     python = { "black" },
+    cpp = { "clang-tidy" },
   },
 
   format_on_save = {
