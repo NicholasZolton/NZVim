@@ -104,7 +104,7 @@ local plugins = {
       require("overseer").setup()
     end,
   },
-  { "mfussenegger/nvim-dap", tag = "0.8.0" },
+  { "mfussenegger/nvim-dap", tag = "0.8.0", lazy = false },
   {
     "robitx/gp.nvim",
     lazy = "VeryLazy",
