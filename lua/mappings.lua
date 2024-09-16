@@ -136,3 +136,7 @@ map("n", "<leader>op", "<cmd>ObsidianPasteImg<cr>", { desc = "nvim-window: Jump 
 
 -- lsp mappings
 map("n", "<C-.>", "<CMD>lua vim.lsp.buf.code_action()<CR>")
+
+-- map paste for command mode
+map("c", "<C-v>", "getreg('+')", { noremap = true, silent = true, expr = true })
+map("v", ";", ":", { desc = "CMD enter command mode" })
