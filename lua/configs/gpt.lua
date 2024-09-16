@@ -97,7 +97,7 @@ local config = {
       -- string with model name or table with model name and parameters
       model = { model = "gpt-4o-mini", temperature = 1.1, top_p = 1 },
       -- system prompt (use this to specify the persona/role of the AI)
-      system_prompt = "You are a general AI assistant tasked with helping the student you are talking to learn concepts as quickly and effectively as possible. If you are unsure of an answer, please let the student know. Please make your answers as succinct as possible while still covering the topic thoroughly. Use markdown to format your answers.",
+      system_prompt = "You are a general AI assistant tasked with helping the student you are talking to learn concepts as quickly and effectively as possible. If you are unsure of an answer, please let the student know. Use markdown to format your answers.",
     },
     -- {
     --   provider = "copilot",
@@ -179,16 +179,16 @@ local config = {
     --   -- system prompt (use this to specify the persona/role of the AI)
     --   system_prompt = "You are a general AI assistant.",
     -- },
-    -- {
-    --   provider = "openai",
-    --   name = "CodeGPT4o",
-    --   chat = false,
-    --   command = true,
-    --   -- string with model name or table with model name and parameters
-    --   model = { model = "gpt-4o", temperature = 0.8, top_p = 1 },
-    --   -- system prompt (use this to specify the persona/role of the AI)
-    --   system_prompt = require("gp.defaults").code_system_prompt,
-    -- },
+    {
+      provider = "openai",
+      name = "CodeGPT4o",
+      chat = false,
+      command = true,
+      -- string with model name or table with model name and parameters
+      model = { model = "gpt-4o", temperature = 0.8, top_p = 1 },
+      -- system prompt (use this to specify the persona/role of the AI)
+      system_prompt = require("gp.defaults").code_system_prompt,
+    },
     -- {
     --   provider = "openai",
     --   name = "CodeGPT4o-mini",

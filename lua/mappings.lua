@@ -109,6 +109,7 @@ map("n", "<leader>ccd", "<CMD>GpChatDelete<CR>", { desc = "Chat Delete" })
 map("n", "<leader>ccp", "<CMD>GpPopup<CR>", { desc = "Chat Popup" })
 map("n", "<leader>cah", "<CMD>GpAgent<CR>", { desc = "Agent Help" })
 map("n", "<leader>can", "<CMD>GpAgentNext<CR>", { desc = "Agent Next" })
+map("v", "<leader>ccn", "<CMD>GpExplain vsplit<CR>", { desc = "Chat Selection" })
 
 -- overseer mappings
 map("n", "<leader>tr", "<CMD>OverseerRun<CR>", { desc = "Task Run" })
