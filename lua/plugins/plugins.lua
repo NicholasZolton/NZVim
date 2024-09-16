@@ -113,7 +113,7 @@ local plugins = {
       require("gp").setup(conf)
     end,
     tag = "v3.9.0",
-    cmd = { "GpChatNew", "GpChatRespond" },
+    cmd = { "GpChatNew", "GpChatRespond", "GpExplain" },
   },
   {
     "3rd/image.nvim",

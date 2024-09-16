@@ -80,8 +80,8 @@ local config = {
   state_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/gp/persisted",
 
   -- default agent names set during startup, if nil last used agent is used
-  default_command_agent = nil,
-  default_chat_agent = nil,
+  default_command_agent = "ChatGPT4o-mini - Education",
+  default_chat_agent = "ChatGPT4o-mini - Education",
 
   -- default command agents (model + persona)
   -- name, model and system_prompt are mandatory fields
@@ -97,7 +97,7 @@ local config = {
       -- string with model name or table with model name and parameters
       model = { model = "gpt-4o-mini", temperature = 1.1, top_p = 1 },
       -- system prompt (use this to specify the persona/role of the AI)
-      system_prompt = "You are a general AI assistant tasked with helping the student you are talking to learn concepts as quickly and effectively as possible. If you are unsure of an answer, please let the student know. Please make your answers as succinct as possible while still covering the topic thoroughly.",
+      system_prompt = "You are a general AI assistant tasked with helping the student you are talking to learn concepts as quickly and effectively as possible. If you are unsure of an answer, please let the student know. Please make your answers as succinct as possible while still covering the topic thoroughly. Use markdown to format your answers.",
     },
     -- {
     --   provider = "copilot",
@@ -569,14 +569,14 @@ local config = {
     -- 	gp.Prompt(params, gp.Target.enew, agent, template)
     -- end,
 
-    -- -- example of adding command which explains the selected code
-    -- Explain = function(gp, params)
-    -- 	local template = "I have the following code from {{filename}}:\n\n"
-    -- 		.. "```{{filetype}}\n{{selection}}\n```\n\n"
-    -- 		.. "Please respond by explaining the code above."
-    -- 	local agent = gp.get_chat_agent()
-    -- 	gp.Prompt(params, gp.Target.popup, agent, template)
-    -- end,
+    -- example of adding command which explains the selected code
+    Explain = function(gp, params)
+      local template = "I have the following section from {{filename}}:\n\n"
+        .. "```{{filetype}}\n{{selection}}\n```\n\n"
+        .. "Please respond by explaining the above section."
+      local agent = gp.get_chat_agent()
+      gp.Prompt(params, gp.Target.popup, agent, template)
+    end,
   },
 }
 -- README_REFERENCE_MARKER_END
