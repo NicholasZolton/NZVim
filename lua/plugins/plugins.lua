@@ -472,5 +472,9 @@ local plugins = {
       return conf
     end,
   },
+  {
+    "folke/which-key.nvim",
+    lazy = false,
+  },
 }
 return plugins
