@@ -18,12 +18,7 @@ map("n", "<leader>fb", "<CMD>lua require('telescope.builtin').buffers()<CR>", { 
 map("n", "<leader>fh", "<CMD>lua require('telescope.builtin').help_tags()<CR>", { desc = "Find help" })
 map("n", "<leader>fk", "<CMD>lua require('telescope.builtin').keymaps()<CR>", { desc = "Find keymaps" })
 map("v", "<leader>fk", "<CMD>lua require('telescope.builtin').keymaps()<CR>", { desc = "Find keymaps" })
-map(
-  "n",
-  "<leader>fr",
-  "<CMD>lua require('telescope').extensions.recent_files.pick()<CR>",
-  { desc = "Find recent files" }
-)
+map("n", "<leader>fr", "<CMD>Telescope frecency<CR>", { desc = "Find recent files" })
 map("n", "<leader>fc", '<CMD>lua require"telescope.builtin".commands()<CR>', { desc = "Find commands" })
 map("n", "<leader>fp", "<CMD>Telescope projects<CR>", { desc = "Find projects" })
 map("n", "<leader>fb", "<CMD>Telescope file_browser<CR>", { desc = "Find projects" })
@@ -35,10 +30,10 @@ map("n", "<leader>pu", "<CMD>Lazy update<CR>", { desc = "Update plugins" })
 map("n", "<leader>pc", "<CMD>Lazy clean<CR>", { desc = "Clean plugins" })
 map("n", "<leader>ps", "<CMD>Lazy sync<CR>", { desc = "Sync plugins" })
 map("n", "<leader>pk", "<CMD>Lazy check<CR>", { desc = "Check plugins" })
-map("n", "<leader>wh", "<C-W>h", { desc = "Switch to left window" })
-map("n", "<leader>wl", "<C-W>l", { desc = "Switch to right window" })
-map("n", "<leader>wj", "<C-W>j", { desc = "Switch to down window" })
-map("n", "<leader>wk", "<C-W>k", { desc = "Switch to up window" })
+map("n", "<leader>wh", "<C-h>", { desc = "Switch to left window" })
+map("n", "<leader>wl", "<C-l>", { desc = "Switch to right window" })
+map("n", "<leader>wj", "<C-j>", { desc = "Switch to down window" })
+map("n", "<leader>wk", "<C-k>", { desc = "Switch to up window" })
 
 -- open commands
 map("n", "<leader>gn", "<CMD>NvimTreeOpen ~/orgfiles/<CR>", { desc = "Open Notes" })
@@ -66,16 +61,17 @@ map("n", "<leader>wO", "<CMD>only<CR>", { desc = "Window Kill Others" })
 
 -- make some mappings friendly to term
 map("i", "<C-BS>", "<C-W>", { noremap = false, silent = true })
+map("c", "<C-BS>", "<C-W>", { noremap = false, silent = false })
 map("n", "<C-/>", "<C-_>", { noremap = false, silent = true })
 map("v", "<C-/>", "<C-_>", { noremap = false, silent = true })
 map("t", "<Esc>", "<C-\\><C-n>", { noremap = true })
 
 -- remap nvchad tabs
-map("n", "<leader>bh", function()
+map("n", "<S-h>", function()
   require("nvchad.tabufline").prev()
 end, { desc = "buffer goto prev" })
 
-map("n", "<leader>bl", function()
+map("n", "<S-l>", function()
   require("nvchad.tabufline").next()
 end, { desc = "buffer goto next" })
 
@@ -138,5 +134,5 @@ map("n", "<leader>op", "<cmd>ObsidianPasteImg<cr>", { desc = "nvim-window: Jump 
 map("n", "<C-.>", "<CMD>lua vim.lsp.buf.code_action()<CR>")
 
 -- map paste for command mode
-map("c", "<C-v>", "substitute(getreg('+'), '\\n', '', 'g') .. ''", { noremap = true, silent = true, expr = true })
+map("c", "<C-v>", "substitute(getreg('+'), '\\n', '', 'g') .. ''", { noremap = true, silent = false, expr = true })
 map("v", ";", ":", { desc = "CMD enter command mode" })

@@ -92,6 +92,10 @@ local plugins = {
   },
   { "nvim-telescope/telescope-fzy-native.nvim", commit = "282f069504515eec762ab6d6c89903377252bf5b", lazy = false },
   {
+    "nvim-telescope/telescope-frecency.nvim",
+    commit = "f67baca08423a6fd00167801a54db38e0b878063",
+  },
+  {
     "nvim-telescope/telescope-file-browser.nvim",
     dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
     commit = "c5a14e0550699a7db575805cdb9ddc969ba0f1f5",
@@ -118,47 +122,16 @@ local plugins = {
   {
     "3rd/image.nvim",
     -- Disable on Windows system
-    ft = "markdown",
+    lazy = false,
     cond = function()
-      return false
-      -- return vim.fn.has "win32" ~= 1
+      -- return false
+      return vim.fn.has "win32" ~= 1
+    end,
+    config = function()
+      require("image").setup()
     end,
     dependencies = {
       "leafo/magick",
-    },
-    opts = {
-      backend = "kitty",
-      integrations = {
-        markdown = {
-          enabled = true,
-          clear_in_insert_mode = false,
-          download_remote_images = true,
-          only_render_image_at_cursor = false,
-          filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
-        },
-        neorg = {
-          enabled = true,
-          clear_in_insert_mode = false,
-          download_remote_images = true,
-          only_render_image_at_cursor = false,
-          filetypes = { "norg" },
-        },
-        html = {
-          enabled = false,
-        },
-        css = {
-          enabled = false,
-        },
-      },
-      max_width = nil,
-      max_height = nil,
-      max_width_window_percentage = nil,
-      max_height_window_percentage = 50,
-      window_overlap_clear_enabled = false, -- toggles images when windows are overlapped
-      window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-      editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
-      tmux_show_only_in_active_window = false, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
-      hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif" }, -- render image files as images when opened
     },
   },
   {
@@ -370,6 +343,7 @@ local plugins = {
       require("telescope").load_extension "projects"
       require("telescope").load_extension "fzy_native"
       require("telescope").load_extension "file_browser"
+      require("telescope").load_extension "frecency"
     end,
   },
   {
@@ -455,13 +429,69 @@ local plugins = {
       }
 
       cmp.setup.cmdline({ "/", "?" }, {
-        mapping = cmp.mapping.preset.cmdline(),
+        mapping = {
+          ["<C-e>"] = {
+            c = cmp.mapping.abort(),
+          },
+          ["<Tab>"] = {
+            c = cmp.mapping.confirm { select = false },
+          },
+          ["<C-j>"] = {
+            c = function()
+              local cmp = require "cmp"
+              if cmp.visible() then
+                cmp.select_next_item()
+              else
+                cmp.complete()
+              end
+            end,
+          },
+
+          ["<C-k>"] = {
+            c = function()
+              local cmp = require "cmp"
+              if cmp.visible() then
+                cmp.select_prev_item()
+              else
+                cmp.complete()
+              end
+            end,
+          },
+        },
         sources = {
           { name = "buffer" },
         },
       })
       cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline(),
+        mapping = {
+          ["<C-e>"] = {
+            c = cmp.mapping.abort(),
+          },
+          ["<Tab>"] = {
+            c = cmp.mapping.confirm { select = false },
+          },
+          ["<C-j>"] = {
+            c = function()
+              local cmp = require "cmp"
+              if cmp.visible() then
+                cmp.select_next_item()
+              else
+                cmp.complete()
+              end
+            end,
+          },
+
+          ["<C-k>"] = {
+            c = function()
+              local cmp = require "cmp"
+              if cmp.visible() then
+                cmp.select_prev_item()
+              else
+                cmp.complete()
+              end
+            end,
+          },
+        },
         sources = cmp.config.sources {
           { name = "path" },
           { name = "cmdline" },

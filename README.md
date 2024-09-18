@@ -18,6 +18,8 @@ For Windows, I haven't tested the installation recently but the primary points a
 
 - Luarocks (`choco install luarocks`)
 
+- fd or ripgrep (`choco install fd` or `choco install ripgrep`)
+
 - Neovide
 
 ### Set Up
