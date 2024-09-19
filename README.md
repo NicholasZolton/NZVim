@@ -20,7 +20,7 @@ For Windows, I haven't tested the installation recently but the primary points a
 
 - fd or ripgrep (`choco install fd` or `choco install ripgrep`)
 
-- Neovide
+- Neovide (or Kitty, Alacritty, etc.)
 
 ### Set Up
 
@@ -38,13 +38,15 @@ While this may be a lot easier, I also haven't paid a lot of attention to how I 
 
 - Neovim 10+
 
-- Nerd Font (Jet Brains Mono)
+- Nerd Font (Roboto Mono NerdFont)
 
 - Python3
 
 - Luarocks
 
 - C++ Compiler (perhaps gcc?)
+
+- Ripgrep or fd
 
 ### Set Up
 

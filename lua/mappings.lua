@@ -30,6 +30,7 @@ map("n", "<leader>pu", "<CMD>Lazy update<CR>", { desc = "Update plugins" })
 map("n", "<leader>pc", "<CMD>Lazy clean<CR>", { desc = "Clean plugins" })
 map("n", "<leader>ps", "<CMD>Lazy sync<CR>", { desc = "Sync plugins" })
 map("n", "<leader>pk", "<CMD>Lazy check<CR>", { desc = "Check plugins" })
+
 map("n", "<leader>wh", "<C-h>", { desc = "Switch to left window" })
 map("n", "<leader>wl", "<C-l>", { desc = "Switch to right window" })
 map("n", "<leader>wj", "<C-j>", { desc = "Switch to down window" })

@@ -30,7 +30,7 @@ local config = {
       secret = os.getenv "AZURE_API_KEY",
     },
     copilot = {
-      disable = true,
+      disable = false,
       endpoint = "https://api.githubcopilot.com/chat/completions",
       secret = {
         "bash",
@@ -80,8 +80,8 @@ local config = {
   state_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/gp/persisted",
 
   -- default agent names set during startup, if nil last used agent is used
-  default_command_agent = "ChatGPT4o-mini - Education",
-  default_chat_agent = "ChatGPT4o-mini - Education",
+  default_command_agent = "Copilot - Education",
+  default_chat_agent = "Copilot - Education",
 
   -- default command agents (model + persona)
   -- name, model and system_prompt are mandatory fields
@@ -99,16 +99,16 @@ local config = {
       -- system prompt (use this to specify the persona/role of the AI)
       system_prompt = "You are a general AI assistant tasked with helping the student you are talking to learn concepts as quickly and effectively as possible. If you are unsure of an answer, please let the student know. Use markdown to format your answers.",
     },
-    -- {
-    --   provider = "copilot",
-    --   name = "ChatCopilot",
-    --   chat = true,
-    --   command = false,
-    --   -- string with model name or table with model name and parameters
-    --   model = { model = "gpt-4o", temperature = 1.1, top_p = 1 },
-    --   -- system prompt (use this to specify the persona/role of the AI)
-    --   system_prompt = require("gp.defaults").chat_system_prompt,
-    -- },
+    {
+      provider = "copilot",
+      name = "Copilot - Education",
+      chat = true,
+      command = false,
+      -- string with model name or table with model name and parameters
+      model = { model = "gpt-4o", temperature = 1.1, top_p = 1 },
+      -- system prompt (use this to specify the persona/role of the AI)
+      system_prompt = "You are a general AI assistant tasked with helping the student you are talking to learn concepts as quickly and effectively as possible. If you are unsure of an answer, please let the student know. Use markdown to format your answers.",
+    },
     -- {
     --   provider = "googleai",
     --   name = "ChatGemini",
