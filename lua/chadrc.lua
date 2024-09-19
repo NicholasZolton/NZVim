@@ -13,4 +13,21 @@ M.base46 = {
   -- },
 }
 
+M.mason = {
+  cmd = true,
+  pkgs = {
+    "ruff",
+    "ruff-lsp",
+    "stylua",
+    "lua-language-server",
+    "jdtls",
+    "css-lsp",
+    "html-lsp",
+    "clang-format",
+    "clangd",
+    "prettier",
+    "pyright",
+  },
+}
+
 return M

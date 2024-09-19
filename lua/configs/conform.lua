@@ -1,10 +1,10 @@
 local options = {
   formatters_by_ft = {
     lua = { "stylua" },
-    -- css = { "prettier" },
-    -- html = { "prettier" },
+    css = { "prettier" },
+    html = { "prettier" },
     python = { "ruff_format" },
-    cpp = { "clang-tidy" },
+    cpp = { "clang-format" },
   },
 
   format_on_save = {
