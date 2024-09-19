@@ -62,7 +62,7 @@ local function get_python_path(workspace)
   end
 end
 
-lspconfig.pyright.setup {
+lspconfig.ruff.setup {
   on_attach = nvlsp.on_attach,
   on_init = nvlsp.on_init,
   capabilities = nvlsp.capabilities,

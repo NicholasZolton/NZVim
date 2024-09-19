@@ -317,13 +317,48 @@ local plugins = {
     config = true,
   },
   { "pteroctopus/faster.nvim", commit = "e85c5bdff0cd1e17cbee855ae23c25e7b8e597cb", event = "BufReadPre" },
+  -- {
+  --   "tomiis4/Hypersonic.nvim",
+  --   commit = "734dfbfbe51952f102a9b439d53d4267bb0024cd",
+  --   event = "CmdlineEnter",
+  --   cmd = "Hypersonic",
+  --   config = function()
+  --     require("hypersonic").setup {
+  --       -- config
+  --     }
+  --   end,
+  -- },
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
   {
     "nvim-treesitter/nvim-treesitter",
+    lazy = true,
     opts = function()
-      local conf = require "nvchad.configs.treesitter"
+      local conf = require "configs.custom-treesitter"
       return conf
     end,
+    dependencies = {
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        commit = "bf8d2ad35d1d1a687eae6c065c3d524f7ab61b23",
+        lazy = true,
+        config = function()
+          local options = require "configs.treesitter-textobjects"
+          require("nvim-treesitter.configs").setup(options)
+
+          local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
+
+          -- vim way: ; goes to the direction you were moving.
+          vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
+          vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
+
+          -- Optionally, make builtin f, F, t, T also repeatable with ; and ,
+          vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
+          vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
+          vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
+          vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
+        end,
+      },
+    },
   },
   {
     "nvim-telescope/telescope.nvim",
