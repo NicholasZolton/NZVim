@@ -155,11 +155,12 @@ local plugins = {
     "epwalsh/obsidian.nvim",
     tag = "v3.9.0", -- recommended, use latest release instead of latest commit
     cond = function()
-      if vim.fn.has "win32" ~= 1 then
-        return vim.fn.isdirectory(vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault")
-      else
-        return vim.fn.isdirectory(vim.fn.expand "~" .. "\\Documents\\Projects\\ObsidianVault")
-      end
+      -- if vim.fn.has "win32" ~= 1 then
+      --   return vim.fn.isdirectory(vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault")
+      -- else
+      --   return vim.fn.isdirectory(vim.fn.expand "~" .. "\\Documents\\Projects\\ObsidianVault")
+      -- end
+      return true
     end,
     -- event = function()
     --   local vault_files = nil
@@ -168,10 +169,10 @@ local plugins = {
     --   else
     --     vault_files = vim.fn.expand "~" .. "\\Documents\\Projects\\ObsidianVault" .. "\\*.md"
     --   end
-    --   return {
-    --     "BufReadPre " .. vault_files,
-    --     "BufNewFile " .. vault_files,
-    --   }
+    -- return {
+    --   "BufReadPre " .. vault_files,
+    --   "BufNewFile " .. vault_files,
+    -- }
     -- end,
     ft = "markdown",
     dependencies = {
@@ -344,18 +345,16 @@ local plugins = {
         config = function()
           local options = require "configs.treesitter-textobjects"
           require("nvim-treesitter.configs").setup(options)
-
+          -- map repeats for textobjects
           local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
 
           -- vim way: ; goes to the direction you were moving.
           vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
           vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
-
-          -- Optionally, make builtin f, F, t, T also repeatable with ; and ,
-          vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
-          vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
-          vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
-          vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
+          vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f_expr, { expr = true })
+          vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F_expr, { expr = true })
+          vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = true })
+          vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T_expr, { expr = true })
         end,
       },
     },
