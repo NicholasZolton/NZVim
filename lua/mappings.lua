@@ -142,4 +142,4 @@ map("i", "<C-v>", "<C-r>+")
 
 -- map very magicness (basically default magic mode, quite hacky)
 map("n", "/", "/\\v", { noremap = true })
-map("c", "/", "/\\v", { noremap = true })
+-- map("c", "%s/", "s/\\v", { noremap = true })
