@@ -20,7 +20,9 @@ For Windows, I haven't tested the installation recently but the primary points a
 
 - fd or ripgrep (`choco install fd` or `choco install ripgrep`)
 
-- Neovide (or Kitty, Alacritty, etc.)
+- Node (`choco install nodejs`)
+
+- Neovide
 
 ### Set Up
 

@@ -3,7 +3,6 @@ require "nvchad.mappings"
 local map = vim.keymap.set
 
 -- default mappings
-map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
 -- personal remappings
@@ -137,3 +136,10 @@ map("n", "<C-.>", "<CMD>lua vim.lsp.buf.code_action()<CR>")
 -- map paste for command mode
 map("c", "<C-v>", "substitute(getreg('+'), '\\n', '', 'g') .. ''", { noremap = true, silent = false, expr = true })
 map("v", ";", ":", { desc = "CMD enter command mode" })
+
+-- map paste for insert mode
+map("i", "<C-v>", "<C-r>+")
+
+-- map very magicness (basically default magic mode, quite hacky)
+map("n", "/", "/\\v", { noremap = true })
+-- map("c", "%s/", "s/\\v", { noremap = true })

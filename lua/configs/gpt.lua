@@ -101,9 +101,9 @@ local config = {
     },
     {
       provider = "copilot",
-      name = "Copilot - Education",
+      name = "ChatCopilot - Education",
       chat = true,
-      command = false,
+      command = true,
       -- string with model name or table with model name and parameters
       model = { model = "gpt-4o", temperature = 1.1, top_p = 1 },
       -- system prompt (use this to specify the persona/role of the AI)

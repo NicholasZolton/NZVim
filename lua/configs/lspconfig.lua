@@ -4,7 +4,7 @@ require("nvchad.configs.lspconfig").defaults()
 local lspconfig = require "lspconfig"
 
 -- EXAMPLE - default server setups
-local servers = { "html", "cssls", "jdtls", "clangd" }
+local servers = { "html", "cssls", "jdtls", "clangd" } -- ruff and pyright below
 local nvlsp = require "nvchad.configs.lspconfig"
 
 -- lsps with default config
@@ -69,4 +69,26 @@ lspconfig.pyright.setup {
   before_init = function(_, config)
     config.settings.python.pythonPath = get_python_path(config.root_dir)
   end,
+  -- settings = {
+  --   pyright = {
+  --     -- Using Ruff's import organizer
+  --     disableOrganizeImports = true,
+  --   },
+  --   python = {
+  --     analysis = {
+  --       -- Ignore all files for analysis to exclusively use Ruff for linting
+  --       ignore = { "*" },
+  --     },
+  --   },
+  -- },
 }
+
+-- lspconfig.ruff.setup {
+--   on_attach = function(client, _)
+--     if client.name == "ruff" then
+--       client.server_capabilities.hoverProvider = false
+--     end
+--   end,
+--   on_init = nvlsp.on_init,
+--   capabilities = nvlsp.capabilities,
+-- }
