@@ -17,6 +17,10 @@ local options = {
     "cpp",
   },
 
+  markdown = {
+    enable = true,
+  },
+
   highlight = {
     enable = true,
     use_languagetree = true,
@@ -27,8 +31,8 @@ local options = {
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = "<C-n>",
-      node_incremental = "<C-n>",
+      init_selection = "<C-i>",
+      node_incremental = "<C-i>",
       scope_incremental = false,
       node_decremental = "<bs>",
     },
