@@ -152,6 +152,12 @@ local plugins = {
     },
   },
   {
+    "tadmccorkle/markdown.nvim",
+    commit = "dfa0d2def6dbf77e9206b16dc90cad4dd23d55d2",
+    ft = "markdown", -- or 'event = "VeryLazy"'
+    -- opts = {},
+  },
+  {
     "epwalsh/obsidian.nvim",
     tag = "v3.9.0", -- recommended, use latest release instead of latest commit
     cond = function()
@@ -162,24 +168,22 @@ local plugins = {
       -- end
       return true
     end,
-    -- event = function()
-    --   local vault_files = nil
-    --   if vim.fn.has "win32" ~= 1 then
-    --     vault_files = vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault" .. "/*.md"
-    --   else
-    --     vault_files = vim.fn.expand "~" .. "\\Documents\\Projects\\ObsidianVault" .. "\\*.md"
-    --   end
-    -- return {
-    --   "BufReadPre " .. vault_files,
-    --   "BufNewFile " .. vault_files,
-    -- }
-    -- end,
-    ft = "markdown",
+    event = function()
+      -- local vault_files = nil
+      -- if vim.fn.has "win32" ~= 1 then
+      --   vault_files = vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault" .. "/*.md"
+      -- else
+      --   vault_files = vim.fn.expand "~" .. "\\Documents\\Projects\\ObsidianVault" .. "\\*.md"
+      -- end
+      return {
+        "BufReadPre *.md",
+        "BufNewFile *.md",
+      }
+    end,
+    -- ft = "markdown",
     dependencies = {
       -- Required.
       "nvim-lua/plenary.nvim",
-
-      -- see below for full list of optional dependencies 👇
     },
     opts = {
       workspaces = {
@@ -215,12 +219,12 @@ local plugins = {
       -- way then set 'mappings = {}'.
       mappings = {
         -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-        ["gf"] = {
-          action = function()
-            return require("obsidian").util.gf_passthrough()
-          end,
-          opts = { noremap = false, expr = true, buffer = true },
-        },
+        -- ["gf"] = {
+        --   action = function()
+        --     return require("obsidian").util.gf_passthrough()
+        --   end,
+        --   opts = { noremap = false, expr = true, buffer = true },
+        -- },
       },
 
       -- Either 'wiki' or 'markdown'.
