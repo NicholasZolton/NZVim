@@ -1,5 +1,8 @@
 require "nvchad.options"
 
+vim.cmd.filetype "on"
+vim.cmd.filetype "plugin on"
+
 vim.opt.expandtab = true
 vim.opt.shiftround = true
 vim.opt.shiftwidth = 4
@@ -34,7 +37,7 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.history = 1000
 vim.opt.termguicolors = true
 
-vim.opt.conceallevel = 1
+vim.opt.conceallevel = 2
 
 -- Neovide settings
 vim.g.neovide_scale_factor = 0.90

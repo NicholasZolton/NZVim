@@ -104,7 +104,7 @@ map(
 map("n", "<leader>ccd", "<CMD>GpChatDelete<CR>", { desc = "Chat Delete" })
 map("n", "<leader>ccp", "<CMD>GpPopup<CR>", { desc = "Chat Popup" })
 map("n", "<leader>cah", "<CMD>GpAgent<CR>", { desc = "Agent Help" })
-map("n", "<leader>can", "<CMD>GpAgentNext<CR>", { desc = "Agent Next" })
+map("n", "<leader>can", "<CMD>GpNextAgent<CR>", { desc = "Agent Next" })
 map("v", "<leader>ccn", "<CMD>GpExplain vsplit<CR>", { desc = "Chat Selection" })
 
 -- overseer mappings
@@ -137,9 +137,9 @@ map("n", "<C-.>", "<CMD>lua vim.lsp.buf.code_action()<CR>")
 map("c", "<C-v>", "substitute(getreg('+'), '\\n', '', 'g') .. ''", { noremap = true, silent = false, expr = true })
 map("v", ";", ":", { desc = "CMD enter command mode" })
 
--- map paste for insert mode
-map("i", "<C-v>", "<C-r>+")
-
 -- map very magicness (basically default magic mode, quite hacky)
 map("n", "/", "/\\v", { noremap = true })
 -- map("c", "%s/", "s/\\v", { noremap = true })
+
+-- map paste for insert mode
+map("i", "<C-v>", "<C-r>+")
