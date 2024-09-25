@@ -143,3 +143,13 @@ map("n", "/", "/\\v", { noremap = true })
 
 -- map paste for insert mode
 map("i", "<C-v>", "<C-r>+")
+
+-- supermaven mappings
+map("i", "<Tab>", require("supermaven-nvim.completion_preview").on_accept_suggestion, { noremap = true, silent = true })
+map(
+  "i",
+  "<C-l>",
+  require("supermaven-nvim.completion_preview").on_accept_suggestion_word,
+  { noremap = true, silent = true }
+)
+map("i", "<C-e>", require("supermaven-nvim.completion_preview").on_dispose_inlay, { noremap = true, silent = true })

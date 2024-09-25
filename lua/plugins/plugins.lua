@@ -16,7 +16,17 @@ local plugins = {
   { "tpope/vim-repeat", commit = "65846025c15494983dafe5e3b46c8f88ab2e9635" },
   { "nvim-lua/plenary.nvim", tag = "v0.1.4" },
   { "haya14busa/is.vim", commit = "d393cb346dcdf733fecd7bbfc45b70b8c05e9eb4" },
-  { "github/copilot.vim", tag = "v1.39.0", lazy = false, cond = true },
+  -- { "github/copilot.vim", tag = "v1.39.0", lazy = false, cond = true },
+  {
+    "supermaven-inc/supermaven-nvim",
+    commit = "40bde487fe31723cdd180843b182f70c6a991226",
+    config = function()
+      require("supermaven-nvim").setup {
+        disable_inline_completion = false, -- disables inline completion for use with cmp
+        disable_keymaps = true, -- disables keymaps so you can set them yourself (see mappings.lua)
+      }
+    end,
+  },
   { "BurntSushi/ripgrep", tag = "14.1.0" },
   { "sindrets/diffview.nvim", commit = "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   {
@@ -433,6 +443,7 @@ local plugins = {
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
+        "supermaven-inc/supermaven-nvim",
       },
     },
     opts = function()
@@ -465,7 +476,13 @@ local plugins = {
           end
         end, { "i", "s" }),
       }
-
+      conf.sources = {
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+        { name = "buffer" },
+        { name = "nvim_lua" },
+        { name = "path" },
+      }
       cmp.setup.cmdline({ "/", "?" }, {
         mapping = {
           ["<C-e>"] = {
@@ -545,4 +562,5 @@ local plugins = {
     lazy = false,
   },
 }
+
 return plugins
