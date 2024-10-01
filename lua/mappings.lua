@@ -64,7 +64,8 @@ map("i", "<C-BS>", "<C-W>", { noremap = false, silent = true })
 map("c", "<C-BS>", "<C-W>", { noremap = false, silent = false })
 map("n", "<C-/>", "<C-_>", { noremap = false, silent = true })
 map("v", "<C-/>", "<C-_>", { noremap = false, silent = true })
-map("t", "<Esc>", "<C-\\><C-n>", { noremap = true })
+map("t", "<Esc>", "<C-\\><C-n>", { noremap = false })
+map("t", "<C-Esc>", "<Esc>", { noremap = false })
 
 -- remap nvchad tabs
 map("n", "<S-h>", function()
@@ -133,9 +134,12 @@ map("n", "<leader>op", "<cmd>ObsidianPasteImg<cr>", { desc = "nvim-window: Jump 
 -- lsp mappings
 map("n", "<C-.>", "<CMD>lua vim.lsp.buf.code_action()<CR>")
 
--- map paste for command mode
+-- map paste for command/terminal mode
 map("c", "<C-v>", "substitute(getreg('+'), '\\n', '', 'g') .. ''", { noremap = true, silent = false, expr = true })
-map("v", ";", ":", { desc = "CMD enter command mode" })
+map("t", "<C-v>", "substitute(getreg('+'), '\\n', '', 'g') .. ''", { noremap = false, silent = false, expr = true })
+
+-- map ctrl-backspace for terminal mode
+map("t", "<C-BS>", "<C-W>", { noremap = false, silent = false })
 
 -- map very magicness (basically default magic mode, quite hacky)
 map("n", "/", "/\\v", { noremap = true })

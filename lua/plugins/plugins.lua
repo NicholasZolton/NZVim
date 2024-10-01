@@ -209,7 +209,6 @@ local plugins = {
         },
       },
       -- see below for full list of options 👇
-      log_level = vim.log.levels.INFO,
       daily_notes = {
         -- Optional, if you keep daily notes in a separate directory.
         folder = "PeriodicNotes/DailyNotes",
@@ -259,9 +258,9 @@ local plugins = {
       follow_url_func = function(url)
         -- Open the URL in the default web browser.
         -- vim.fn.jobstart({"open", url})  -- Mac OS
-        -- vim.fn.jobstart({"xdg-open", url})  -- linux
+        vim.fn.jobstart { "xdg-open-2" } -- linux
         -- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
-        vim.ui.open(url) -- need Neovim 0.10.0+
+        -- vim.ui.open(url) -- need Neovim 0.10.0+
       end,
       -- Optional, set to true if you use the Obsidian Advanced URI plugin.
       -- https://github.com/Vinzent03/obsidian-advanced-uri
@@ -343,6 +342,25 @@ local plugins = {
   --     }
   --   end,
   -- },
+
+  {
+    "chrishrb/gx.nvim",
+    keys = { { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } } },
+    cmd = { "Browse" },
+    cond = function()
+      return vim.fn.has "win32" ~= 1
+    end,
+    init = function()
+      vim.g.netrw_nogx = 1 -- disable netrw gx
+    end,
+    dependencies = { "nvim-lua/plenary.nvim" }, -- Required for Neovim < 0.10.0
+    -- you can specify also another config if you want
+    config = function()
+      local opts = require "configs.gxopen"
+      require("gx").setup(opts)
+    end,
+    submodules = false, -- not needed, submodules are required only for tests
+  },
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
   {
     "nvim-treesitter/nvim-treesitter",
@@ -378,6 +396,10 @@ local plugins = {
     opts = function()
       local conf = require "nvchad.configs.telescope"
       conf.defaults.file_ignore_patterns = { ".git", "node_modules", ".venv" }
+      -- remap C-v to do nothing
+      -- conf.defaults.mappings.i = {
+      --   ["<C-v>"] = "<C-w>",
+      -- }
       return conf
     end,
     config = function(_, opts)
