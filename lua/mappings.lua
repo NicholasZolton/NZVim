@@ -129,10 +129,10 @@ map("n", "<leader>ss", "<cmd>SnipReset<CR>", { desc = "Snip Reset" })
 map("n", "<leader>wj", "<cmd>lua require('nvim-window').pick()<cr>", { desc = "Window Jump to Window" })
 
 --obsidian mappings
-map("n", "<leader>op", "<cmd>ObsidianPasteImg<cr>", { desc = "nvim-window: Jump to window" })
+map("n", "<leader>op", "<cmd>ObsidianPasteImg<cr>", { desc = "Obsidian Paste Image" })
 
 -- lsp mappings
-map("n", "<C-.>", "<CMD>lua vim.lsp.buf.code_action()<CR>")
+map("n", "<C-.>", "<CMD>lua vim.lsp.buf.code_action()<CR>", { desc = "Code Action" })
 
 -- map paste for command/terminal mode
 map("c", "<C-v>", "substitute(getreg('+'), '\\n', '', 'g') .. ''", { noremap = true, silent = false, expr = true })
@@ -157,3 +157,6 @@ map(
   { noremap = true, silent = true }
 )
 map("i", "<C-e>", require("supermaven-nvim.completion_preview").on_dispose_inlay, { noremap = true, silent = true })
+
+-- db mappings
+map("n", "<leader>db", '<CMD>lua require("dbee").open()<CR>', { desc = "DBee Open" })

@@ -5,6 +5,7 @@ local options = {
     html = { "prettier" },
     python = { "ruff_format" },
     cpp = { "clang-format" },
+    sql = { "sqlfmt" },
   },
 
   format_on_save = {

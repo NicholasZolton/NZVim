@@ -115,7 +115,9 @@ local plugins = {
     cmd = { "OverseerRun", "OverseerToggle" },
     commit = "236e60cdac6410dd95ea5cecafdb801a304d6a41",
     config = function()
-      require("overseer").setup()
+      require("overseer").setup {
+        templates = { "builtin", "run_file" },
+      }
     end,
   },
   { "mfussenegger/nvim-dap", tag = "0.8.0", lazy = false },
@@ -345,6 +347,7 @@ local plugins = {
 
   {
     "chrishrb/gx.nvim",
+    commit = "cc70d112b14d18dd7b123a5d5288266a60e8189e",
     keys = { { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } } },
     cmd = { "Browse" },
     cond = function()
@@ -360,6 +363,22 @@ local plugins = {
       require("gx").setup(opts)
     end,
     submodules = false, -- not needed, submodules are required only for tests
+  },
+  {
+    "kndndrj/nvim-dbee",
+    commit = "21d2cc0844a16262bb6ea93ab3d0a0f20bd87853",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+    build = function()
+      -- Install tries to automatically detect the install method.
+      -- if it fails, try calling it with one of these parameters:
+      --    "curl", "wget", "bitsadmin", "go"
+      require("dbee").install()
+    end,
+    config = function()
+      require("dbee").setup(--[[optional config]])
+    end,
   },
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
   {
@@ -468,116 +487,7 @@ local plugins = {
         "supermaven-inc/supermaven-nvim",
       },
     },
-    opts = function()
-      local conf = require "nvchad.configs.cmp"
-      local cmp = require "cmp"
-      conf.mapping = {
-        ["<C-Space>"] = cmp.mapping.complete(),
-        ["<C-e>"] = cmp.mapping.close(),
-        ["<Tab>"] = cmp.mapping.confirm {
-          behavior = cmp.ConfirmBehavior.Insert,
-          select = true,
-        },
-        ["<C-j>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif require("luasnip").expand_or_jumpable() then
-            require("luasnip").expand_or_jump()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-
-        ["<C-k>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          elseif require("luasnip").jumpable(-1) then
-            require("luasnip").jump(-1)
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-      }
-      conf.sources = {
-        { name = "nvim_lsp" },
-        { name = "luasnip" },
-        { name = "buffer" },
-        { name = "nvim_lua" },
-        { name = "path" },
-      }
-      cmp.setup.cmdline({ "/", "?" }, {
-        mapping = {
-          ["<C-e>"] = {
-            c = cmp.mapping.abort(),
-          },
-          ["<Tab>"] = {
-            c = cmp.mapping.confirm { select = false },
-          },
-          ["<C-j>"] = {
-            c = function()
-              local cmp = require "cmp"
-              if cmp.visible() then
-                cmp.select_next_item()
-              else
-                cmp.complete()
-              end
-            end,
-          },
-
-          ["<C-k>"] = {
-            c = function()
-              local cmp = require "cmp"
-              if cmp.visible() then
-                cmp.select_prev_item()
-              else
-                cmp.complete()
-              end
-            end,
-          },
-        },
-        sources = {
-          { name = "buffer" },
-        },
-      })
-      cmp.setup.cmdline(":", {
-        mapping = {
-          ["<C-e>"] = {
-            c = cmp.mapping.abort(),
-          },
-          ["<Tab>"] = {
-            c = cmp.mapping.confirm { select = false },
-          },
-          ["<C-j>"] = {
-            c = function()
-              local cmp = require "cmp"
-              if cmp.visible() then
-                cmp.select_next_item()
-              else
-                cmp.complete()
-              end
-            end,
-          },
-
-          ["<C-k>"] = {
-            c = function()
-              local cmp = require "cmp"
-              if cmp.visible() then
-                cmp.select_prev_item()
-              else
-                cmp.complete()
-              end
-            end,
-          },
-        },
-        sources = cmp.config.sources {
-          { name = "path" },
-          { name = "cmdline" },
-        },
-        matching = { disallow_symbol_nonprefix_matching = false },
-      })
-
-      return conf
-    end,
+    opts = require "configs.cmpopts",
   },
   {
     "folke/which-key.nvim",
