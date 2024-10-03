@@ -48,3 +48,5 @@ require "functions"
 vim.schedule(function()
   require "mappings"
 end)
+
+vim.opt.conceallevel = 2
