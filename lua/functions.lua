@@ -21,6 +21,11 @@ function CountWordsInFile()
   print("Number of words in " .. filename .. ": " .. wordCount) -- Print the count
 end
 
+-- sigmoid function
+function Sigmoid(x)
+  return 1 / (1 + math.exp(-x))
+end
+
 -- Define a command :WordCount
 vim.cmd "command! WordCount lua CountWordsInFile()"
 
