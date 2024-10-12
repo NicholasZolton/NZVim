@@ -12,3 +12,22 @@ snippet main
 
     if __name__ == '__main__':
         main()
+
+snippet leet
+    from typing import List
+
+    class Solution:
+        $0
+        pass
+
+    def main():
+        solution = Solution()
+        cases = [$1]
+        answers = []
+        for case, answer in zip(cases, answers):
+            result = solution.${2:method}(case)
+            print(result)
+            # assert result == answer
+
+    if __name__ == "__main__":
+        main()
