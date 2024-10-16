@@ -24,10 +24,16 @@ snippet leet
         solution = Solution()
         cases = [$1]
         answers = []
-        for case, answer in zip(cases, answers):
-            result = solution.${2:method}(case)
-            print(result)
-            # assert result == answer
+        if len(cases) == len(answers):
+            for case, answer in zip(cases, answers):
+                result = solution.${2:method}($3case)
+                print('result:', result, 'answer:', answer)
+                assert result == answer
+        else:
+            for case in cases:
+                result = solution.${2:method}($3case)
+                print(result)
+
 
     if __name__ == "__main__":
         main()
