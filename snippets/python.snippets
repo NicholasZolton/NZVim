@@ -16,22 +16,184 @@ snippet main
 snippet leet
     from typing import List
 
+
     class Solution:
         $0
         pass
 
+
     def main():
         solution = Solution()
-        cases = [$1]
-        answers = []
+        cases: List[Any] = [$2]
+        answers: List[Any] = []
+
         if len(cases) == len(answers):
             for case, answer in zip(cases, answers):
-                result = solution.${2:method}($3case)
-                print('result:', result, 'answer:', answer)
+                result = None
+                if isinstance(case, tuple):
+                    result = solution.${1:method}(*case)
+                else:
+                    result = solution.${1:method}(case)
+                print("result:", result, "answer:", answer)
                 assert result == answer
         else:
             for case in cases:
-                result = solution.${2:method}($3case)
+                result = None
+                if isinstance(case, tuple):
+                    result = solution.${1:method}(*case)
+                else:
+                    result = solution.${1:method}(case)
+                print(result)
+
+
+    if __name__ == "__main__":
+        main()
+
+snippet leetlist
+    from typing import List, Optional, Any
+
+
+    class ListNode:
+        def __init__(self, val=0, next=None):
+            self.val = val
+            self.next = next
+
+        def __repr__(self):
+            return str(self)
+
+        def __str__(self) -> str:
+            return f"ListNode({self.val}, {self.next})"
+
+
+    class Solution:
+        $0
+        pass
+
+
+    def main():
+        solution = Solution()
+        cases: List[Any] = [$2]
+        answers: List[Any] = []
+
+        def buildList(nodes: List[int]) -> Optional[ListNode]:
+            if not nodes:
+                return None
+            sent = ListNode(nodes[0])
+            head = sent
+            for i, node in enumerate(nodes):
+                head.next = ListNode(node)
+                head = head.next
+            return sent.next
+
+        for i, case in enumerate(cases):
+            if isinstance(case, tuple):
+                newCase: List[Any] = list(case)
+                for j, param in enumerate(newCase):
+                    if isinstance(param, list):
+                        newCase[j] = buildList(param)
+                cases[i] = tuple(newCase)
+            elif isinstance(case, list):
+                cases[i] = buildList(case)
+
+        if len(cases) == len(answers):
+            for case, answer in zip(cases, answers):
+                result = None
+                if isinstance(case, tuple):
+                    result = solution.${1:method}(*case)
+                else:
+                    result = solution.${1:method}(case)
+                print("result:", result, "answer:", answer)
+                assert result == answer
+        else:
+            for case in cases:
+                result = None
+                if isinstance(case, tuple):
+                    result = solution.${1:method}(*case)
+                else:
+                    result = solution.${1:method}(case)
+                print(result)
+
+
+    if __name__ == "__main__":
+        main()
+
+snippet leettree
+    from typing import List, Optional, Any
+
+
+    class TreeNode:
+        def __init__(self, val=0, left=None, right=None):
+            self.val = val
+            self.left = left
+            self.right = right
+
+        def __str__(self) -> str:
+            return f"TreeNode({self.val}, {self.left}, {self.right})"
+
+        def __repr__(self) -> str:
+            return str(self)
+
+
+    class Solution:
+        def ${1:method}(self, root: Optional[TreeNode]) -> int:
+            $0
+            pass
+
+
+    def main():
+        solution = Solution()
+        # use tuples for multiple parameters
+        cases: List[Any] = []
+        answers: List[Any] = []
+
+        def buildTree(nodes: List[int]) -> Optional[TreeNode]:
+            if not nodes:
+                return None
+            root = TreeNode(nodes[0])
+
+            def bfs(index: int) -> Optional[TreeNode]:
+                if index >= len(nodes):
+                    return None
+
+                myVal = nodes[index]
+                if myVal is None:
+                    return None
+
+                myself = TreeNode(myVal)
+                myself.left = bfs(2 * index + 1)
+                myself.right = bfs(2 * index + 2)
+                return myself
+
+            root.left = bfs(1)
+            root.right = bfs(2)
+            return root
+
+        for i, case in enumerate(cases):
+            if isinstance(case, tuple):
+                newCase: List[Any] = list(case)
+                for j, param in enumerate(newCase):
+                    if isinstance(param, list):
+                        newCase[j] = buildTree(param)
+                cases[i] = tuple(newCase)
+            elif isinstance(case, list):
+                cases[i] = buildTree(case)
+
+        if len(cases) == len(answers):
+            for case, answer in zip(cases, answers):
+                result = None
+                if isinstance(case, tuple):
+                    result = solution.${1:method}(*case)
+                else:
+                    result = solution.${1:method}(case)
+                print("result:", result, "answer:", answer)
+                assert result == answer
+        else:
+            for case in cases:
+                result = None
+                if isinstance(case, tuple):
+                    result = solution.${1:method}(*case)
+                else:
+                    result = solution.${1:method}(case)
                 print(result)
 
 
