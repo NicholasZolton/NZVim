@@ -1,4 +1,19 @@
 local plugins = {
+  -- {
+  --   commit = "fa3c28824de5707731d05f3a2691b2b1d33723cf",
+  --   "Julian/lean.nvim",
+  --   event = { "BufReadPre *.lean", "BufNewFile *.lean" },
+  --
+  --   dependencies = {
+  --     "neovim/nvim-lspconfig",
+  --     "nvim-lua/plenary.nvim",
+  --     -- you also will likely want nvim-cmp or some completion engine
+  --   },
+  --   opts = {
+  --     lsp = {},
+  --     mappings = false,
+  --   },
+  -- },
   {
     "stevearc/conform.nvim",
     event = "BufWritePre", -- uncomment for format on save
@@ -146,23 +161,23 @@ local plugins = {
       "leafo/magick",
     },
   },
-  {
-    "rmagatti/auto-session",
-    commit = "a90aa7730efa60fdcc7e00497a8f36d94a6da709",
-    lazy = false,
-    opts = function()
-      local home_dir = vim.fn.expand "~"
-      return { suppressed_dirs = { home_dir } }
-    end,
-    config = function()
-      require("auto-session").setup {
-        auto_session_root_dir = vim.fn.stdpath "data" .. "/sessions/",
-      }
-    end,
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-    },
-  },
+  -- {
+  --   "rmagatti/auto-session",
+  --   commit = "a90aa7730efa60fdcc7e00497a8f36d94a6da709",
+  --   lazy = false,
+  --   opts = function()
+  --     local home_dir = vim.fn.expand "~"
+  --     return { suppressed_dirs = { home_dir } }
+  --   end,
+  --   config = function()
+  --     require("auto-session").setup {
+  --       auto_session_root_dir = vim.fn.stdpath "data" .. "/sessions/",
+  --     }
+  --   end,
+  --   dependencies = {
+  --     "nvim-telescope/telescope.nvim",
+  --   },
+  -- },
   {
     "tadmccorkle/markdown.nvim",
     commit = "dfa0d2def6dbf77e9206b16dc90cad4dd23d55d2",

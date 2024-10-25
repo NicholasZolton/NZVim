@@ -21,6 +21,7 @@ map("n", "<leader>fr", "<CMD>Telescope frecency<CR>", { desc = "Find recent file
 map("n", "<leader>fc", '<CMD>lua require"telescope.builtin".commands()<CR>', { desc = "Find commands" })
 map("n", "<leader>fp", "<CMD>Telescope projects<CR>", { desc = "Find projects" })
 map("n", "<leader>fb", "<CMD>Telescope file_browser<CR>", { desc = "Find projects" })
+map("n", "<leader>fs", "<CMD>lua require('telescope.builtin').treesitter()<CR>", { desc = "Find symbols" })
 map("n", "<leader>fo", "<CMD>ObsidianSearch<CR>", { desc = "Find Obsidian", remap = true })
 
 map("n", "<leader>e", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
@@ -117,9 +118,8 @@ map("n", "<CR>", "<Plug>(neorg.esupports.hop.hop-link)", { noremap = false, sile
 map("n", "<leader>md", "<Plug>(neorg.qol.todo-items.todo.task-done)", { desc = "Mark Task Done" })
 map("n", "<leader>mu", "<Plug>(neorg.qol.todo-items.todo.task-undone)", { desc = "Mark Task Undone" })
 
-map("n", "<leader>fs", "<cmd>SessionSearch<CR>", { desc = "Session Search" })
-map("n", "<leader>ss", "<cmd>SessionSave<CR>", { desc = "Session Save" })
-map("n", "<leader>sa", "<cmd>SessionToggleAutoSave<CR>", { desc = "Session Toggle Autosave" })
+-- map("n", "<leader>ss", "<cmd>SessionSave<CR>", { desc = "Session Save" })
+-- map("n", "<leader>sa", "<cmd>SessionToggleAutoSave<CR>", { desc = "Session Toggle Autosave" })
 
 -- Sniprun mappings
 map("v", "<leader>sr", "<cmd>SnipRun<CR>", { desc = "Snip Run" })
