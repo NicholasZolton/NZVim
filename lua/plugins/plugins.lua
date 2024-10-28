@@ -365,9 +365,9 @@ local plugins = {
     commit = "cc70d112b14d18dd7b123a5d5288266a60e8189e",
     keys = { { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } } },
     cmd = { "Browse" },
-    cond = function()
-      return vim.fn.has "win32" ~= 1
-    end,
+    -- cond = function()
+    --   return vim.fn.has "win32" ~= 1
+    -- end,
     init = function()
       vim.g.netrw_nogx = 1 -- disable netrw gx
     end,
