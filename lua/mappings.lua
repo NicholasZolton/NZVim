@@ -133,6 +133,7 @@ map("n", "<leader>op", "<cmd>ObsidianPasteImg<cr>", { desc = "Obsidian Paste Ima
 
 -- lsp mappings
 map("n", "<C-.>", "<CMD>lua vim.lsp.buf.code_action()<CR>", { desc = "Code Action" })
+map("n", "<S-d>", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "Show Error", noremap = false })
 
 -- map paste for command/terminal mode
 map("c", "<C-v>", "substitute(getreg('+'), '\\n', '', 'g') .. ''", { noremap = true, silent = false, expr = true })
