@@ -18,8 +18,9 @@ snippet leet
 
 
     class Solution:
-        $0
-        pass
+        def ${1:method}(self):
+            $0
+            pass
 
 
     def main():
@@ -31,18 +32,18 @@ snippet leet
             for case, answer in zip(cases, answers):
                 result = None
                 if isinstance(case, tuple):
-                    result = solution.${1:method}(*case)
+                    result = solution.${1:method}(*case)  # type: ignore
                 else:
-                    result = solution.${1:method}(case)
+                    result = solution.${1:method}(case)  # type: ignore
                 print("result:", result, "answer:", answer)
                 assert result == answer
         else:
             for case in cases:
                 result = None
                 if isinstance(case, tuple):
-                    result = solution.${1:method}(*case)
+                    result = solution.${1:method}(*case)  # type: ignore
                 else:
-                    result = solution.${1:method}(case)
+                    result = solution.${1:method}(case)  # type: ignore
                 print(result)
 
 
@@ -66,8 +67,9 @@ snippet leetlist
 
 
     class Solution:
-        $0
-        pass
+        def ${1:method}(self):
+            $0
+            pass
 
 
     def main():
@@ -99,18 +101,18 @@ snippet leetlist
             for case, answer in zip(cases, answers):
                 result = None
                 if isinstance(case, tuple):
-                    result = solution.${1:method}(*case)
+                    result = solution.${1:method}(*case)  # type: ignore
                 else:
-                    result = solution.${1:method}(case)
+                    result = solution.${1:method}(case)  # type: ignore
                 print("result:", result, "answer:", answer)
                 assert result == answer
         else:
             for case in cases:
                 result = None
                 if isinstance(case, tuple):
-                    result = solution.${1:method}(*case)
+                    result = solution.${1:method}(*case)  # type: ignore
                 else:
-                    result = solution.${1:method}(case)
+                    result = solution.${1:method}(case)  # type: ignore
                 print(result)
 
 
@@ -182,18 +184,18 @@ snippet leettree
             for case, answer in zip(cases, answers):
                 result = None
                 if isinstance(case, tuple):
-                    result = solution.${1:method}(*case)
+                    result = solution.${1:method}(*case)  # type: ignore
                 else:
-                    result = solution.${1:method}(case)
+                    result = solution.${1:method}(case)  # type: ignore
                 print("result:", result, "answer:", answer)
                 assert result == answer
         else:
             for case in cases:
                 result = None
                 if isinstance(case, tuple):
-                    result = solution.${1:method}(*case)
+                    result = solution.${1:method}(*case)  # type: ignore
                 else:
-                    result = solution.${1:method}(case)
+                    result = solution.${1:method}(case)  # type: ignore
                 print(result)
 
 
