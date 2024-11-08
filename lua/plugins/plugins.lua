@@ -1,4 +1,16 @@
 local plugins = {
+  {
+    "pmizio/typescript-tools.nvim",
+    commit = "f8c2e0b36b651c85f52ad5c5373ff8b07adc15a7",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+    event = function()
+      return {
+        "BufReadPre *.tsx",
+        "BufNewFile *.tsx",
+      }
+    end,
+  },
   -- {
   --   commit = "fa3c28824de5707731d05f3a2691b2b1d33723cf",
   --   "Julian/lean.nvim",
@@ -55,15 +67,15 @@ local plugins = {
     config = true,
     commit = "6af8fc6b03210d0ac99398f8eff27c5be7b2ba8a",
   },
-  {
-    "nvim-neorg/neorg",
-    tag = "v9.1.1",
-    lazy = false,
-    opts = require "configs.neorg",
-    dependencies = {
-      { "nvim-lua/plenary.nvim" },
-    },
-  },
+  -- {
+  --   "nvim-neorg/neorg",
+  --   tag = "v9.1.1",
+  --   lazy = false,
+  --   opts = require "configs.neorg",
+  --   dependencies = {
+  --     { "nvim-lua/plenary.nvim" },
+  --   },
+  -- },
   {
     "numToStr/Comment.nvim",
     tag = "v0.8.0",
@@ -426,14 +438,20 @@ local plugins = {
     },
   },
   {
+    "nvim-telescope/telescope-ui-select.nvim",
+    commit = "6e51d7da30bd139a6950adf2a47fda6df9fa06d2",
+  },
+  {
     "nvim-telescope/telescope.nvim",
     opts = function()
       local conf = require "nvchad.configs.telescope"
+      local actions = require "telescope.actions"
       conf.defaults.file_ignore_patterns = { ".git", "node_modules", ".venv" }
-      -- remap C-v to do nothing
-      -- conf.defaults.mappings.i = {
-      --   ["<C-v>"] = "<C-w>",
-      -- }
+      conf.defaults.mappings.i = {
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-v>"] = false,
+      }
       return conf
     end,
     config = function(_, opts)
@@ -448,6 +466,7 @@ local plugins = {
       require("telescope").load_extension "fzy_native"
       require("telescope").load_extension "file_browser"
       require("telescope").load_extension "frecency"
+      require("telescope").load_extension "ui-select"
     end,
   },
   {
