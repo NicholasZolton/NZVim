@@ -132,7 +132,6 @@ map("n", "<leader>wj", "<cmd>lua require('nvim-window').pick()<cr>", { desc = "W
 map("n", "<leader>op", "<cmd>ObsidianPasteImg<cr>", { desc = "Obsidian Paste Image" })
 
 -- lsp mappings
-map("n", "<C-.>", "<CMD>lua vim.lsp.buf.code_action()<CR>", { desc = "Code Action" })
 map("n", "<S-d>", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "Show Error", noremap = false })
 
 -- map paste for command/terminal mode
@@ -161,3 +160,25 @@ map("i", "<C-e>", require("supermaven-nvim.completion_preview").on_dispose_inlay
 
 -- db mappings
 map("n", "<leader>db", '<CMD>lua require("dbee").open()<CR>', { desc = "DBee Open" })
+
+-- surround mappings
+map("n", "ys", "<Plug>(nvim-surround-normal)", { desc = "Surround", remap = true, silent = true })
+
+-- lspsaga mappings
+map("n", "K", "<CMD>Lspsaga hover_doc<CR>", { desc = "Hover Doc", remap = true, silent = true })
+map("n", "<leader>ra", "<CMD>Lspsaga lsp_rename ++project<CR>", { desc = "Rename", remap = true, silent = true })
+map("n", "<C-.>", "<CMD>Lspsaga code_action<CR>", { desc = "Code Action" })
+map(
+  "n",
+  "[e",
+  '<CMD>lua require("lspsaga.diagnostic"):goto_prev { severity = vim.diagnostic.severity.ERROR }<CR>',
+  { desc = "Prev Error" }
+)
+map(
+  "n",
+  "]e",
+  '<CMD>lua require("lspsaga.diagnostic"):goto_next { severity = vim.diagnostic.severity.ERROR }<CR>',
+  { desc = "Next Error" }
+)
+map("n", "[d", '<CMD>lua require("lspsaga.diagnostic"):goto_prev()<CR>', { desc = "Prev Diagnostic", remap = true })
+map("n", "]d", '<CMD>lua require("lspsaga.diagnostic"):goto_next()<CR>', { desc = "Next Diagnostic", remap = true })

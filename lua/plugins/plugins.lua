@@ -1,5 +1,25 @@
 local plugins = {
   {
+    "nvimdev/lspsaga.nvim",
+    commit = "d027f8b9c7c55e26cf4030c8657a2fc8222ed762",
+    config = function()
+      require("lspsaga").setup {}
+    end,
+    event = "LspAttach",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter", -- optional
+      "nvim-tree/nvim-web-devicons", -- optional
+    },
+  },
+  {
+    "kylechui/nvim-surround",
+    commit = "dca2e998ff26681ee422b92c6ed39b3d2908d8a9",
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup {}
+    end,
+  },
+  {
     "pmizio/typescript-tools.nvim",
     commit = "f8c2e0b36b651c85f52ad5c5373ff8b07adc15a7",
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
