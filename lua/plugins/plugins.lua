@@ -1,5 +1,16 @@
 local plugins = {
   {
+    "karb94/neoscroll.nvim",
+    commit = "e58ecc61e38f348dcc8f2af037fe7031f8a6ef7c",
+    event = "BufReadPre *",
+    config = function()
+      require("neoscroll").setup {
+        mappings = {},
+        easing = "quadratic",
+      }
+    end,
+  },
+  {
     "nvimdev/lspsaga.nvim",
     commit = "d027f8b9c7c55e26cf4030c8657a2fc8222ed762",
     config = function()
@@ -545,7 +556,14 @@ local plugins = {
   },
   {
     "folke/which-key.nvim",
+    commit = "68e37e12913a66b60073906f5d3f14dee0de19f2",
+    keys = { "<leader>", "<c-r>", "<c-w>", '"', "'", "`", "c", "v", "g" },
+    cmd = "WhichKey",
     lazy = false,
+    config = function(_, opts)
+      dofile(vim.g.base46_cache .. "whichkey")
+      require("which-key").setup(opts)
+    end,
   },
 }
 

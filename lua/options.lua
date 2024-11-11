@@ -37,6 +37,7 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.history = 1000
 vim.opt.termguicolors = true
 vim.opt.conceallevel = 2
+vim.o.scrolloff = 8
 
 -- Neovide settings
 vim.g.neovide_scale_factor = 0.90
