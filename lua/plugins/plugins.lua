@@ -1,5 +1,36 @@
 local plugins = {
   {
+    "karb94/neoscroll.nvim",
+    commit = "e58ecc61e38f348dcc8f2af037fe7031f8a6ef7c",
+    event = "BufReadPre *",
+    config = function()
+      require("neoscroll").setup {
+        mappings = {},
+        easing = "quadratic",
+      }
+    end,
+  },
+  {
+    "nvimdev/lspsaga.nvim",
+    commit = "d027f8b9c7c55e26cf4030c8657a2fc8222ed762",
+    config = function()
+      require("lspsaga").setup {}
+    end,
+    event = "LspAttach",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter", -- optional
+      "nvim-tree/nvim-web-devicons", -- optional
+    },
+  },
+  {
+    "kylechui/nvim-surround",
+    commit = "dca2e998ff26681ee422b92c6ed39b3d2908d8a9",
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup {}
+    end,
+  },
+  {
     "pmizio/typescript-tools.nvim",
     commit = "f8c2e0b36b651c85f52ad5c5373ff8b07adc15a7",
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
@@ -525,7 +556,14 @@ local plugins = {
   },
   {
     "folke/which-key.nvim",
+    commit = "68e37e12913a66b60073906f5d3f14dee0de19f2",
+    keys = { "<leader>", "<c-r>", "<c-w>", '"', "'", "`", "c", "v", "g" },
+    cmd = "WhichKey",
     lazy = false,
+    config = function(_, opts)
+      dofile(vim.g.base46_cache .. "whichkey")
+      require("which-key").setup(opts)
+    end,
   },
 }
 
