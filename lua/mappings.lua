@@ -24,7 +24,7 @@ map("n", "<leader>fb", "<CMD>Telescope file_browser<CR>", { desc = "Find project
 map("n", "<leader>fs", "<CMD>lua require('telescope.builtin').treesitter()<CR>", { desc = "Find symbols" })
 map("n", "<leader>fo", "<CMD>ObsidianSearch<CR>", { desc = "Find Obsidian", remap = true })
 
-map("n", "<leader>e", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
+map("n", "<leader>e", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle file explorer", remap = true })
 map("n", "<leader>pi", "<CMD>Lazy install<CR>", { desc = "Install plugins" })
 map("n", "<leader>pu", "<CMD>Lazy update<CR>", { desc = "Update plugins" })
 map("n", "<leader>pc", "<CMD>Lazy clean<CR>", { desc = "Clean plugins" })
@@ -84,7 +84,7 @@ end, { desc = "buffer close" })
 map("n", "<leader>bn", "<cmd>enew<CR>", { desc = "buffer new" })
 
 -- add comment.nvim mappings
-map("v", "<C-/>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle Comment (Visual)" })
+map("x", "<C-/>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle Comment (Visual)" })
 map("n", "<C-/>", "<Plug>(comment_toggle_linewise_current)", { desc = "Toggle Comment" })
 
 -- leap mapping
@@ -107,7 +107,7 @@ map("n", "<leader>ccd", "<CMD>GpChatDelete<CR>", { desc = "Chat Delete" })
 map("n", "<leader>ccp", "<CMD>GpPopup<CR>", { desc = "Chat Popup" })
 map("n", "<leader>cah", "<CMD>GpAgent<CR>", { desc = "Agent Help" })
 map("n", "<leader>can", "<CMD>GpNextAgent<CR>", { desc = "Agent Next" })
-map("v", "<leader>ccn", "<CMD>GpExplain vsplit<CR>", { desc = "Chat Selection" })
+map("x", "<leader>ccn", "<CMD>GpExplain vsplit<CR>", { desc = "Chat Selection" })
 
 -- overseer mappings
 map("n", "<leader>tr", "<CMD>OverseerRun<CR>", { desc = "Task Run" })
@@ -122,7 +122,7 @@ map("n", "<leader>mu", "<Plug>(neorg.qol.todo-items.todo.task-undone)", { desc =
 -- map("n", "<leader>sa", "<cmd>SessionToggleAutoSave<CR>", { desc = "Session Toggle Autosave" })
 
 -- Sniprun mappings
-map("v", "<leader>sr", "<cmd>SnipRun<CR>", { desc = "Snip Run" })
+map("x", "<leader>sr", "<cmd>SnipRun<CR>", { desc = "Snip Run" })
 map("n", "<leader>ss", "<cmd>SnipReset<CR>", { desc = "Snip Reset" })
 
 -- window jump
@@ -161,3 +161,8 @@ map("i", "<C-e>", require("supermaven-nvim.completion_preview").on_dispose_inlay
 
 -- db mappings
 map("n", "<leader>db", '<CMD>lua require("dbee").open()<CR>', { desc = "DBee Open" })
+
+-- eval mappings
+-- 5 + 5
+map("x", "<leader>el", ":EvalLua<CR>", { desc = "Eval Lua", silent = true })
+map("x", "<leader>em", ":Math<CR>", { desc = "Eval Math", silent = true })
