@@ -1,5 +1,34 @@
 local autocmd = vim.api.nvim_create_autocmd
 
+-- define some global constants for user name and email, etc.
+NZVIM_USER_NAME = "Nicholas Zolton"
+NZVIM_USER_EMAIL = "nicholaszolton@gmail.com"
+NZVIM_USER_URL = "https://nicholaszolton.dev"
+
+function Messagify(msg)
+  local lines = {}
+  local line = ""
+  for word in msg:gmatch "%S+" do
+    -- Check if adding this word would exceed the character limit
+    if #line + #word + 1 > 40 then
+      -- Trim any leading/trailing whitespace and add the line to lines
+      table.insert(lines, line:match "^%s*(.-)%s*$")
+      line = word -- Start a new line with the current word
+    else
+      -- Add the word to the current line (with a space if the line is non-empty)
+      line = (line == "" and word) or (line .. " " .. word)
+    end
+  end
+
+  -- Add any remaining text in `line` to the lines table
+  if line ~= "" then
+    table.insert(lines, line:match "^%s*(.-)%s*$")
+  end
+
+  -- Join all lines with newline characters
+  return table.concat(lines, "\n")
+end
+
 -- Function to count words in the current file
 function CountWordsInFile()
   local filename = vim.fn.expand "%:p" -- Get the current file path
@@ -82,6 +111,9 @@ function EvalLua()
     return nil
   end
   local result = f()
+  if result then
+    vim.notify(Messagify(result))
+  end
   return result
 end
 
@@ -102,8 +134,67 @@ function Math()
 
   -- Use load() with the math environment
   local result = load("return " .. rangeString, "temp", "t", math_env)()
-  vim.notify(rangeString .. " = " .. result)
+  vim.notify(Messagify(rangeString .. " = " .. result))
   return result
 end
 
 vim.cmd "command! -range Math lua Math()"
+
+function CountWordsInRange()
+  local rangeString = GetGivenRange()
+  if not rangeString then
+    return nil
+  end
+
+  -- count words by splitting the string on whitespace
+  local words = {}
+  for word in rangeString:gmatch "%S+" do
+    table.insert(words, word)
+  end
+  vim.notify("Number of words: " .. #words)
+  return #words
+end
+
+vim.cmd "command! -range CountWordsInRange lua CountWordsInRange()"
+
+function SpeakingTimeRegion()
+  -- Get the substring within the specified range
+  local text = GetGivenRange()
+
+  -- Count lines
+  local lines = select(2, text:gsub("\n", "\n")) + 1
+
+  -- Count words by splitting on whitespace
+  local words = 0
+  for _ in text:gmatch "%S+" do
+    words = words + 1
+  end
+
+  -- Character count
+  local chars = #text
+
+  -- Reading time calculations
+  local minutes = math.floor(words / 125)
+  local seconds = math.floor(((words % 125) / 125) * 60)
+
+  -- Display message
+  vim.notify(
+    Messagify(
+      string.format(
+        "%d line%s, %d word%s, %d character%s, and will take %d minute%s and %d second%s to read.",
+        lines,
+        (lines == 1 and "" or "s"),
+        words,
+        (words == 1 and "" or "s"),
+        chars,
+        (chars == 1 and "" or "s"),
+        minutes,
+        (minutes == 1 and "" or "s"),
+        seconds,
+        (seconds == 1 and "" or "s")
+      )
+    )
+  )
+end
+
+vim.cmd "command! -range SpeakingTimeRegion lua SpeakingTimeRegion()"
