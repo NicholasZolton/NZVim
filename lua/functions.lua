@@ -10,7 +10,7 @@ function Messagify(msg)
   local line = ""
   for word in msg:gmatch "%S+" do
     -- Check if adding this word would exceed the character limit
-    if #line + #word + 1 > 40 then
+    if #line + #word + 1 > 60 then
       -- Trim any leading/trailing whitespace and add the line to lines
       table.insert(lines, line:match "^%s*(.-)%s*$")
       line = word -- Start a new line with the current word
@@ -198,3 +198,46 @@ function SpeakingTimeRegion()
 end
 
 vim.cmd "command! -range SpeakingTimeRegion lua SpeakingTimeRegion()"
+
+-- Define a command to evaluate a region with python
+function EvaluatePython(pystring)
+  -- Escape double quotes in the Python string
+  pystring = pystring:gsub('"', '\\"')
+  -- pystring = pystring:gsub("'", "\\'")
+  -- Construct the Python command
+  local command = { "python", "-c", "print(" .. pystring .. ")" }
+  -- Run the command
+  local result = vim.system(command, { text = true }):wait()
+  -- Return stdout or nil if there was an error
+  if result.code ~= 0 then
+    print("Error: " .. (result.stderr or "Unknown error"))
+    return nil
+  end
+  return result.stdout
+end
+
+function PyMath()
+  local rangeString = GetGivenRange()
+  if not rangeString then
+    return nil
+  end
+
+  -- Escape double quotes in the Python string
+  rangeString = rangeString:gsub('"', '\\"')
+  -- pystring = pystring:gsub("'", "\\'")
+  -- Construct the Python command
+  local command =
+    { "python", "-c", "from math import *; from itertools import *; import bisect; print(" .. rangeString .. ")" }
+  -- Run the command
+  local result = vim.system(command, { text = true }):wait()
+  -- Return stdout or nil if there was an error
+  if result.code ~= 0 then
+    vim.notify(Messagify("Error: " .. (result.stderr or "Unknown error")))
+    return nil
+  end
+  vim.notify(Messagify(result.stdout))
+  vim.fn.setreg("+", result.stdout)
+end
+
+vim.cmd "command! -range PyMath lua PyMath()"
+-- [5*i + 3 for i in range(20)]
