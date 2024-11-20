@@ -241,3 +241,34 @@ end
 
 vim.cmd "command! -range PyMath lua PyMath()"
 -- [5*i + 3 for i in range(20)]
+
+function PyBlock()
+  local start_pos = vim.fn.getpos "'<"
+  local end_pos = vim.fn.getpos "'>"
+  local lnum1, _ = start_pos[2], start_pos[3]
+  local lnum2, _ = end_pos[2], end_pos[3]
+  local lines = vim.api.nvim_buf_get_lines(0, lnum1 - 1, lnum2, false)
+
+  -- join the lines with "; " instead of "\n"
+  local rangeString = table.concat(lines, "; ")
+  rangeString = rangeString:gsub('"', '\\"')
+
+  -- Construct the Python command
+  local command = {
+    "python",
+    "-c",
+    "from math import *; from itertools import *; import bisect; from collections import *; " .. rangeString,
+  }
+  -- Run the command
+  local result = vim.system(command, { text = true }):wait()
+  -- Return stdout or nil if there was an error
+  if result.code ~= 0 then
+    vim.notify(Messagify("Error: " .. (result.stderr or "Unknown error")))
+    return nil
+  end
+  -- vim.notify(Messagify(result.stdout))
+  vim.notify(result.stdout)
+  vim.fn.setreg("+", result.stdout)
+end
+
+vim.cmd "command! -range PyBlock lua PyBlock()"

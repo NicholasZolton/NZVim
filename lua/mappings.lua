@@ -162,10 +162,9 @@ map("i", "<C-e>", require("supermaven-nvim.completion_preview").on_dispose_inlay
 map("n", "<leader>db", '<CMD>lua require("dbee").open()<CR>', { desc = "DBee Open" })
 
 -- eval mappings
--- 5 + 5
 map("x", "<leader>el", ":EvalLua<CR>", { desc = "Eval Lua", silent = true })
--- map("x", "<leader>eml", ":Math<CR>", { desc = "Eval Math Lua", silent = true })
 map("x", "<leader>em", ":PyMath<CR>", { desc = "Eval Math Python", silent = true })
+map("x", "<leader>ep", ":PyBlock<CR>", { desc = "Eval Python (Linewise)", silent = true })
 
 -- surround mappings
 map("n", "ys", "<Plug>(nvim-surround-normal)", { desc = "Surround", remap = true, silent = true })
