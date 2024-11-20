@@ -1,5 +1,7 @@
 local autocmd = vim.api.nvim_create_autocmd
 
+table.unpack = table.unpack or unpack
+
 -- define some global constants for user name and email, etc.
 NZVIM_USER_NAME = "Nicholas Zolton"
 NZVIM_USER_EMAIL = "nicholaszolton@gmail.com"
@@ -119,27 +121,6 @@ end
 
 vim.cmd "command! -range EvalLua lua EvalLua()"
 
--- Define a command :Math
-function Math()
-  local rangeString = GetGivenRange()
-  if not rangeString then
-    return nil
-  end
-
-  -- Prepare the math environment
-  local math_env = {}
-  for k, v in pairs(math) do
-    math_env[k] = v
-  end
-
-  -- Use load() with the math environment
-  local result = load("return " .. rangeString, "temp", "t", math_env)()
-  vim.notify(Messagify(rangeString .. " = " .. result))
-  return result
-end
-
-vim.cmd "command! -range Math lua Math()"
-
 function CountWordsInRange()
   local rangeString = GetGivenRange()
   if not rangeString then
@@ -237,6 +218,7 @@ function PyMath()
   end
   vim.notify(Messagify(result.stdout))
   vim.fn.setreg("+", result.stdout)
+  return result.stdout
 end
 
 vim.cmd "command! -range PyMath lua PyMath()"
@@ -259,6 +241,7 @@ function PyBlock()
     "-c",
     "from math import *; from itertools import *; import bisect; from collections import *; " .. rangeString,
   }
+
   -- Run the command
   local result = vim.system(command, { text = true }):wait()
   -- Return stdout or nil if there was an error
@@ -270,5 +253,52 @@ function PyBlock()
   vim.notify(result.stdout)
   vim.fn.setreg("+", result.stdout)
 end
-
 vim.cmd "command! -range PyBlock lua PyBlock()"
+
+function EvalPython()
+  local rangeString = GetGivenRange()
+  if not rangeString then
+    return nil
+  end
+
+  -- Escape double quotes in the Python string
+  rangeString = rangeString:gsub('"', '\\"')
+  -- pystring = pystring:gsub("'", "\\'")
+  -- Construct the Python command
+  local command =
+    { "python", "-c", "from math import *; from itertools import *; import bisect; print(" .. rangeString .. ")" }
+  -- Run the command
+  local result = vim.system(command, { text = true }):wait()
+  -- Return stdout or nil if there was an error
+  if result.code ~= 0 then
+    vim.notify(Messagify("Error: " .. (result.stderr or "Unknown error")))
+    return nil
+  end
+  vim.notify(Messagify(result.stdout))
+  vim.fn.setreg("+", result.stdout)
+  return result.stdout
+end
+
+vim.cmd "command! -range EvalPython lua EvalPython()"
+
+-- Define a command :LuaMath
+function LuaMath()
+  local rangeString = GetGivenRange()
+  if not rangeString then
+    return nil
+  end
+
+  -- Prepare the math environment
+  local math_env = {}
+  for k, v in pairs(math) do
+    math_env[k] = v
+  end
+
+  -- Use load() with the math environment
+  local result = load("return " .. rangeString, "temp", "t", math_env)()
+  vim.notify(Messagify(rangeString .. " = " .. result))
+  vim.fn.setreg("+", result)
+  return result
+end -- 5+5
+
+vim.cmd "command! -range LuaMath lua LuaMath()"
