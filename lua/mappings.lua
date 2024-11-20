@@ -164,8 +164,9 @@ map("n", "<leader>db", '<CMD>lua require("dbee").open()<CR>', { desc = "DBee Ope
 -- eval mappings
 -- 5 + 5
 map("x", "<leader>el", ":EvalLua<CR>", { desc = "Eval Lua", silent = true })
--- map("x", "<leader>eml", ":Math<CR>", { desc = "Eval Math Lua", silent = true })
-map("x", "<leader>em", ":PyMath<CR>", { desc = "Eval Math Python", silent = true })
+map("x", "<leader>ep", ":EvalPython<CR>", { desc = "Eval Python", silent = true })
+map("x", "<leader>eml", ":LuaMath<CR>", { desc = "Eval Math Lua", silent = true })
+map("x", "<leader>emp", ":PyMath<CR>", { desc = "Eval Math Python", silent = true })
 
 -- surround mappings
 map("n", "ys", "<Plug>(nvim-surround-normal)", { desc = "Surround", remap = true, silent = true })
@@ -202,3 +203,22 @@ map(
   "<CMD>lua require('neoscroll').scroll(0.8, { duration = 200 })<CR>",
   { noremap = false, silent = true }
 )
+
+-- replace inside visual mode
+function FindReplaceVisual()
+  -- prompt user for a search term
+  local search = vim.fn.input "Search for (magic): "
+  if search == nil or search == "" then
+    return
+  end
+
+  -- prompt user for a replace term
+  local replace = vim.fn.input "Replace with: "
+  if replace == nil or replace == "" then
+    return
+  end
+
+  -- execute the search and replace
+  vim.cmd("'<,'>s/\\%V\\v" .. search .. "/" .. replace .. "/g")
+end
+map("x", "<C-r>", ":lua FindReplaceVisual()<CR>", { noremap = false, silent = true })
