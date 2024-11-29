@@ -1,5 +1,16 @@
 local plugins = {
   {
+    "nvim-pack/nvim-spectre",
+    commit = "08be31c104df3b4b049607694ebb2b6ced4f928b",
+    cmd = { "Spectre" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    config = function()
+      require("spectre").setup()
+    end,
+  },
+  {
     "direnv/direnv.vim",
     commit = "ab2a7e08dd630060cd81d7946739ac7442a4f269",
     lazy = false,
