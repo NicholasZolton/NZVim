@@ -9,6 +9,7 @@ map("i", "jk", "<ESC>")
 map("n", "<tab>", "za")
 map("n", "<leader>qs", "<CMD>wq<CR>", { desc = "Close file save" })
 map("n", "<leader>qq", "<CMD>q<CR>", { desc = "Close file nosave" })
+map("n", "<C-a>", "ggVG", { desc = "Select all" })
 
 -- telescope mappings
 map("n", "<leader>ff", "<CMD>Telescope find_files<CR>", { desc = "Find files" })
