@@ -1,5 +1,21 @@
 local plugins = {
   {
+    "nvim-pack/nvim-spectre",
+    commit = "08be31c104df3b4b049607694ebb2b6ced4f928b",
+    cmd = { "Spectre" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    config = function()
+      require("spectre").setup()
+    end,
+  },
+  {
+    "direnv/direnv.vim",
+    commit = "ab2a7e08dd630060cd81d7946739ac7442a4f269",
+    lazy = false,
+  },
+  {
     "karb94/neoscroll.nvim",
     commit = "e58ecc61e38f348dcc8f2af037fe7031f8a6ef7c",
     event = "BufReadPre *",
@@ -197,9 +213,7 @@ local plugins = {
       -- return false
       return vim.fn.has "win32" ~= 1
     end,
-    config = function()
-      require("image").setup()
-    end,
+    opts = {},
     dependencies = {
       "leafo/magick",
     },

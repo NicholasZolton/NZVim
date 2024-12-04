@@ -249,7 +249,12 @@ function PyBlock()
     vim.notify(Messagify("Error: " .. (result.stderr or "Unknown error")))
     return nil
   end
-  -- vim.notify(Messagify(result.stdout))
+
+  -- if the last line is a newline character, remove it
+  if result.stdout[#result.stdout] == "\n" then
+    result.stdout[#result.stdout] = nil
+  end
+
   vim.notify(result.stdout)
   vim.fn.setreg("+", result.stdout)
 end
