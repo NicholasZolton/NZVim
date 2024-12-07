@@ -1,5 +1,51 @@
 local plugins = {
   {
+    "stevearc/oil.nvim",
+    commit = "9a59256c8e88b29d2150e99b5960b2f111e51f75",
+    cmd = { "Oil" },
+    config = function()
+      -- Declare a global function to retrieve the current directory
+      function _G.get_oil_winbar()
+        local dir = require("oil").get_current_dir()
+        if dir then
+          return vim.fn.fnamemodify(dir, ":~")
+        else
+          -- If there is no current directory (e.g. over ssh), just show the buffer name
+          return vim.api.nvim_buf_get_name(0)
+        end
+      end
+
+      require("oil").setup {
+        delete_to_trash = true,
+        watch_for_changes = true,
+        view_options = {
+          show_hidden = true,
+        },
+        keymaps = {
+          ["g?"] = { "actions.show_help", mode = "n" },
+          ["<CR>"] = { "actions.select", mode = "n" },
+          ["ov"] = { "actions.select", opts = { vertical = true }, mode = "n" },
+          ["oh"] = { "actions.select", opts = { horizontal = true }, mode = "n" },
+          ["ot"] = { "actions.select", opts = { tab = true }, mode = "n" },
+          ["p"] = { "actions.preview", mode = "n" },
+          ["q"] = { "actions.close", mode = "n" },
+          ["r"] = { "actions.refresh", mode = "n" },
+          ["-"] = { "actions.parent", mode = "n" },
+          ["_"] = { "actions.open_cwd", mode = "n" },
+          ["`"] = { "actions.cd", mode = "n" },
+          ["~"] = { "actions.cd", opts = { scope = "tab" }, mode = "n" },
+          ["S"] = { "actions.change_sort", mode = "n" },
+          ["s"] = { "actions.open_external", mode = "n" },
+          ["g."] = { "actions.toggle_hidden", mode = "n" },
+          ["g\\"] = { "actions.toggle_trash", mode = "n" },
+        },
+        -- Set to false to disable all of the above keymaps
+        use_default_keymaps = false,
+      }
+    end,
+    dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+  },
+  {
     "nvim-pack/nvim-spectre",
     commit = "08be31c104df3b4b049607694ebb2b6ced4f928b",
     cmd = { "Spectre" },

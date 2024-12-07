@@ -204,6 +204,9 @@ map(
   { noremap = false, silent = true }
 )
 
+-- oil mappings
+map("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
 -- replace inside visual mode
 function FindReplaceVisual()
   -- prompt user for a search term
