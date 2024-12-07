@@ -1,4 +1,36 @@
 local plugins = {
+  -- { "MattiasMTS/cmp-dbee", event = "VeryLazy" },
+  -- {
+  --   "kndndrj/nvim-dbee",
+  --   dependencies = {
+  --     "MunifTanjim/nui.nvim",
+  --   },
+  --   build = function()
+  --     -- Install tries to automatically detect the install method.
+  --     -- if it fails, try calling it with one of these parameters:
+  --     --    "curl", "wget", "bitsadmin", "go"
+  --     require("dbee").install()
+  --   end,
+  --   config = function()
+  --     require("dbee").setup(--[[optional config]])
+  --   end,
+  -- },
+  {
+    "kristijanhusak/vim-dadbod-ui",
+    dependencies = {
+      { "tpope/vim-dadbod", lazy = true },
+      { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true }, -- Optional
+    },
+    cmd = {
+      "DBUI",
+      "DBUIToggle",
+      "DBUIAddConnection",
+      "DBUIFindBuffer",
+    },
+    init = function()
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
+  },
   {
     "stevearc/oil.nvim",
     version = "*",
@@ -70,28 +102,8 @@ local plugins = {
     "pmizio/typescript-tools.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
     opts = {},
-    event = function()
-      return {
-        "BufReadPre *.tsx",
-        "BufNewFile *.tsx",
-      }
-    end,
+    ft = "typescript",
   },
-  -- {
-  --   commit = "fa3c28824de5707731d05f3a2691b2b1d33723cf",
-  --   "Julian/lean.nvim",
-  --   event = { "BufReadPre *.lean", "BufNewFile *.lean" },
-  --
-  --   dependencies = {
-  --     "neovim/nvim-lspconfig",
-  --     "nvim-lua/plenary.nvim",
-  --     -- you also will likely want nvim-cmp or some completion engine
-  --   },
-  --   opts = {
-  --     lsp = {},
-  --     mappings = false,
-  --   },
-  -- },
   {
     "stevearc/conform.nvim",
     version = "*",

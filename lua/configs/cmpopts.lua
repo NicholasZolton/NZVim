@@ -84,6 +84,7 @@ cmp.setup.cmdline({ "/", "?" }, {
     { name = "buffer" },
   },
 })
+
 cmp.setup.cmdline(":", {
   mapping = {
     ["<C-e>"] = {
@@ -119,6 +120,14 @@ cmp.setup.cmdline(":", {
     { name = "cmdline" },
   },
   matching = { disallow_symbol_nonprefix_matching = false },
+})
+
+cmp.setup.filetype({ "sql", "mysql", "plsql", "pl" }, {
+  sources = {
+    { name = "cmp-dbee" },
+    { name = "vim-dadbod-completion" },
+    { name = "buffer" },
+  },
 })
 
 return conf

@@ -153,7 +153,7 @@ map(
 map("i", "<C-e>", require("supermaven-nvim.completion_preview").on_dispose_inlay, { noremap = true, silent = true })
 
 -- db mappings
-map("n", "<leader>db", '<CMD>lua require("dbee").open()<CR>', { desc = "DBee Open" })
+map("n", "<leader>db", "<CMDDBUI<CR>", { desc = "DB Open" })
 
 -- eval mappings
 map("x", "<leader>el", ":EvalLua<CR>", { desc = "Eval Lua", silent = true })
