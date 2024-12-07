@@ -81,6 +81,37 @@ autocmd({ "TextChanged", "InsertLeave" }, {
   end)(),
 })
 
+local lazy_cmds = vim.api.nvim_create_augroup("lazy_cmds", { clear = true })
+local snapshot_dir = vim.fn.stdpath "config" .. "/plugin-backups"
+local lockfile = vim.fn.stdpath "config" .. "/lazy-lock.json"
+local backups_to_keep = 3
+
+vim.api.nvim_create_user_command("BrowseSnapshots", "edit " .. snapshot_dir, {})
+
+autocmd("User", {
+  group = lazy_cmds,
+  pattern = "LazyUpdatePre",
+  desc = "Backup lazy.nvim lockfile",
+  callback = function(event)
+    vim.fn.mkdir(snapshot_dir, "p")
+    local lock_backup = snapshot_dir .. os.date "/%Y-%m-%dT%H:%M:%S.json"
+    local success, err = vim.loop.fs_copyfile(lockfile, lock_backup)
+    if not success then
+      vim.notify("Failed to backup lockfile: " .. (err or "unknown error"), vim.log.levels.ERROR)
+    end
+    -- if there more than 3 snapshots, delete the oldest one
+    local snapshots = vim.fn.split(vim.fn.glob(snapshot_dir .. "/*.json"), "\n")
+    if #snapshots > backups_to_keep then
+      table.sort(snapshots, function(a, b)
+        return vim.fn.getftime(a) < vim.fn.getftime(b)
+      end)
+      for i = 1, #snapshots - backups_to_keep do
+        os.remove(snapshots[i])
+      end
+    end
+  end,
+})
+
 -- print given range
 function GetGivenRange()
   -- Get the start and end positions of the visual selection

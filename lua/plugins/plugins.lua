@@ -143,12 +143,10 @@ local plugins = {
   {
     "supermaven-inc/supermaven-nvim",
     commit = "40bde487fe31723cdd180843b182f70c6a991226",
-    config = function()
-      require("supermaven-nvim").setup {
-        disable_inline_completion = false, -- disables inline completion for use with cmp
-        disable_keymaps = true, -- disables keymaps so you can set them yourself (see mappings.lua)
-      }
-    end,
+    opts = {
+      disable_inline_completion = false, -- disables inline completion for use with cmp
+      disable_keymaps = true, -- disables keymaps so you can set them yourself (see mappings.lua)
+    },
   },
   { "BurntSushi/ripgrep", tag = "14.1.0" },
   { "sindrets/diffview.nvim", commit = "4516612fe98ff56ae0415a259ff6361a89419b0a" },
