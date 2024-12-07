@@ -119,13 +119,6 @@ map("n", "<CR>", "<Plug>(neorg.esupports.hop.hop-link)", { noremap = false, sile
 map("n", "<leader>md", "<Plug>(neorg.qol.todo-items.todo.task-done)", { desc = "Mark Task Done" })
 map("n", "<leader>mu", "<Plug>(neorg.qol.todo-items.todo.task-undone)", { desc = "Mark Task Undone" })
 
--- map("n", "<leader>ss", "<cmd>SessionSave<CR>", { desc = "Session Save" })
--- map("n", "<leader>sa", "<cmd>SessionToggleAutoSave<CR>", { desc = "Session Toggle Autosave" })
-
--- Sniprun mappings
-map("x", "<leader>sr", "<cmd>SnipRun<CR>", { desc = "Snip Run" })
-map("n", "<leader>ss", "<cmd>SnipReset<CR>", { desc = "Snip Reset" })
-
 -- window jump
 map("n", "<leader>wj", "<cmd>lua require('nvim-window').pick()<cr>", { desc = "Window Jump to Window" })
 

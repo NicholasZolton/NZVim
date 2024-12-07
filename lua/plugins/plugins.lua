@@ -165,13 +165,11 @@ local plugins = {
   -- },
   {
     "numToStr/Comment.nvim",
-    tag = "v0.8.0",
-    lazy = false,
+    version = "*",
     opts = {},
   },
   {
     "nvimdev/dashboard-nvim",
-    commit = "fabf5feec96185817c732d47d363f34034212685",
     event = "VimEnter",
     config = function()
       if vim.g.vscode then
@@ -196,17 +194,14 @@ local plugins = {
   },
   {
     "hrsh7th/cmp-cmdline",
-    commit = "d250c63aa13ead745e3a40f61fdd3470efde3923",
   },
-  { "rcarriga/nvim-notify", lazy = false, tag = "v3.13.5" },
+  { "rcarriga/nvim-notify", lazy = false, version = "*" },
   {
     "goerz/jupytext.vim",
-    commit = "ec8f337bd5799e16a02816d04b7c91b9555d79c2",
-    lazy = false,
+    event = "BufReadPre *.ipynb",
   },
   {
     "ahmedkhalf/project.nvim",
-    commit = "8c6bad7d22eef1b71144b401c9f74ed01526a4fb",
     lazy = "VeryLazy",
     config = function()
       require("project_nvim").setup {
@@ -214,27 +209,23 @@ local plugins = {
       }
     end,
   },
-  { "nvim-telescope/telescope-fzy-native.nvim", commit = "282f069504515eec762ab6d6c89903377252bf5b", lazy = false },
-  {
-    "nvim-telescope/telescope-frecency.nvim",
-    commit = "f67baca08423a6fd00167801a54db38e0b878063",
-  },
+  { "nvim-telescope/telescope-fzy-native.nvim", lazy = false },
+  { "nvim-telescope/telescope-frecency.nvim" },
   {
     "nvim-telescope/telescope-file-browser.nvim",
     dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-    commit = "c5a14e0550699a7db575805cdb9ddc969ba0f1f5",
   },
   {
     "stevearc/overseer.nvim",
+    version = "*",
     cmd = { "OverseerRun", "OverseerToggle" },
-    commit = "236e60cdac6410dd95ea5cecafdb801a304d6a41",
     config = function()
       require("overseer").setup {
         templates = { "builtin", "run_file" },
       }
     end,
   },
-  { "mfussenegger/nvim-dap", tag = "0.8.0", lazy = false },
+  { "mfussenegger/nvim-dap", lazy = false },
   {
     "robitx/gp.nvim",
     lazy = "VeryLazy",
@@ -242,8 +233,8 @@ local plugins = {
       local conf = require "configs.gpt"
       require("gp").setup(conf)
     end,
-    tag = "v3.9.0",
     cmd = { "GpChatNew", "GpChatRespond", "GpExplain" },
+    version = "*",
   },
   {
     "3rd/image.nvim",
@@ -258,53 +249,14 @@ local plugins = {
       "leafo/magick",
     },
   },
-  -- {
-  --   "rmagatti/auto-session",
-  --   commit = "a90aa7730efa60fdcc7e00497a8f36d94a6da709",
-  --   lazy = false,
-  --   opts = function()
-  --     local home_dir = vim.fn.expand "~"
-  --     return { suppressed_dirs = { home_dir } }
-  --   end,
-  --   config = function()
-  --     require("auto-session").setup {
-  --       auto_session_root_dir = vim.fn.stdpath "data" .. "/sessions/",
-  --     }
-  --   end,
-  --   dependencies = {
-  --     "nvim-telescope/telescope.nvim",
-  --   },
-  -- },
   {
     "tadmccorkle/markdown.nvim",
-    commit = "dfa0d2def6dbf77e9206b16dc90cad4dd23d55d2",
-    ft = "markdown", -- or 'event = "VeryLazy"'
-    -- opts = {},
+    ft = "markdown",
   },
   {
     "epwalsh/obsidian.nvim",
-    tag = "v3.9.0", -- recommended, use latest release instead of latest commit
-    cond = function()
-      -- if vim.fn.has "win32" ~= 1 then
-      --   return vim.fn.isdirectory(vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault")
-      -- else
-      --   return vim.fn.isdirectory(vim.fn.expand "~" .. "\\Documents\\Projects\\ObsidianVault")
-      -- end
-      return true
-    end,
-    event = function()
-      -- local vault_files = nil
-      -- if vim.fn.has "win32" ~= 1 then
-      --   vault_files = vim.fn.expand "~" .. "/Documents/Projects/ObsidianVault" .. "/*.md"
-      -- else
-      --   vault_files = vim.fn.expand "~" .. "\\Documents\\Projects\\ObsidianVault" .. "\\*.md"
-      -- end
-      return {
-        "BufReadPre *.md",
-        "BufNewFile *.md",
-      }
-    end,
-    -- ft = "markdown",
+    version = "*",
+    ft = "markdown",
     dependencies = {
       -- Required.
       "nvim-lua/plenary.nvim",
@@ -366,16 +318,6 @@ local plugins = {
         substitutions = {},
       },
 
-      -- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
-      -- URL it will be ignored but you can customize this behavior here.
-      ---@param url string
-      follow_url_func = function(url)
-        -- Open the URL in the default web browser.
-        -- vim.fn.jobstart({"open", url})  -- Mac OS
-        vim.fn.jobstart { "xdg-open-2" } -- linux
-        -- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
-        -- vim.ui.open(url) -- need Neovim 0.10.0+
-      end,
       -- Optional, set to true if you use the Obsidian Advanced URI plugin.
       -- https://github.com/Vinzent03/obsidian-advanced-uri
       use_advanced_uri = true,
@@ -421,45 +363,16 @@ local plugins = {
     "nvim-treesitter/nvim-treesitter-context",
     cond = false,
     lazy = "VeryLazy",
-    commit = "895ec44f5c89bc67ba5440aef3d1f2efa3d59a41",
-  },
-  {
-    "michaelb/sniprun",
-    tag = "v1.3.15",
-    cond = function()
-      return vim.fn.has "win32" ~= 1
-    end,
-    cmd = { "SnipRun", "SnipReset", "SnipInfo" },
-    config = function()
-      require("sniprun").setup {
-        display = { "Terminal" },
-      }
-    end,
-    mappings = {},
   },
   {
     "yorickpeterse/nvim-window",
     lazy = false,
-    commit = "81f29840ac3aaeea6fc2153edfabebd00d692476",
     keys = {},
     config = true,
   },
-  { "pteroctopus/faster.nvim", commit = "e85c5bdff0cd1e17cbee855ae23c25e7b8e597cb", event = "BufReadPre" },
-  -- {
-  --   "tomiis4/Hypersonic.nvim",
-  --   commit = "734dfbfbe51952f102a9b439d53d4267bb0024cd",
-  --   event = "CmdlineEnter",
-  --   cmd = "Hypersonic",
-  --   config = function()
-  --     require("hypersonic").setup {
-  --       -- config
-  --     }
-  --   end,
-  -- },
-
+  { "pteroctopus/faster.nvim", event = "BufReadPre" },
   {
     "chrishrb/gx.nvim",
-    commit = "cc70d112b14d18dd7b123a5d5288266a60e8189e",
     keys = { { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } } },
     cmd = { "Browse" },
     -- cond = function()
@@ -476,22 +389,21 @@ local plugins = {
     end,
     submodules = false, -- not needed, submodules are required only for tests
   },
-  {
-    "kndndrj/nvim-dbee",
-    commit = "21d2cc0844a16262bb6ea93ab3d0a0f20bd87853",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-    },
-    build = function()
-      -- Install tries to automatically detect the install method.
-      -- if it fails, try calling it with one of these parameters:
-      --    "curl", "wget", "bitsadmin", "go"
-      require("dbee").install()
-    end,
-    config = function()
-      require("dbee").setup(--[[optional config]])
-    end,
-  },
+  -- {
+  --   "kndndrj/nvim-dbee",
+  --   dependencies = {
+  --     "MunifTanjim/nui.nvim",
+  --   },
+  --   build = function()
+  --     -- Install tries to automatically detect the install method.
+  --     -- if it fails, try calling it with one of these parameters:
+  --     --    "curl", "wget", "bitsadmin", "go"
+  --     require("dbee").install()
+  --   end,
+  --   config = function()
+  --     require("dbee").setup(--[[optional config]])
+  --   end,
+  -- },
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
   {
     "nvim-treesitter/nvim-treesitter",
@@ -503,7 +415,6 @@ local plugins = {
     dependencies = {
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
-        commit = "bf8d2ad35d1d1a687eae6c065c3d524f7ab61b23",
         lazy = true,
         config = function()
           local options = require "configs.treesitter-textobjects"
@@ -524,7 +435,7 @@ local plugins = {
   },
   {
     "nvim-telescope/telescope-ui-select.nvim",
-    commit = "6e51d7da30bd139a6950adf2a47fda6df9fa06d2",
+    event = "VeryLazy",
   },
   {
     "nvim-telescope/telescope.nvim",
@@ -553,6 +464,7 @@ local plugins = {
       require("telescope").load_extension "frecency"
       require("telescope").load_extension "ui-select"
     end,
+    event = "VeryLazy",
   },
   {
     "nvim-tree/nvim-tree.lua",
@@ -610,7 +522,6 @@ local plugins = {
   },
   {
     "folke/which-key.nvim",
-    commit = "68e37e12913a66b60073906f5d3f14dee0de19f2",
     keys = { "<leader>", "<c-r>", "<c-w>", '"', "'", "`", "c", "v", "g" },
     cmd = "WhichKey",
     lazy = false,
