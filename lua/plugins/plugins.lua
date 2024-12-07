@@ -1,7 +1,7 @@
 local plugins = {
   {
     "stevearc/oil.nvim",
-    commit = "9a59256c8e88b29d2150e99b5960b2f111e51f75",
+    version = "*",
     cmd = { "Oil" },
     config = function()
       -- Declare a global function to retrieve the current directory
@@ -17,7 +17,7 @@ local plugins = {
 
       require("oil").setup {
         delete_to_trash = true,
-        watch_for_changes = true,
+        --watch_for_changes = true,
         view_options = {
           show_hidden = true,
         },
@@ -47,7 +47,6 @@ local plugins = {
   },
   {
     "nvim-pack/nvim-spectre",
-    commit = "08be31c104df3b4b049607694ebb2b6ced4f928b",
     cmd = { "Spectre" },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -58,7 +57,6 @@ local plugins = {
   },
   {
     "direnv/direnv.vim",
-    commit = "ab2a7e08dd630060cd81d7946739ac7442a4f269",
     lazy = false,
     cond = function()
       return vim.fn.has "win32" ~= 1
@@ -66,7 +64,6 @@ local plugins = {
   },
   {
     "karb94/neoscroll.nvim",
-    commit = "e58ecc61e38f348dcc8f2af037fe7031f8a6ef7c",
     event = "BufReadPre *",
     config = function()
       require("neoscroll").setup {
@@ -77,7 +74,6 @@ local plugins = {
   },
   {
     "nvimdev/lspsaga.nvim",
-    commit = "d027f8b9c7c55e26cf4030c8657a2fc8222ed762",
     config = function()
       require("lspsaga").setup {}
     end,
@@ -89,7 +85,7 @@ local plugins = {
   },
   {
     "kylechui/nvim-surround",
-    commit = "dca2e998ff26681ee422b92c6ed39b3d2908d8a9",
+    version = "*",
     event = "VeryLazy",
     config = function()
       require("nvim-surround").setup {}
@@ -97,7 +93,6 @@ local plugins = {
   },
   {
     "pmizio/typescript-tools.nvim",
-    commit = "f8c2e0b36b651c85f52ad5c5373ff8b07adc15a7",
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
     opts = {},
     event = function()
@@ -124,6 +119,7 @@ local plugins = {
   -- },
   {
     "stevearc/conform.nvim",
+    version = "*",
     event = "BufWritePre", -- uncomment for format on save
     opts = require "configs.conform",
   },
@@ -133,33 +129,30 @@ local plugins = {
       require "configs.lspconfig"
     end,
   },
-  { "ggandor/leap.nvim", commit = "c6bfb191f1161fbabace1f36f578a20ac6c7642c" },
-  { "rasulomaroff/telepath.nvim", commit = "2879da05463db7bdc8824b13cccd8e8920c62a55" }, -- basically leap addon, needs leap to work
-  { "tpope/vim-speeddating", commit = "c17eb01ebf5aaf766c53bab1f6592710e5ffb796" },
-  { "tpope/vim-repeat", commit = "65846025c15494983dafe5e3b46c8f88ab2e9635" },
-  { "nvim-lua/plenary.nvim", tag = "v0.1.4" },
-  { "haya14busa/is.vim", commit = "d393cb346dcdf733fecd7bbfc45b70b8c05e9eb4" },
+  { "ggandor/leap.nvim" },
+  { "rasulomaroff/telepath.nvim" }, -- basically leap addon, needs leap to work
+  { "tpope/vim-speeddating" },
+  { "tpope/vim-repeat" },
+  { "nvim-lua/plenary.nvim" },
+  { "haya14busa/is.vim" },
   -- { "github/copilot.vim", tag = "v1.39.0", lazy = false, cond = true },
   {
     "supermaven-inc/supermaven-nvim",
-    commit = "40bde487fe31723cdd180843b182f70c6a991226",
     opts = {
       disable_inline_completion = false, -- disables inline completion for use with cmp
       disable_keymaps = true, -- disables keymaps so you can set them yourself (see mappings.lua)
     },
   },
-  { "BurntSushi/ripgrep", tag = "14.1.0" },
-  { "sindrets/diffview.nvim", commit = "4516612fe98ff56ae0415a259ff6361a89419b0a" },
+  { "BurntSushi/ripgrep", version = "*" },
+  { "sindrets/diffview.nvim" },
   {
     "NeogitOrg/neogit",
-    lazy = false,
+    cmd = { "Neogit", "NeogitCommit", "NeogitPush", "NeogitPull" },
     dependencies = {
       "nvim-lua/plenary.nvim", -- required
       "sindrets/diffview.nvim", -- optional - Diff integration
       "nvim-telescope/telescope.nvim", -- optional
     },
-    config = true,
-    commit = "6af8fc6b03210d0ac99398f8eff27c5be7b2ba8a",
   },
   -- {
   --   "nvim-neorg/neorg",

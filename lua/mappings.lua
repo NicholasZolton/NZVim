@@ -194,13 +194,13 @@ map("n", "]d", '<CMD>lua require("lspsaga.diagnostic"):goto_next()<CR>', { desc 
 map(
   "n",
   "<C-u>",
-  "<CMD>lua require('neoscroll').scroll(-0.8, { duration = 200 })<CR>",
+  "<CMD>lua require('neoscroll').scroll(-0.8, { duration = 400 })<CR>",
   { noremap = false, silent = true }
 )
 map(
   "n",
   "<C-d>",
-  "<CMD>lua require('neoscroll').scroll(0.8, { duration = 200 })<CR>",
+  "<CMD>lua require('neoscroll').scroll(0.8, { duration = 400 })<CR>",
   { noremap = false, silent = true }
 )
 
