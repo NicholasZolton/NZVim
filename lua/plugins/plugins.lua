@@ -191,7 +191,7 @@ local plugins = {
   {
     "hrsh7th/cmp-cmdline",
   },
-  { "rcarriga/nvim-notify", lazy = false, version = "*" },
+  { "rcarriga/nvim-notify", lazy = false, version = "*", opts = { background_colour = "#000000" } },
   {
     "goerz/jupytext.vim",
     event = "BufReadPre *.ipynb",
