@@ -1,20 +1,37 @@
 local plugins = {
-  -- { "MattiasMTS/cmp-dbee", event = "VeryLazy" },
-  -- {
-  --   "kndndrj/nvim-dbee",
-  --   dependencies = {
-  --     "MunifTanjim/nui.nvim",
-  --   },
-  --   build = function()
-  --     -- Install tries to automatically detect the install method.
-  --     -- if it fails, try calling it with one of these parameters:
-  --     --    "curl", "wget", "bitsadmin", "go"
-  --     require("dbee").install()
-  --   end,
-  --   config = function()
-  --     require("dbee").setup(--[[optional config]])
-  --   end,
-  -- },
+  {
+    "christoomey/vim-tmux-navigator",
+    cmd = {
+      "TmuxNavigateLeft",
+      "TmuxNavigateDown",
+      "TmuxNavigateUp",
+      "TmuxNavigateRight",
+      "TmuxNavigatePrevious",
+      "TmuxNavigatorProcessList",
+    },
+    keys = {
+      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+    },
+  },
+  {
+    "lervag/vimtex",
+    ft = "tex",
+    init = function()
+      vim.g.vimtex_view_general_viewer = "okular"
+    end,
+  },
+  {
+    "kylechui/nvim-surround",
+    version = "*",
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup {}
+    end,
+  },
   {
     "kristijanhusak/vim-dadbod-ui",
     dependencies = {
@@ -89,14 +106,6 @@ local plugins = {
       "nvim-treesitter/nvim-treesitter", -- optional
       "nvim-tree/nvim-web-devicons", -- optional
     },
-  },
-  {
-    "kylechui/nvim-surround",
-    version = "*",
-    event = "VeryLazy",
-    config = function()
-      require("nvim-surround").setup {}
-    end,
   },
   {
     "pmizio/typescript-tools.nvim",
@@ -236,10 +245,10 @@ local plugins = {
       "leafo/magick",
     },
   },
-  {
-    "tadmccorkle/markdown.nvim",
-    ft = "markdown",
-  },
+  -- {
+  --   "tadmccorkle/markdown.nvim",
+  --   ft = "markdown",
+  -- },
   {
     "epwalsh/obsidian.nvim",
     version = "*",
@@ -395,9 +404,9 @@ local plugins = {
   {
     "nvim-treesitter/nvim-treesitter",
     lazy = true,
-    opts = function()
-      local conf = require "configs.custom-treesitter"
-      return conf
+    config = function()
+      local opts = require "configs.custom-treesitter"
+      require("nvim-treesitter.configs").setup(opts)
     end,
     dependencies = {
       {
@@ -410,8 +419,8 @@ local plugins = {
           local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
 
           -- vim way: ; goes to the direction you were moving.
-          vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
-          vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
+          vim.keymap.set({ "n", "x", "o" }, "'", ts_repeat_move.repeat_last_move)
+          vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_opposite)
           vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f_expr, { expr = true })
           vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F_expr, { expr = true })
           vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = true })
@@ -509,6 +518,7 @@ local plugins = {
   },
   {
     "folke/which-key.nvim",
+    enabled = true,
     keys = { "<leader>", "<c-r>", "<c-w>", '"', "'", "`", "c", "v", "g" },
     cmd = "WhichKey",
     lazy = false,

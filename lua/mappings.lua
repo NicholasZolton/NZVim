@@ -161,9 +161,6 @@ map("x", "<leader>ep", ":PyBlock<CR>", { desc = "Eval Python (Linewise)", silent
 map("x", "<leader>eml", ":LuaMath<CR>", { desc = "Eval Math Lua", silent = true })
 map("x", "<leader>emp", ":PyMath<CR>", { desc = "Eval Math Python", silent = true })
 
--- surround mappings
-map("n", "ys", "<Plug>(nvim-surround-normal)", { desc = "Surround", remap = true, silent = true })
-
 -- lspsaga mappings
 map("n", "K", "<CMD>Lspsaga hover_doc<CR>", { desc = "Hover Doc", remap = true, silent = true })
 map("n", "<leader>ra", "<CMD>Lspsaga lsp_rename ++project<CR>", { desc = "Rename", remap = true, silent = true })
@@ -218,3 +215,9 @@ function FindReplaceVisual()
   vim.cmd("'<,'>s/\\%V\\v" .. search .. "/" .. replace .. "/g")
 end
 map("x", "<C-r>", ":lua FindReplaceVisual()<CR>", { noremap = false, silent = true })
+
+-- surround mappings
+map("n", "Y", "<Plug>(nvim-surround-normal)", { desc = "Add Surround (Normal)", remap = true })
+map("x", "Y", "<Plug>(nvim-surround-visual)", { desc = "Add Surround (Visual)", remap = true })
+map("n", "C", "<Plug>(nvim-surround-change)", { desc = "Change Surround (Normal)", remap = true })
+map("n", "X", "<Plug>(nvim-surround-delete)", { desc = "Delete Surround (Normal)", remap = true })

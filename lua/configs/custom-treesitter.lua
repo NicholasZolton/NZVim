@@ -15,6 +15,7 @@ local options = {
     "markdown",
     "markdown_inline",
     "cpp",
+    "svelte",
   },
 
   markdown = {
@@ -28,13 +29,15 @@ local options = {
 
   indent = { enable = true },
 
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "<C-i>",
-      node_incremental = "<C-i>",
-      scope_incremental = false,
-      node_decremental = "<bs>",
-    },
-  },
+  -- incremental_selection = {
+  --   enable = true,
+  --   keymaps = {
+  --     init_selection = "<C-i>",
+  --     node_incremental = "<C-i>",
+  --     scope_incremental = false,
+  --     node_decremental = "<bs>",
+  --   },
+  -- },
 }
+
+return options
