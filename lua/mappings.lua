@@ -51,6 +51,10 @@ map("n", "<leader>gg", "<CMD>Neogit<CR>", { desc = "Open Neogit" })
 map("n", "<leader>id", "<Plug>(neorg.tempus.insert-date)", { desc = "Insert Date" })
 
 -- tab/window management
+map("n", "<C-h>", "<CMD>TmuxNavigateLeft<CR>", { desc = "Navigate Left", remap = true, silent = true })
+map("n", "<C-j>", "<CMD>TmuxNavigateDown<CR>", { desc = "Navigate Down", remap = true, silent = true })
+map("n", "<C-k>", "<CMD>TmuxNavigateUp<CR>", { desc = "Navigate Up", remap = true, silent = true })
+map("n", "<C-l>", "<CMD>TmuxNavigateRight<CR>", { desc = "Navigate Right", remap = true, silent = true })
 map("n", "<leader><tab>n", "<CMD>tab split<CR>", { desc = "Tab Split" })
 map("n", "<leader><tab>s", "<CMD>tab split<CR>", { desc = "Tab Split" })
 map("n", "<leader><tab>k", "<CMD>tab close<CR>", { desc = "Tab Close" })
