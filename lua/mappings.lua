@@ -98,21 +98,26 @@ map("n", "c", function()
 end)
 
 -- gpt mappings
-map("n", "<leader>ccn", "<CMD>GpChatNew vsplit<CR>", { desc = "Chat New" })
-map("n", "<leader>ccr", "<CMD>GpChatRespond<CR>", { desc = "Chat Respond" })
-map("n", "<leader>cct", "<CMD>GpChatToggle<CR>", { desc = "Chat Toggle" })
-local chat_path = data_path .. "/gp/chats/"
-map(
-  "n",
-  "<leader>ccf",
-  "<CMD>Telescope live_grep search_dirs=" .. chat_path .. " default_text=topic: <CR>",
-  { desc = "Chat Find" }
-)
-map("n", "<leader>ccd", "<CMD>GpChatDelete<CR>", { desc = "Chat Delete" })
-map("n", "<leader>ccp", "<CMD>GpPopup<CR>", { desc = "Chat Popup" })
-map("n", "<leader>cah", "<CMD>GpAgent<CR>", { desc = "Agent Help" })
-map("n", "<leader>can", "<CMD>GpNextAgent<CR>", { desc = "Agent Next" })
-map("x", "<leader>ccn", "<CMD>GpExplain vsplit<CR>", { desc = "Chat Selection" })
+-- map("n", "<leader>ccn", "<CMD>GpChatNew vsplit<CR>", { desc = "Chat New" })
+-- map("n", "<leader>ccr", "<CMD>GpChatRespond<CR>", { desc = "Chat Respond" })
+-- map("n", "<leader>cct", "<CMD>GpChatToggle<CR>", { desc = "Chat Toggle" })
+-- local chat_path = data_path .. "/gp/chats/"
+-- map(
+--   "n",
+--   "<leader>ccf",
+--   "<CMD>Telescope live_grep search_dirs=" .. chat_path .. " default_text=topic: <CR>",
+--   { desc = "Chat Find" }
+-- )
+-- map("n", "<leader>ccd", "<CMD>GpChatDelete<CR>", { desc = "Chat Delete" })
+-- map("n", "<leader>ccp", "<CMD>GpPopup<CR>", { desc = "Chat Popup" })
+-- map("n", "<leader>cah", "<CMD>GpAgent<CR>", { desc = "Agent Help" })
+-- map("n", "<leader>can", "<CMD>GpNextAgent<CR>", { desc = "Agent Next" })
+-- map("x", "<leader>ccn", "<CMD>GpExplain vsplit<CR>", { desc = "Chat Selection" })
+
+-- avante mappings
+map("n", "<leader>ccn", "<CMD>AvanteChat<CR>", { desc = "Avante Chat" })
+map("n", "<leader>cce", "<CMD>AvanteEdit<CR>", { desc = "Avante Edit" })
+map("n", "<leader>cca", "<CMD>AvanteAsk<CR>", { desc = "Avante Ask" })
 
 -- overseer mappings
 map("n", "<leader>tr", "<CMD>OverseerRun<CR>", { desc = "Task Run" })

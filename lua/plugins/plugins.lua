@@ -1,4 +1,55 @@
+local ENABLE_AI = true
+
 local plugins = {
+  {
+    "yetone/avante.nvim",
+    enabled = ENABLE_AI,
+    event = "VeryLazy",
+    lazy = false,
+    version = "*", -- set this to "*" if you want to always pull the latest change, false to update on release
+    opts = {
+      provider = "copilot", -- Recommend using Claude
+    },
+    build = "make",
+    dependencies = {
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "hrsh7th/nvim-cmp",
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      {
+        "zbirenbaum/copilot.lua",
+        config = function()
+          require("copilot").setup()
+        end,
+      },
+      {
+        -- support for image pasting
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          -- recommended settings
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+            use_absolute_path = true,
+          },
+        },
+      },
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        "MeanderingProgrammer/render-markdown.nvim",
+        event = "VeryLazy",
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
+    },
+  },
   {
     "christoomey/vim-tmux-navigator",
     lazy = false,
@@ -132,9 +183,9 @@ local plugins = {
   { "tpope/vim-repeat" },
   { "nvim-lua/plenary.nvim" },
   { "haya14busa/is.vim" },
-  -- { "github/copilot.vim", tag = "v1.39.0", lazy = false, cond = true },
   {
     "supermaven-inc/supermaven-nvim",
+    enabled = ENABLE_AI,
     opts = {
       disable_inline_completion = false, -- disables inline completion for use with cmp
       disable_keymaps = true, -- disables keymaps so you can set them yourself (see mappings.lua)
@@ -225,6 +276,7 @@ local plugins = {
   { "mfussenegger/nvim-dap", lazy = false },
   {
     "robitx/gp.nvim",
+    enabled = false, -- avante supersedes
     lazy = "VeryLazy",
     config = function()
       local conf = require "configs.gpt"
