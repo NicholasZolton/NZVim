@@ -31,7 +31,7 @@ local output = {
     },
   },
   handler_options = {
-    search_engine = "google", -- you can select between google, bing, duckduckgo, ecosia and yandex
+    search_engine = "bing", -- you can select between google, bing, duckduckgo, ecosia and yandex
     select_for_search = false, -- if your cursor is e.g. on a link, the pattern for the link AND for the word will always match. This disables this behaviour for default so that the link is opened without the select option for the word AND link
     git_remotes = { "upstream", "origin" }, -- list of git remotes to search for git issue linking, in priority
     git_remote_push = false, -- use the push url for git issue linking,
@@ -40,8 +40,8 @@ local output = {
 
 if vim.fn.has "win32" ~= 1 then
   -- check if this is wsl
-  local is_wsl = vim.fn.system "grep WSL /proc/version"
-  if is_wsl ~= 0 then
+  local ok, is_wsl = pcall(vim.fn.system, "grep -q WSL /proc/version")
+  if ok and is_wsl == 0 then
     -- if it is, then set the open_browser_app to wslview
     output.open_browser_app = "explorer.exe"
   else
