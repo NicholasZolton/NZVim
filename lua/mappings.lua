@@ -2,9 +2,6 @@ require "nvchad.mappings"
 
 local map = vim.keymap.set
 
--- default mappings
-map("i", "jk", "<ESC>")
-
 -- personal remappings
 map("n", "<tab>", "za")
 map("n", "<leader>qs", "<CMD>wq<CR>", { desc = "Close file save" })
@@ -143,6 +140,10 @@ map("t", "<C-v>", "substitute(getreg('+'), '\\n', '', 'g') .. ''", { noremap = f
 
 -- map ctrl-backspace for terminal mode
 map("t", "<C-BS>", "<C-W>", { noremap = false, silent = false })
+
+-- fix mappings in tmux
+map("t", "<C-H>", "<C-W>", { noremap = false, silent = false })
+map("i", "<C-H>", "<C-W>", { noremap = false, silent = false })
 
 -- map very magicness (basically default magic mode, quite hacky)
 map("n", "/", "/\\v", { noremap = true })
