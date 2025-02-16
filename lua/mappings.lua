@@ -86,13 +86,21 @@ end, { desc = "buffer close" })
 map("n", "<leader>bn", "<cmd>enew<CR>", { desc = "buffer new" })
 
 -- add comment.nvim mappings
-map("x", "<C-/>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle Comment (Visual)" })
+map("v", "<C-/>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle Comment (Visual)" })
 map("n", "<C-/>", "<Plug>(comment_toggle_linewise_current)", { desc = "Toggle Comment" })
+map("v", "<C-_>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle Comment (Visual)" })
+map("n", "<C-_>", "<Plug>(comment_toggle_linewise_current)", { desc = "Toggle Comment" })
 
 -- leap mapping
 map("n", "c", function()
   require("leap").leap { target_windows = { vim.api.nvim_get_current_win() } }
 end)
+
+-- codecompanion mappings
+map("n", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
+map("n", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Edit" })
+map("x", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
+map("x", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Chat" })
 
 -- gpt mappings
 -- map("n", "<leader>ccn", "<CMD>GpChatNew vsplit<CR>", { desc = "Chat New" })
@@ -112,9 +120,9 @@ end)
 -- map("x", "<leader>ccn", "<CMD>GpExplain vsplit<CR>", { desc = "Chat Selection" })
 
 -- avante mappings
-map("n", "<leader>ccn", "<CMD>AvanteChat<CR>", { desc = "Avante Chat" })
-map("n", "<leader>cce", "<CMD>AvanteEdit<CR>", { desc = "Avante Edit" })
-map("n", "<leader>cca", "<CMD>AvanteAsk<CR>", { desc = "Avante Ask" })
+-- map("n", "<leader>ccn", "<CMD>AvanteChat<CR>", { desc = "Avante Chat" })
+-- map("n", "<leader>cce", "<CMD>AvanteEdit<CR>", { desc = "Avante Edit" })
+-- map("n", "<leader>cca", "<CMD>AvanteAsk<CR>", { desc = "Avante Ask" })
 
 -- overseer mappings
 map("n", "<leader>tr", "<CMD>OverseerRun<CR>", { desc = "Task Run" })

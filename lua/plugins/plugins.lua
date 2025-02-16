@@ -1,9 +1,30 @@
 local ENABLE_AI = true
-
+local ENABLE_FUN = true
 local plugins = {
   {
-    "yetone/avante.nvim",
+    "olimorris/codecompanion.nvim",
     enabled = ENABLE_AI,
+    lazy = false,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("codecompanion").setup {
+        strategies = {
+          chat = {
+            adapter = "copilot",
+          },
+          inline = {
+            adapter = "copilot",
+          },
+        },
+      }
+    end,
+  },
+  {
+    "yetone/avante.nvim",
+    enabled = false,
     event = "VeryLazy",
     lazy = false,
     version = "*", -- set this to "*" if you want to always pull the latest change, false to update on release
@@ -98,6 +119,7 @@ local plugins = {
     },
     init = function()
       vim.g.db_ui_use_nerd_fonts = 1
+      vim.g.db_ui_execute_on_save = 0 --disable auto-execution on save
     end,
   },
   {
