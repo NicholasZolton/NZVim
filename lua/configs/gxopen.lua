@@ -39,14 +39,14 @@ local output = {
 }
 
 if vim.fn.has "win32" ~= 1 then
-  -- check if this is wsl
-  local ok, is_wsl = pcall(vim.fn.system, "grep -q WSL /proc/version")
-  if ok and is_wsl == 0 then
-    -- if it is, then set the open_browser_app to wslview
-    output.open_browser_app = "explorer.exe"
-  else
-    -- otherwise, set it to open
-    output.open_browser_app = "xdg-open-2"
+  local file = io.open("/proc/version", "r")
+  output.open_browser_app = "xdg-open-2"
+  if file then
+    local content = file:read "*all"
+    file:close()
+    if content:find "WSL" then
+      output.open_browser_app = "wslview"
+    end
   end
 end
 
