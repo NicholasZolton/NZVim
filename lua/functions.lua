@@ -338,3 +338,18 @@ function LuaMath()
 end -- 5+5
 
 vim.cmd "command! -range LuaMath lua LuaMath()"
+
+-- autocmd("User", {
+--   pattern = "BlinkCmpMenuOpen",
+--   callback = function()
+--     require("copilot.suggestion").dismiss()
+--     vim.b.copilot_suggestion_hidden = true
+--   end,
+-- })
+--
+-- autocmd("User", {
+--   pattern = "BlinkCmpMenuClose",
+--   callback = function()
+--     vim.b.copilot_suggestion_hidden = false
+--   end,
+-- })

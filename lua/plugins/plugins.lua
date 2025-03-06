@@ -1,9 +1,10 @@
 local ENABLE_AI = true
 local ENABLE_FUN = true
+
 local plugins = {
   {
     "olimorris/codecompanion.nvim",
-    enabled = ENABLE_AI,
+    enabled = false,
     lazy = false,
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -24,7 +25,7 @@ local plugins = {
   },
   {
     "yetone/avante.nvim",
-    enabled = false,
+    enabled = true,
     event = "VeryLazy",
     lazy = false,
     version = "*", -- set this to "*" if you want to always pull the latest change, false to update on release
@@ -36,7 +37,6 @@ local plugins = {
       "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
-      "hrsh7th/nvim-cmp",
       "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
       {
         "zbirenbaum/copilot.lua",
@@ -548,7 +548,108 @@ local plugins = {
     end,
   },
   {
+    "saghen/blink.cmp",
+    enabled = true,
+    build = "cargo build --release",
+    event = "InsertEnter",
+    dependencies = {
+      {
+        -- snippet plugin
+        "L3MON4D3/LuaSnip",
+        dependencies = "rafamadriz/friendly-snippets",
+        opts = { history = true, updateevents = "TextChanged,TextChangedI" },
+        config = function(_, opts)
+          require("luasnip").config.set_config(opts)
+          require "nvchad.configs.luasnip"
+        end,
+      },
+    },
+
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      keymap = {
+        preset = "none",
+
+        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+        ["<C-e>"] = { "hide" },
+        ["<Tab>"] = { "select_and_accept" },
+
+        ["<Up>"] = { "select_prev", "fallback" },
+        ["<Down>"] = { "select_next", "fallback" },
+
+        ["<C-k>"] = { "select_prev", "fallback_to_mappings" },
+        ["<C-j>"] = { "select_next", "fallback_to_mappings" },
+
+        ["<C-b>"] = { "scroll_documentation_up", "fallback" },
+        ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+      },
+
+      snippets = { preset = "luasnip" },
+
+      apperance = {
+        -- Sets the fallback highlight groups to nvim-cmp's highlight groups
+        -- Useful for when your theme doesn't support blink.cmp
+        -- Will be removed in a future release
+        use_nvim_cmp_as_default = true,
+        -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+        -- Adjusts spacing to ensure icons are aligned
+        nerd_font_variant = "mono",
+      },
+
+      sources = {
+        default = { "snippets", "lsp", "path", "buffer" },
+      },
+
+      fuzzy = { implementation = "rust" },
+
+      cmdline = {
+        keymap = {
+          -- recommended, as the default keymap will only show and select the next item
+          ["<Tab>"] = { "show", "accept" },
+        },
+        completion = {
+          menu = { auto_show = true },
+        },
+      },
+
+      completion = {
+
+        keyword = { range = "full" },
+
+        accept = { auto_brackets = { enabled = true } },
+
+        menu = {
+          -- Don't automatically show the completion menu
+          auto_show = true,
+
+          -- nvim-cmp style menu
+          -- draw = {
+          --   columns = {
+          --     { "label", "label_description", gap = 1 },
+          --     { "kind_icon", "kind" },
+          --   },
+          -- },
+        },
+        documentation = { auto_show = true, auto_show_delay_ms = 1 },
+      },
+    },
+    opts_extend = { "sources.default" },
+  },
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    opts = {
+      fast_wrap = {},
+      disable_filetype = { "TelescopePrompt", "vim" },
+    },
+    config = function(_, opts)
+      require("nvim-autopairs").setup(opts)
+    end,
+  },
+  {
     "hrsh7th/nvim-cmp",
+    enabled = false,
     event = "InsertEnter",
     dependencies = {
       {
@@ -586,7 +687,6 @@ local plugins = {
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
-        "supermaven-inc/supermaven-nvim",
       },
     },
     opts = require "configs.cmpopts",
