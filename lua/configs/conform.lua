@@ -6,12 +6,21 @@ local options = {
     python = { "ruff_format" },
     cpp = { "clang-format" },
     sql = { "sleek" },
+    terraform = { "terraform" },
   },
 
   format_on_save = {
     -- These options will be passed to conform.format()
     timeout_ms = 500,
     lsp_fallback = true,
+  },
+
+  formatters = {
+    terraform = {
+      command = "terraform",
+      args = { "fmt", "$FILENAME" },
+      stdin = false,
+    },
   },
 }
 

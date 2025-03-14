@@ -44,10 +44,10 @@ conf.mapping = {
   end, { "i", "s" }),
 }
 conf.sources = {
-  { name = "luasnip" },
   { name = "nvim_lsp" },
-  { name = "buffer" },
+  { name = "luasnip" },
   { name = "nvim_lua" },
+  { name = "buffer" },
   { name = "path" },
 }
 cmp.setup.cmdline({ "/", "?" }, {

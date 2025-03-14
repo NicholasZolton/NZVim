@@ -97,10 +97,10 @@ map("n", "c", function()
 end)
 
 -- codecompanion mappings
-map("n", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
-map("n", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Edit" })
-map("x", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
-map("x", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Chat" })
+-- map("n", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
+-- map("n", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Edit" })
+-- map("x", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
+-- map("x", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Chat" })
 
 -- gpt mappings
 -- map("n", "<leader>ccn", "<CMD>GpChatNew vsplit<CR>", { desc = "Chat New" })
@@ -120,9 +120,9 @@ map("x", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Chat" })
 -- map("x", "<leader>ccn", "<CMD>GpExplain vsplit<CR>", { desc = "Chat Selection" })
 
 -- avante mappings
--- map("n", "<leader>ccn", "<CMD>AvanteChat<CR>", { desc = "Avante Chat" })
--- map("n", "<leader>cce", "<CMD>AvanteEdit<CR>", { desc = "Avante Edit" })
--- map("n", "<leader>cca", "<CMD>AvanteAsk<CR>", { desc = "Avante Ask" })
+map("n", "<leader>ccn", "<CMD>AvanteChat<CR>", { desc = "Avante Chat" })
+map("n", "<leader>cce", "<CMD>AvanteEdit<CR>", { desc = "Avante Edit" })
+map("n", "<leader>cca", "<CMD>AvanteAsk<CR>", { desc = "Avante Ask" })
 
 -- overseer mappings
 map("n", "<leader>tr", "<CMD>OverseerRun<CR>", { desc = "Task Run" })

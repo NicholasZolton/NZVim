@@ -1,7 +1,44 @@
 local ENABLE_AI = true
-local ENABLE_FUN = true
+local map = vim.keymap.set
 
 local plugins = {
+  {
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
+        "lazy.nvim",
+      },
+    },
+  },
+  {
+    "andythigpen/nvim-coverage",
+    event = "VeryLazy",
+    version = "*",
+    config = function()
+      require("coverage").setup {
+        auto_reload = true,
+      }
+      vim.keymap.set("n", "<leader>vc", ":Coverage<CR>", { desc = "View Coverage" })
+      vim.keymap.set("n", "<leader>cs", ":CoverageSummary<CR>", { desc = "View Coverage Summary" })
+    end,
+  },
+  {
+    "joshuavial/aider.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- your configuration comes here
+      -- if you don't want to use the default settings
+      auto_manage_context = true, -- automatically manage buffer context
+      default_bindings = false,
+      vim = true,
+    },
+    config = function(opts)
+      map("n", "<leader>Ao", ":AiderOpen<CR>", { noremap = true, silent = true })
+      map("n", "<leader>Am", ":AiderAddModifiedFiles<CR>", { noremap = true, silent = true })
+      require("aider").setup(opts)
+    end,
+  },
   {
     "olimorris/codecompanion.nvim",
     enabled = false,
@@ -295,7 +332,69 @@ local plugins = {
       }
     end,
   },
-  { "mfussenegger/nvim-dap", lazy = false },
+  {
+    "mfussenegger/nvim-dap",
+    lazy = false,
+    config = function()
+      require "configs.dap"
+      vim.keymap.set("n", "<leader>dc", function()
+        require("dap").continue()
+      end, { desc = "Debug Continue" })
+      vim.keymap.set("n", "<leader>so", function()
+        require("dap").step_over()
+      end, { desc = "Debug Step Over" })
+      vim.keymap.set("n", "<leader>si", function()
+        require("dap").step_into()
+      end, { desc = "Debug Step Into" })
+      vim.keymap.set("n", "<leader>st", function()
+        require("dap").step_out()
+      end, { desc = "Debug Step Out" })
+      vim.keymap.set("n", "<Leader>bt", function()
+        require("dap").toggle_breakpoint()
+      end, { desc = "Toggle Breakpoint" })
+      vim.keymap.set("n", "<Leader>dl", function()
+        require("dap").run_last()
+      end, { desc = "Run Last Debug" })
+      vim.keymap.set({ "n", "v" }, "<Leader>dh", function()
+        require("dap.ui.widgets").hover()
+      end, { desc = "Debug Hover" })
+      vim.keymap.set({ "n", "v" }, "<Leader>dp", function()
+        require("dap.ui.widgets").preview()
+      end, { desc = "Debug Preview" })
+    end,
+
+    dependencies = {
+      "mfussenegger/nvim-dap-python",
+      "rcarriga/nvim-dap-ui",
+    },
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    event = "VeryLazy",
+    dependencies = { "nvim-neotest/nvim-nio" },
+    config = function()
+      require("dapui").setup()
+
+      local dap, dapui = require "dap", require "dapui"
+
+      vim.keymap.set("n", "<leader>do", function()
+        dapui.toggle()
+      end, { desc = "Debug Open" })
+
+      dap.listeners.before.attach.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.launch.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated.dapui_config = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited.dapui_config = function()
+        dapui.close()
+      end
+    end,
+  },
   {
     "robitx/gp.nvim",
     enabled = false, -- avante supersedes
@@ -547,109 +646,109 @@ local plugins = {
       return conf
     end,
   },
-  {
-    "saghen/blink.cmp",
-    enabled = true,
-    build = "cargo build --release",
-    event = "InsertEnter",
-    dependencies = {
-      {
-        -- snippet plugin
-        "L3MON4D3/LuaSnip",
-        dependencies = "rafamadriz/friendly-snippets",
-        opts = { history = true, updateevents = "TextChanged,TextChangedI" },
-        config = function(_, opts)
-          require("luasnip").config.set_config(opts)
-          require "nvchad.configs.luasnip"
-        end,
-      },
-    },
-
-    ---@module 'blink.cmp'
-    ---@type blink.cmp.Config
-    opts = {
-      keymap = {
-        preset = "none",
-
-        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
-        ["<C-e>"] = { "hide" },
-        ["<Tab>"] = { "select_and_accept" },
-
-        ["<Up>"] = { "select_prev", "fallback" },
-        ["<Down>"] = { "select_next", "fallback" },
-
-        ["<C-k>"] = { "select_prev", "fallback_to_mappings" },
-        ["<C-j>"] = { "select_next", "fallback_to_mappings" },
-
-        ["<C-b>"] = { "scroll_documentation_up", "fallback" },
-        ["<C-f>"] = { "scroll_documentation_down", "fallback" },
-      },
-
-      snippets = { preset = "luasnip" },
-
-      apperance = {
-        -- Sets the fallback highlight groups to nvim-cmp's highlight groups
-        -- Useful for when your theme doesn't support blink.cmp
-        -- Will be removed in a future release
-        use_nvim_cmp_as_default = true,
-        -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-        -- Adjusts spacing to ensure icons are aligned
-        nerd_font_variant = "mono",
-      },
-
-      sources = {
-        default = { "snippets", "lsp", "path", "buffer" },
-      },
-
-      fuzzy = { implementation = "rust" },
-
-      cmdline = {
-        keymap = {
-          -- recommended, as the default keymap will only show and select the next item
-          ["<Tab>"] = { "show", "accept" },
-        },
-        completion = {
-          menu = { auto_show = true },
-        },
-      },
-
-      completion = {
-
-        keyword = { range = "full" },
-
-        accept = { auto_brackets = { enabled = true } },
-
-        menu = {
-          -- Don't automatically show the completion menu
-          auto_show = true,
-
-          -- nvim-cmp style menu
-          -- draw = {
-          --   columns = {
-          --     { "label", "label_description", gap = 1 },
-          --     { "kind_icon", "kind" },
-          --   },
-          -- },
-        },
-        documentation = { auto_show = true, auto_show_delay_ms = 1 },
-      },
-    },
-    opts_extend = { "sources.default" },
-  },
-  {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    opts = {
-      fast_wrap = {},
-      disable_filetype = { "TelescopePrompt", "vim" },
-    },
-    config = function(_, opts)
-      require("nvim-autopairs").setup(opts)
-    end,
-  },
+  -- {
+  --   "saghen/blink.cmp",
+  --   enabled = true,
+  --   build = "cargo build --release",
+  --   event = "InsertEnter",
+  --   dependencies = {
+  --     {
+  --       -- snippet plugin
+  --       "L3MON4D3/LuaSnip",
+  --       dependencies = "rafamadriz/friendly-snippets",
+  --       opts = { history = true, updateevents = "TextChanged,TextChangedI" },
+  --       config = function(_, opts)
+  --         require("luasnip").config.set_config(opts)
+  --         require "nvchad.configs.luasnip"
+  --       end,
+  --     },
+  --   },
+  --
+  --   ---@module 'blink.cmp'
+  --   ---@type blink.cmp.Config
+  --   opts = {
+  --     keymap = {
+  --       preset = "none",
+  --
+  --       ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+  --       ["<C-e>"] = { "hide" },
+  --       ["<Tab>"] = { "select_and_accept", "fallback" },
+  --
+  --       ["<Up>"] = { "select_prev", "fallback" },
+  --       ["<Down>"] = { "select_next", "fallback" },
+  --
+  --       ["<C-k>"] = { "select_prev", "fallback_to_mappings" },
+  --       ["<C-j>"] = { "select_next", "fallback_to_mappings" },
+  --
+  --       ["<C-b>"] = { "scroll_documentation_up", "fallback" },
+  --       ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+  --     },
+  --
+  --     snippets = { preset = "luasnip" },
+  --
+  --     appearance = {
+  --       -- Sets the fallback highlight groups to nvim-cmp's highlight groups
+  --       -- Useful for when your theme doesn't support blink.cmp
+  --       -- Will be removed in a future release
+  --       use_nvim_cmp_as_default = true,
+  --       -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+  --       -- Adjusts spacing to ensure icons are aligned
+  --       nerd_font_variant = "mono",
+  --     },
+  --
+  --     sources = {
+  --       default = { "snippets", "lsp", "path", "buffer" },
+  --     },
+  --
+  --     fuzzy = { implementation = "rust" },
+  --
+  --     cmdline = {
+  --       keymap = {
+  --         -- recommended, as the default keymap will only show and select the next item
+  --         ["<Tab>"] = { "show", "accept" },
+  --       },
+  --       completion = {
+  --         menu = { auto_show = true },
+  --       },
+  --     },
+  --
+  --     completion = {
+  --
+  --       keyword = { range = "full" },
+  --
+  --       accept = { auto_brackets = { enabled = true } },
+  --
+  --       menu = {
+  --         -- Don't automatically show the completion menu
+  --         auto_show = true,
+  --
+  --         -- nvim-cmp style menu
+  --         -- draw = {
+  --         --   columns = {
+  --         --     { "label", "label_description", gap = 1 },
+  --         --     { "kind_icon", "kind" },
+  --         --   },
+  --         -- },
+  --       },
+  --       documentation = { auto_show = true, auto_show_delay_ms = 100 },
+  --     },
+  --   },
+  --   opts_extend = { "sources.default" },
+  -- },
+  -- {
+  --   "windwp/nvim-autopairs",
+  --   event = "InsertEnter",
+  --   opts = {
+  --     fast_wrap = {},
+  --     disable_filetype = { "TelescopePrompt", "vim" },
+  --   },
+  --   config = function(_, opts)
+  --     require("nvim-autopairs").setup(opts)
+  --   end,
+  -- },
   {
     "hrsh7th/nvim-cmp",
-    enabled = false,
+    enabled = true,
     event = "InsertEnter",
     dependencies = {
       {
@@ -660,6 +759,7 @@ local plugins = {
         config = function(_, opts)
           require("luasnip").config.set_config(opts)
           require "nvchad.configs.luasnip"
+          require "lua_snippets.snippets"
         end,
       },
 
@@ -681,12 +781,12 @@ local plugins = {
 
       -- cmp sources plugins
       {
-        "saadparwaiz1/cmp_luasnip",
-        "hrsh7th/cmp-nvim-lua",
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-buffer",
-        "hrsh7th/cmp-path",
-        "hrsh7th/cmp-cmdline",
+        { "hrsh7th/cmp-nvim-lua" },
+        { "hrsh7th/cmp-nvim-lsp" },
+        { "saadparwaiz1/cmp_luasnip" },
+        { "hrsh7th/cmp-buffer" },
+        { "hrsh7th/cmp-path" },
+        { "hrsh7th/cmp-cmdline" },
       },
     },
     opts = require "configs.cmpopts",
