@@ -5,7 +5,7 @@ local lspconfig = require "lspconfig"
 
 -- EXAMPLE - default server setups
 -- check for the servers in https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
-local servers = { "html", "cssls", "jdtls", "clangd", "rnix", "pyright", "svelte", "ts_ls", "tflint" }
+local servers = { "html", "cssls", "jdtls", "clangd", "rnix", "pyright", "svelte", "tflint", "ts_ls" }
 local nvlsp = require "nvchad.configs.lspconfig"
 
 -- lsps with default config

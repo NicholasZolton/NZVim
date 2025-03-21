@@ -41,7 +41,7 @@ local plugins = {
   },
   {
     "olimorris/codecompanion.nvim",
-    enabled = false,
+    enabled = true,
     lazy = false,
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -58,56 +58,60 @@ local plugins = {
           },
         },
       }
+      vim.keymap.set("n", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
+      vim.keymap.set("n", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Edit" })
+      vim.keymap.set("x", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
+      vim.keymap.set("x", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Chat" })
     end,
   },
-  {
-    "yetone/avante.nvim",
-    enabled = true,
-    event = "VeryLazy",
-    lazy = false,
-    version = "*", -- set this to "*" if you want to always pull the latest change, false to update on release
-    opts = {
-      provider = "copilot", -- Recommend using Claude
-    },
-    build = "make",
-    dependencies = {
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      {
-        "zbirenbaum/copilot.lua",
-        config = function()
-          require("copilot").setup()
-        end,
-      },
-      {
-        -- support for image pasting
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          -- recommended settings
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
-            },
-            use_absolute_path = true,
-          },
-        },
-      },
-      {
-        -- Make sure to set this up properly if you have lazy=true
-        "MeanderingProgrammer/render-markdown.nvim",
-        event = "VeryLazy",
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
-      },
-    },
-  },
+  -- {
+  --   "yetone/avante.nvim",
+  --   enabled = true,
+  --   event = "VeryLazy",
+  --   lazy = false,
+  --   version = "*", -- set this to "*" if you want to always pull the latest change, false to update on release
+  --   opts = {
+  --     provider = "copilot", -- Recommend using Claude
+  --   },
+  --   build = "make",
+  --   dependencies = {
+  --     "stevearc/dressing.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --     "MunifTanjim/nui.nvim",
+  --     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+  --     {
+  --       "zbirenbaum/copilot.lua",
+  --       config = function()
+  --         require("copilot").setup()
+  --       end,
+  --     },
+  --     {
+  --       -- support for image pasting
+  --       "HakonHarnes/img-clip.nvim",
+  --       event = "VeryLazy",
+  --       opts = {
+  --         -- recommended settings
+  --         default = {
+  --           embed_image_as_base64 = false,
+  --           prompt_for_file_name = false,
+  --           drag_and_drop = {
+  --             insert_mode = true,
+  --           },
+  --           use_absolute_path = true,
+  --         },
+  --       },
+  --     },
+  --     {
+  --       -- Make sure to set this up properly if you have lazy=true
+  --       "MeanderingProgrammer/render-markdown.nvim",
+  --       event = "VeryLazy",
+  --       opts = {
+  --         file_types = { "markdown", "Avante" },
+  --       },
+  --       ft = { "markdown", "Avante" },
+  --     },
+  --   },
+  -- },
   {
     "christoomey/vim-tmux-navigator",
     lazy = false,
@@ -218,12 +222,12 @@ local plugins = {
       "nvim-tree/nvim-web-devicons", -- optional
     },
   },
-  {
-    "pmizio/typescript-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    opts = {},
-    ft = "typescript",
-  },
+  -- {
+  --   "pmizio/typescript-tools.nvim",
+  --   dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+  --   opts = {},
+  --   ft = "typescript",
+  -- },
   {
     "stevearc/conform.nvim",
     version = "*",
