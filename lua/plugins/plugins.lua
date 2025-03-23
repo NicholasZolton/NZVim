@@ -3,6 +3,10 @@ local map = vim.keymap.set
 
 local plugins = {
   {
+    ft = "java",
+    "mfussenegger/nvim-jdtls",
+  },
+  {
     "folke/lazydev.nvim",
     ft = "lua", -- only load on lua files
     opts = {
