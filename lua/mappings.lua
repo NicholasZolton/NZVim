@@ -120,9 +120,6 @@ end)
 -- map("x", "<leader>ccn", "<CMD>GpExplain vsplit<CR>", { desc = "Chat Selection" })
 
 -- avante mappings
-map("n", "<leader>ccn", "<CMD>AvanteChat<CR>", { desc = "Avante Chat" })
-map("n", "<leader>cce", "<CMD>AvanteEdit<CR>", { desc = "Avante Edit" })
-map("n", "<leader>cca", "<CMD>AvanteAsk<CR>", { desc = "Avante Ask" })
 
 -- overseer mappings
 map("n", "<leader>tr", "<CMD>OverseerRun<CR>", { desc = "Task Run" })

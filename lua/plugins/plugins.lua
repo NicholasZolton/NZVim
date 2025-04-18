@@ -2,8 +2,21 @@ local ENABLE_AI = true
 local map = vim.keymap.set
 
 local plugins = {
+  { "nvim-lua/plenary.nvim", lazy = false },
+  { "stevearc/dressing.nvim", lazy = false },
+  { "MunifTanjim/nui.nvim", lazy = false },
+  {
+    -- Make sure to set this up properly if you have lazy=true
+    "MeanderingProgrammer/render-markdown.nvim",
+    event = "VeryLazy",
+    opts = {
+      file_types = { "markdown", "Avante", "CodeCompanion" },
+    },
+    ft = { "markdown", "Avante", "CodeCompanion" },
+  },
   {
     "ravitemer/mcphub.nvim",
+    lazy = false,
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
@@ -11,8 +24,12 @@ local plugins = {
     build = "bundled_build.lua", -- Bundles mcp-hub locally
     config = function()
       require("mcphub").setup {
-        use_bundled_binary = true, -- Use local binary
-        -- ... rest of config as shown above
+        use_bundled_binary = true,
+        extensions = {
+          avante = {
+            make_slash_commands = true,
+          },
+        },
       }
     end,
   },
@@ -57,79 +74,119 @@ local plugins = {
       require("aider").setup(opts)
     end,
   },
-  {
-    "olimorris/codecompanion.nvim",
-    enabled = true,
-    lazy = false,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    config = function()
-      require("codecompanion").setup {
-        strategies = {
-          chat = {
-            adapter = "copilot",
-          },
-          inline = {
-            adapter = "copilot",
-          },
-        },
-      }
-      vim.keymap.set("n", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
-      vim.keymap.set("n", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Edit" })
-      vim.keymap.set("x", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
-      vim.keymap.set("x", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Chat" })
-    end,
-  },
   -- {
-  --   "yetone/avante.nvim",
+  --   "olimorris/codecompanion.nvim",
   --   enabled = true,
-  --   event = "VeryLazy",
   --   lazy = false,
-  --   version = "*", -- set this to "*" if you want to always pull the latest change, false to update on release
-  --   opts = {
-  --     provider = "copilot", -- Recommend using Claude
-  --   },
-  --   build = "make",
   --   dependencies = {
-  --     "stevearc/dressing.nvim",
   --     "nvim-lua/plenary.nvim",
-  --     "MunifTanjim/nui.nvim",
-  --     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-  --     {
-  --       "zbirenbaum/copilot.lua",
-  --       config = function()
-  --         require("copilot").setup()
-  --       end,
-  --     },
-  --     {
-  --       -- support for image pasting
-  --       "HakonHarnes/img-clip.nvim",
-  --       event = "VeryLazy",
-  --       opts = {
-  --         -- recommended settings
-  --         default = {
-  --           embed_image_as_base64 = false,
-  --           prompt_for_file_name = false,
-  --           drag_and_drop = {
-  --             insert_mode = true,
-  --           },
-  --           use_absolute_path = true,
+  --     "nvim-treesitter/nvim-treesitter",
+  --   },
+  --   config = function()
+  --     require("codecompanion").setup {
+  --       strategies = {
+  --         chat = {
+  --           adapter = "copilot",
+  --         },
+  --         inline = {
+  --           adapter = "copilot",
   --         },
   --       },
-  --     },
-  --     {
-  --       -- Make sure to set this up properly if you have lazy=true
-  --       "MeanderingProgrammer/render-markdown.nvim",
-  --       event = "VeryLazy",
-  --       opts = {
-  --         file_types = { "markdown", "Avante" },
-  --       },
-  --       ft = { "markdown", "Avante" },
-  --     },
-  --   },
+  --     }
+  --     vim.keymap.set("n", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
+  --     vim.keymap.set("n", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Edit" })
+  --     vim.keymap.set("x", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
+  --     vim.keymap.set("x", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Chat" })
+  --   end,
   -- },
+  {
+    "yetone/avante.nvim",
+    enabled = true,
+    version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
+    build = "make BUILD_FROM_SOURCE=true",
+    -- build = "make",
+    opts = function()
+      return {
+        provider = "copilot", -- Recommend using Claude
+        -- cursor_applying_provider = "copilot",
+        behaviour = {
+          auto_suggestions = false,
+          -- enable_cursor_planning_mode = true,
+        },
+        mappings = {
+          sidebar = {
+            switch_windows = nil,
+            reverse_switch_windows = nil,
+          },
+        },
+        windows = {
+          ---@type "right" | "left" | "top" | "bottom"
+          position = "right", -- the position of the sidebar
+          wrap = true, -- similar to vim.o.wrap
+          width = 40, -- default % based on available width
+          edit = {
+            border = "rounded",
+            start_insert = false,
+          },
+          ask = {
+            floating = false,
+          },
+        },
+        system_prompt = function()
+          local hub = require("mcphub").get_hub_instance()
+          return hub:get_active_servers_prompt()
+        end,
+        custom_tools = function()
+          return {
+            require("mcphub.extensions.avante").mcp_tool(),
+          }
+        end,
+        disabled_tools = {
+          "list_files",
+          "search_files",
+          "read_file",
+          "create_file",
+          "rename_file",
+          "delete_file",
+          "create_dir",
+          "rename_dir",
+          "delete_dir",
+          "bash",
+        },
+      }
+    end,
+    config = function(_, opts)
+      require("avante").setup(opts)
+      vim.keymap.set("n", "<leader>ccn", "<CMD>AvanteChat<CR>", { desc = "Avante Chat" })
+      vim.keymap.set("n", "<leader>cce", "<CMD>AvanteEdit<CR>", { desc = "Avante Edit" })
+      vim.keymap.set("n", "<leader>cca", "<CMD>AvanteAsk<CR>", { desc = "Avante Ask" })
+    end,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      {
+        "zbirenbaum/copilot.lua",
+        config = function()
+          require("copilot").setup()
+        end,
+      },
+      -- {
+      --   -- support for image pasting
+      --   "HakonHarnes/img-clip.nvim",
+      --   event = "VeryLazy",
+      --   opts = {
+      --     -- recommended settings
+      --     default = {
+      --       embed_image_as_base64 = false,
+      --       prompt_for_file_name = false,
+      --       drag_and_drop = {
+      --         insert_mode = true,
+      --       },
+      --       use_absolute_path = true,
+      --     },
+      --   },
+      -- },
+    },
+  },
   {
     "christoomey/vim-tmux-navigator",
     lazy = false,
@@ -417,17 +474,17 @@ local plugins = {
       end
     end,
   },
-  {
-    "robitx/gp.nvim",
-    enabled = false, -- avante supersedes
-    lazy = "VeryLazy",
-    config = function()
-      local conf = require "configs.gpt"
-      require("gp").setup(conf)
-    end,
-    cmd = { "GpChatNew", "GpChatRespond", "GpExplain" },
-    version = "*",
-  },
+  -- {
+  --   "robitx/gp.nvim",
+  --   enabled = false, -- avante supersedes
+  --   lazy = "VeryLazy",
+  --   config = function()
+  --     local conf = require "configs.gpt"
+  --     require("gp").setup(conf)
+  --   end,
+  --   cmd = { "GpChatNew", "GpChatRespond", "GpExplain" },
+  --   version = "*",
+  -- },
   {
     "3rd/image.nvim",
     -- Disable on Windows system
@@ -441,10 +498,6 @@ local plugins = {
       "leafo/magick",
     },
   },
-  -- {
-  --   "tadmccorkle/markdown.nvim",
-  --   ft = "markdown",
-  -- },
   {
     "epwalsh/obsidian.nvim",
     version = "*",

@@ -39,6 +39,9 @@ vim.opt.termguicolors = true
 vim.opt.conceallevel = 2
 vim.o.scrolloff = 8
 
+-- style
+-- vim.opt.fillchars:append { vert = "│", fold = " " }
+
 -- Neovide settings
 vim.g.neovide_scale_factor = 0.90
 vim.g.neovide_cursor_animation_length = 0
