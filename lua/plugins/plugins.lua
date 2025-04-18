@@ -3,6 +3,20 @@ local map = vim.keymap.set
 
 local plugins = {
   {
+    "ravitemer/mcphub.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    cmd = "MCPHub",
+    build = "bundled_build.lua", -- Bundles mcp-hub locally
+    config = function()
+      require("mcphub").setup {
+        use_bundled_binary = true, -- Use local binary
+        -- ... rest of config as shown above
+      }
+    end,
+  },
+  {
     ft = "java",
     "mfussenegger/nvim-jdtls",
   },
