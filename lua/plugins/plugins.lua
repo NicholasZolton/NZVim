@@ -126,7 +126,7 @@ local plugins = {
           width = 40, -- default % based on available width
           edit = {
             border = "rounded",
-            start_insert = false,
+            start_insert = true,
           },
           ask = {
             floating = false,
