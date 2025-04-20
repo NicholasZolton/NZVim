@@ -179,6 +179,7 @@ map("x", "<leader>emp", ":PyMath<CR>", { desc = "Eval Math Python", silent = tru
 -- lspsaga mappings
 map("n", "K", "<CMD>Lspsaga hover_doc<CR>", { desc = "Hover Doc", remap = true, silent = true })
 map("n", "<leader>ra", "<CMD>Lspsaga lsp_rename ++project<CR>", { desc = "Rename", remap = true, silent = true })
+map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action", remap = true })
 map("n", "<C-.>", vim.lsp.buf.code_action, { desc = "Code Action", remap = true })
 map(
   "n",
