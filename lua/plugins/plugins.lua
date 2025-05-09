@@ -30,6 +30,7 @@ local plugins = {
             make_slash_commands = true,
           },
         },
+        auto_approve = true,
       }
     end,
   },
@@ -74,119 +75,129 @@ local plugins = {
       require("aider").setup(opts)
     end,
   },
-  -- {
-  --   "olimorris/codecompanion.nvim",
-  --   enabled = true,
-  --   lazy = false,
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --     "nvim-treesitter/nvim-treesitter",
-  --   },
-  --   config = function()
-  --     require("codecompanion").setup {
-  --       strategies = {
-  --         chat = {
-  --           adapter = "copilot",
-  --         },
-  --         inline = {
-  --           adapter = "copilot",
-  --         },
-  --       },
-  --     }
-  --     vim.keymap.set("n", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
-  --     vim.keymap.set("n", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Edit" })
-  --     vim.keymap.set("x", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
-  --     vim.keymap.set("x", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Chat" })
-  --   end,
-  -- },
   {
-    "yetone/avante.nvim",
+    "olimorris/codecompanion.nvim",
     enabled = true,
-    version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
-    build = "make BUILD_FROM_SOURCE=true",
-    -- build = "make",
-    opts = function()
-      return {
-        provider = "copilot", -- Recommend using Claude
-        -- cursor_applying_provider = "copilot",
-        behaviour = {
-          auto_suggestions = false,
-          -- enable_cursor_planning_mode = true,
-        },
-        mappings = {
-          sidebar = {
-            switch_windows = nil,
-            reverse_switch_windows = nil,
+    lazy = false,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("codecompanion").setup {
+        strategies = {
+          chat = {
+            adapter = "copilot",
+          },
+          inline = {
+            adapter = "copilot",
           },
         },
-        windows = {
-          ---@type "right" | "left" | "top" | "bottom"
-          position = "right", -- the position of the sidebar
-          wrap = true, -- similar to vim.o.wrap
-          width = 40, -- default % based on available width
-          edit = {
-            border = "rounded",
-            start_insert = true,
+        extensions = {
+          mcphub = {
+            callback = "mcphub.extensions.codecompanion",
+            opts = {
+              show_result_in_chat = true,
+              make_vars = true,
+              make_slash_commands = true,
+            },
           },
-          ask = {
-            floating = false,
-          },
-        },
-        system_prompt = function()
-          local hub = require("mcphub").get_hub_instance()
-          return hub:get_active_servers_prompt()
-        end,
-        custom_tools = function()
-          return {
-            require("mcphub.extensions.avante").mcp_tool(),
-          }
-        end,
-        disabled_tools = {
-          "list_files",
-          "search_files",
-          "read_file",
-          "create_file",
-          "rename_file",
-          "delete_file",
-          "create_dir",
-          "rename_dir",
-          "delete_dir",
-          "bash",
         },
       }
+      vim.keymap.set("n", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
+      vim.keymap.set("n", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Edit" })
+      vim.keymap.set("x", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
+      vim.keymap.set("x", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Chat" })
     end,
-    config = function(_, opts)
-      require("avante").setup(opts)
-      vim.keymap.set("n", "<leader>ccn", "<CMD>AvanteChat<CR>", { desc = "Avante Chat" })
-      vim.keymap.set("n", "<leader>cce", "<CMD>AvanteEdit<CR>", { desc = "Avante Edit" })
-      vim.keymap.set("n", "<leader>cca", "<CMD>AvanteAsk<CR>", { desc = "Avante Ask" })
-    end,
-    dependencies = {
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      {
-        "zbirenbaum/copilot.lua",
-        config = function()
-          require("copilot").setup()
-        end,
-      },
-      -- {
-      --   -- support for image pasting
-      --   "HakonHarnes/img-clip.nvim",
-      --   event = "VeryLazy",
-      --   opts = {
-      --     -- recommended settings
-      --     default = {
-      --       embed_image_as_base64 = false,
-      --       prompt_for_file_name = false,
-      --       drag_and_drop = {
-      --         insert_mode = true,
-      --       },
-      --       use_absolute_path = true,
-      --     },
-      --   },
-      -- },
-    },
   },
+  -- {
+  --   "yetone/avante.nvim",
+  --   enabled = true,
+  --   version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
+  --   build = "make BUILD_FROM_SOURCE=true",
+  --   -- build = "make",
+  --   opts = function()
+  --     return {
+  --       provider = "copilot", -- Recommend using Claude
+  --       -- cursor_applying_provider = "copilot",
+  --       behaviour = {
+  --         auto_suggestions = false,
+  --         -- enable_cursor_planning_mode = true,
+  --       },
+  --       mappings = {
+  --         sidebar = {
+  --           switch_windows = nil,
+  --           reverse_switch_windows = nil,
+  --         },
+  --       },
+  --       windows = {
+  --         ---@type "right" | "left" | "top" | "bottom"
+  --         position = "right", -- the position of the sidebar
+  --         wrap = true, -- similar to vim.o.wrap
+  --         width = 40, -- default % based on available width
+  --         edit = {
+  --           border = "rounded",
+  --           start_insert = true,
+  --         },
+  --         ask = {
+  --           floating = false,
+  --         },
+  --       },
+  --       system_prompt = function()
+  --         local hub = require("mcphub").get_hub_instance()
+  --         return hub:get_active_servers_prompt()
+  --       end,
+  --       custom_tools = function()
+  --         return {
+  --           require("mcphub.extensions.avante").mcp_tool(),
+  --         }
+  --       end,
+  --       disabled_tools = {
+  --         "list_files",
+  --         "search_files",
+  --         "read_file",
+  --         "create_file",
+  --         "rename_file",
+  --         "delete_file",
+  --         "create_dir",
+  --         "rename_dir",
+  --         "delete_dir",
+  --         "bash",
+  --       },
+  --     }
+  --   end,
+  --   config = function(_, opts)
+  --     require("avante").setup(opts)
+  --     vim.keymap.set("n", "<leader>ccn", "<CMD>AvanteChat<CR>", { desc = "Avante Chat" })
+  --     vim.keymap.set("n", "<leader>cce", "<CMD>AvanteEdit<CR>", { desc = "Avante Edit" })
+  --     vim.keymap.set("n", "<leader>cca", "<CMD>AvanteAsk<CR>", { desc = "Avante Ask" })
+  --   end,
+  --   dependencies = {
+  --     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+  --     {
+  --       "zbirenbaum/copilot.lua",
+  --       config = function()
+  --         require("copilot").setup()
+  --       end,
+  --     },
+  --     -- {
+  --     --   -- support for image pasting
+  --     --   "HakonHarnes/img-clip.nvim",
+  --     --   event = "VeryLazy",
+  --     --   opts = {
+  --     --     -- recommended settings
+  --     --     default = {
+  --     --       embed_image_as_base64 = false,
+  --     --       prompt_for_file_name = false,
+  --     --       drag_and_drop = {
+  --     --         insert_mode = true,
+  --     --       },
+  --     --       use_absolute_path = true,
+  --     --     },
+  --     --   },
+  --     -- },
+  --   },
+  -- },
   {
     "christoomey/vim-tmux-navigator",
     lazy = false,
