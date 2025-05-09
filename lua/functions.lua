@@ -94,7 +94,7 @@ autocmd("User", {
   desc = "Backup lazy.nvim lockfile",
   callback = function(event)
     vim.fn.mkdir(snapshot_dir, "p")
-    local lock_backup = snapshot_dir .. os.date "/%Y-%m-%dT%H:%M:%S.json"
+    local lock_backup = snapshot_dir .. os.date "/%Y-%m-%dT%H_%M_%S.json"
     local success, err = vim.loop.fs_copyfile(lockfile, lock_backup)
     if not success then
       vim.notify("Failed to backup lockfile: " .. (err or "unknown error"), vim.log.levels.ERROR)
