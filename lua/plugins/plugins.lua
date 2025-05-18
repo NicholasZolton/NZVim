@@ -2,6 +2,25 @@ local ENABLE_AI = true
 local map = vim.keymap.set
 
 local plugins = {
+  {
+    -- support for image pasting
+    "HakonHarnes/img-clip.nvim",
+    event = "VeryLazy",
+    cmd = { "PasteImg", "ImgClipConfig", "ImgClipDebug" },
+    opts = {
+      -- recommended settings
+      default = {
+        dir_path = "public",
+        extension = "png",
+        embed_image_as_base64 = false,
+        prompt_for_file_name = false,
+        drag_and_drop = {
+          insert_mode = true,
+        },
+        insert_mode_after_paste = false,
+      },
+    },
+  },
   { "nvim-lua/plenary.nvim", lazy = false },
   { "stevearc/dressing.nvim", lazy = false },
   { "MunifTanjim/nui.nvim", lazy = false },
@@ -180,22 +199,6 @@ local plugins = {
   --         require("copilot").setup()
   --       end,
   --     },
-  --     -- {
-  --     --   -- support for image pasting
-  --     --   "HakonHarnes/img-clip.nvim",
-  --     --   event = "VeryLazy",
-  --     --   opts = {
-  --     --     -- recommended settings
-  --     --     default = {
-  --     --       embed_image_as_base64 = false,
-  --     --       prompt_for_file_name = false,
-  --     --       drag_and_drop = {
-  --     --         insert_mode = true,
-  --     --       },
-  --     --       use_absolute_path = true,
-  --     --     },
-  --     --   },
-  --     -- },
   --   },
   -- },
   {
