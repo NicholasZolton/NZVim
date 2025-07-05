@@ -3,28 +3,26 @@ local map = vim.keymap.set
 
 local plugins = {
   {
-    -- support for image pasting
-    "HakonHarnes/img-clip.nvim",
-    event = "VeryLazy",
-    cmd = { "PasteImg", "ImgClipConfig", "ImgClipDebug" },
-    opts = {
-      -- recommended settings
-      default = {
-        dir_path = "public",
-        extension = "png",
-        embed_image_as_base64 = false,
-        prompt_for_file_name = false,
-        drag_and_drop = {
-          insert_mode = true,
-        },
-        insert_mode_after_paste = false,
-      },
-    },
+    "nvim-lua/plenary.nvim",
+    lazy = false,
+    enabled = true,
+    cond = not vim.g.vscode,
   },
-  { "nvim-lua/plenary.nvim", lazy = false },
-  { "stevearc/dressing.nvim", lazy = false },
-  { "MunifTanjim/nui.nvim", lazy = false },
   {
+    "stevearc/dressing.nvim",
+    lazy = false,
+    enabled = true,
+    cond = not vim.g.vscode,
+  },
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "MunifTanjim/nui.nvim",
+    lazy = false,
+  },
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
     -- Make sure to set this up properly if you have lazy=true
     "MeanderingProgrammer/render-markdown.nvim",
     event = "VeryLazy",
@@ -34,6 +32,7 @@ local plugins = {
     ft = { "markdown", "Avante", "CodeCompanion" },
   },
   {
+    enabled = vim.fn.has "win32" ~= 1,
     "ravitemer/mcphub.nvim",
     lazy = false,
     dependencies = {
@@ -54,10 +53,14 @@ local plugins = {
     end,
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     ft = "java",
     "mfussenegger/nvim-jdtls",
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "folke/lazydev.nvim",
     ft = "lua", -- only load on lua files
     opts = {
@@ -67,6 +70,8 @@ local plugins = {
     },
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "andythigpen/nvim-coverage",
     event = "VeryLazy",
     version = "*",
@@ -79,6 +84,8 @@ local plugins = {
     end,
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "joshuavial/aider.nvim",
     event = "VeryLazy",
     opts = {
@@ -95,8 +102,9 @@ local plugins = {
     end,
   },
   {
-    "olimorris/codecompanion.nvim",
     enabled = true,
+    cond = not vim.g.vscode,
+    "olimorris/codecompanion.nvim",
     lazy = false,
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -112,16 +120,16 @@ local plugins = {
             adapter = "copilot",
           },
         },
-        extensions = {
-          mcphub = {
-            callback = "mcphub.extensions.codecompanion",
-            opts = {
-              show_result_in_chat = true,
-              make_vars = true,
-              make_slash_commands = true,
-            },
-          },
-        },
+        -- extensions = {
+        --   mcphub = {
+        --     callback = "mcphub.extensions.codecompanion",
+        --     opts = {
+        --       show_result_in_chat = true,
+        --       make_vars = true,
+        --       make_slash_commands = true,
+        --     },
+        --   },
+        -- },
       }
       vim.keymap.set("n", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
       vim.keymap.set("n", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Edit" })
@@ -130,6 +138,7 @@ local plugins = {
     end,
   },
   -- {
+  -- enabled = true,
   --   "yetone/avante.nvim",
   --   enabled = true,
   --   version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
@@ -199,9 +208,27 @@ local plugins = {
   --         require("copilot").setup()
   --       end,
   --     },
+  --     -- {
+  --     --   -- support for image pasting
+  --     --   "HakonHarnes/img-clip.nvim",
+  --     --   event = "VeryLazy",
+  --     --   opts = {
+  --     --     -- recommended settings
+  --     --     default = {
+  --     --       embed_image_as_base64 = false,
+  --     --       prompt_for_file_name = false,
+  --     --       drag_and_drop = {
+  --     --         insert_mode = true,
+  --     --       },
+  --     --       use_absolute_path = true,
+  --     --     },
+  --     --   },
+  --     -- },
   --   },
   -- },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "christoomey/vim-tmux-navigator",
     lazy = false,
     cmd = {
@@ -221,6 +248,8 @@ local plugins = {
     },
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "lervag/vimtex",
     ft = "tex",
     init = function()
@@ -228,6 +257,8 @@ local plugins = {
     end,
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "kylechui/nvim-surround",
     version = "*",
     event = "VeryLazy",
@@ -236,6 +267,8 @@ local plugins = {
     end,
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "kristijanhusak/vim-dadbod-ui",
     dependencies = {
       { "tpope/vim-dadbod", lazy = true },
@@ -253,6 +286,8 @@ local plugins = {
     end,
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "stevearc/oil.nvim",
     version = "*",
     cmd = { "Oil" },
@@ -274,6 +309,8 @@ local plugins = {
     dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "nvim-pack/nvim-spectre",
     cmd = { "Spectre" },
     dependencies = {
@@ -284,13 +321,16 @@ local plugins = {
     end,
   },
   {
+    enabled = true,
     "direnv/direnv.vim",
     lazy = false,
     cond = function()
-      return vim.fn.has "win32" ~= 1
+      return vim.fn.has "win32" ~= 1 and not vim.g.vscode
     end,
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "karb94/neoscroll.nvim",
     event = "BufReadPre *",
     config = function()
@@ -301,6 +341,8 @@ local plugins = {
     end,
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "nvimdev/lspsaga.nvim",
     config = function()
       require("lspsaga").setup {}
@@ -312,40 +354,80 @@ local plugins = {
     },
   },
   -- {
+  -- enabled = true,
   --   "pmizio/typescript-tools.nvim",
   --   dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
   --   opts = {},
   --   ft = "typescript",
   -- },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "stevearc/conform.nvim",
     version = "*",
     event = "BufWritePre", -- uncomment for format on save
     opts = require "configs.conform",
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "neovim/nvim-lspconfig",
     config = function()
       require "configs.lspconfig"
     end,
   },
-  { "ggandor/leap.nvim" },
-  { "rasulomaroff/telepath.nvim" }, -- basically leap addon, needs leap to work
-  { "tpope/vim-speeddating" },
-  { "tpope/vim-repeat" },
-  { "nvim-lua/plenary.nvim" },
-  { "haya14busa/is.vim" },
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "ggandor/leap.nvim",
+  },
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "rasulomaroff/telepath.nvim",
+  }, -- basically leap addon, needs leap to work
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "tpope/vim-speeddating",
+  },
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "tpope/vim-repeat",
+  },
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "nvim-lua/plenary.nvim",
+  },
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "haya14busa/is.vim",
+  },
   {
     "supermaven-inc/supermaven-nvim",
-    enabled = ENABLE_AI,
+    enabled = ENABLE_AI and true,
     opts = {
       disable_inline_completion = false, -- disables inline completion for use with cmp
       disable_keymaps = true, -- disables keymaps so you can set them yourself (see mappings.lua)
     },
   },
-  { "BurntSushi/ripgrep", version = "*" },
-  { "sindrets/diffview.nvim" },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "BurntSushi/ripgrep",
+    version = "*",
+  },
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "sindrets/diffview.nvim",
+  },
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
     "NeogitOrg/neogit",
     cmd = { "Neogit", "NeogitCommit", "NeogitPush", "NeogitPull" },
     dependencies = {
@@ -355,6 +437,7 @@ local plugins = {
     },
   },
   -- {
+  -- enabled = true,
   --   "nvim-neorg/neorg",
   --   tag = "v9.1.1",
   --   lazy = false,
@@ -364,11 +447,15 @@ local plugins = {
   --   },
   -- },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "numToStr/Comment.nvim",
     version = "*",
     opts = {},
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "nvimdev/dashboard-nvim",
     event = "VimEnter",
     config = function()
@@ -393,14 +480,27 @@ local plugins = {
     dependencies = { { "nvim-tree/nvim-web-devicons" } },
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "hrsh7th/cmp-cmdline",
   },
-  { "rcarriga/nvim-notify", lazy = false, version = "*", opts = { background_colour = "#000000" } },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "rcarriga/nvim-notify",
+    lazy = false,
+    version = "*",
+    opts = { background_colour = "#000000" },
+  },
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
     "goerz/jupytext.vim",
     event = "BufReadPre *.ipynb",
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "ahmedkhalf/project.nvim",
     lazy = "VeryLazy",
     config = function()
@@ -409,13 +509,26 @@ local plugins = {
       }
     end,
   },
-  { "nvim-telescope/telescope-fzy-native.nvim", lazy = false },
-  { "nvim-telescope/telescope-frecency.nvim" },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "nvim-telescope/telescope-fzy-native.nvim",
+    lazy = false,
+  },
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "nvim-telescope/telescope-frecency.nvim",
+  },
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
     "nvim-telescope/telescope-file-browser.nvim",
     dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "stevearc/overseer.nvim",
     version = "*",
     cmd = { "OverseerRun", "OverseerToggle" },
@@ -426,6 +539,8 @@ local plugins = {
     end,
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "mfussenegger/nvim-dap",
     lazy = false,
     config = function()
@@ -462,6 +577,8 @@ local plugins = {
     },
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "rcarriga/nvim-dap-ui",
     event = "VeryLazy",
     dependencies = { "nvim-neotest/nvim-nio" },
@@ -488,24 +605,14 @@ local plugins = {
       end
     end,
   },
-  -- {
-  --   "robitx/gp.nvim",
-  --   enabled = false, -- avante supersedes
-  --   lazy = "VeryLazy",
-  --   config = function()
-  --     local conf = require "configs.gpt"
-  --     require("gp").setup(conf)
-  --   end,
-  --   cmd = { "GpChatNew", "GpChatRespond", "GpExplain" },
-  --   version = "*",
-  -- },
   {
+    enabled = true,
     "3rd/image.nvim",
     -- Disable on Windows system
     lazy = false,
     cond = function()
       -- return false
-      return vim.fn.has "win32" ~= 1
+      return vim.fn.has "win32" ~= 1 and not vim.g.vscode
     end,
     opts = {},
     dependencies = {
@@ -513,6 +620,8 @@ local plugins = {
     },
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "epwalsh/obsidian.nvim",
     version = "*",
     ft = "markdown",
@@ -521,9 +630,6 @@ local plugins = {
       "nvim-lua/plenary.nvim",
     },
     opts = {
-      ui = {
-        enable = false,
-      },
       workspaces = {
         {
           name = "personal",
@@ -622,18 +728,28 @@ local plugins = {
     },
   },
   {
+    enabled = true,
     "nvim-treesitter/nvim-treesitter-context",
     cond = false,
     lazy = "VeryLazy",
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "yorickpeterse/nvim-window",
     lazy = false,
     keys = {},
     config = true,
   },
-  { "pteroctopus/faster.nvim", event = "BufReadPre" },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "pteroctopus/faster.nvim",
+    event = "BufReadPre",
+  },
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
     "chrishrb/gx.nvim",
     keys = { { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } } },
     cmd = { "Browse" },
@@ -652,6 +768,7 @@ local plugins = {
     submodules = false, -- not needed, submodules are required only for tests
   },
   -- {
+  -- enabled = true,
   --   "kndndrj/nvim-dbee",
   --   dependencies = {
   --     "MunifTanjim/nui.nvim",
@@ -668,6 +785,8 @@ local plugins = {
   -- },
   -- these are overrides (nvchad configures some of this already, we are just modifying it)
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "nvim-treesitter/nvim-treesitter",
     lazy = true,
     config = function()
@@ -696,10 +815,14 @@ local plugins = {
     },
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "nvim-telescope/telescope-ui-select.nvim",
     event = "VeryLazy",
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "nvim-telescope/telescope.nvim",
     opts = function()
       local conf = require "nvchad.configs.telescope"
@@ -729,6 +852,8 @@ local plugins = {
     event = "VeryLazy",
   },
   {
+    enabled = true,
+    cond = not vim.g.vscode,
     "nvim-tree/nvim-tree.lua",
     cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeOpen" },
     opts = function()
@@ -739,6 +864,7 @@ local plugins = {
     end,
   },
   -- {
+  -- enabled = true,
   --   "saghen/blink.cmp",
   --   enabled = true,
   --   build = "cargo build --release",
@@ -808,7 +934,7 @@ local plugins = {
   --
   --       keyword = { range = "full" },
   --
-  --       accept = { auto_brackets = { enabled = true } },
+  --       accept = { auto_brackets = { enabled = true,
   --
   --       menu = {
   --         -- Don't automatically show the completion menu
@@ -839,8 +965,9 @@ local plugins = {
   --   end,
   -- },
   {
-    "hrsh7th/nvim-cmp",
     enabled = true,
+    cond = not vim.g.vscode,
+    "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
       {
@@ -884,8 +1011,8 @@ local plugins = {
     opts = require "configs.cmpopts",
   },
   {
-    "folke/which-key.nvim",
     enabled = true,
+    "folke/which-key.nvim",
     keys = { "<leader>", "<c-r>", "<c-w>", '"', "'", "`", "c", "v", "g" },
     cmd = "WhichKey",
     lazy = false,
