@@ -32,7 +32,7 @@ local plugins = {
     ft = { "markdown", "Avante", "CodeCompanion" },
   },
   {
-    enabled = vim.fn.has "win32" ~= 1,
+    cond = vim.fn.has "win32" ~= 1 and not vim.g.vscode and false,
     "ravitemer/mcphub.nvim",
     lazy = false,
     dependencies = {

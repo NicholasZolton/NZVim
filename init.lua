@@ -34,7 +34,11 @@ require("lazy").setup({
   { import = "plugins" },
 }, lazy_config)
 
-vim.notify = require "notify"
+if vim.g.vscode then
+    vim.notify = require "vscode".notify
+else
+    vim.notify = require "notify"
+end
 
 -- load theme
 dofile(vim.g.base46_cache .. "defaults")
@@ -49,3 +53,4 @@ vim.schedule(function()
 end)
 
 vim.opt.conceallevel = 2
+vim.opt.clipboard = "unnamedplus"
