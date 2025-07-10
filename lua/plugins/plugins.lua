@@ -725,6 +725,10 @@ local plugins = {
         img_folder = "Assets/imgs", -- This is the default
         confirm_img_paste = false,
       },
+
+      ui = {
+        enable = false,
+      },
     },
   },
   {

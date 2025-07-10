@@ -17,6 +17,7 @@ local servers = {
   "tailwindcss",
   "gdscript",
   "astro",
+  "harper_ls",
 }
 local nvlsp = require "nvchad.configs.lspconfig"
 
