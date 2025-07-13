@@ -3,6 +3,18 @@ local map = vim.keymap.set
 
 local plugins = {
   {
+    "amitds1997/remote-nvim.nvim",
+    version = "*", -- Pin to GitHub releases
+    cmd = { "RemoteStart", "RemoteStop", "RemoteInfo", "RemoteCleanup", "RemoteConfigDel", "RemoteLog" },
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- For standard functions
+      "MunifTanjim/nui.nvim", -- To build the plugin UI
+      "nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
+    },
+    config = true,
+    cond = not vim.g.vscode,
+  },
+  {
     "nvim-lua/plenary.nvim",
     lazy = false,
     enabled = true,
@@ -31,27 +43,27 @@ local plugins = {
     },
     ft = { "markdown", "Avante", "CodeCompanion" },
   },
-  {
-    cond = vim.fn.has "win32" ~= 1 and not vim.g.vscode and false,
-    "ravitemer/mcphub.nvim",
-    lazy = false,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    cmd = "MCPHub",
-    build = "bundled_build.lua", -- Bundles mcp-hub locally
-    config = function()
-      require("mcphub").setup {
-        use_bundled_binary = true,
-        extensions = {
-          avante = {
-            make_slash_commands = true,
-          },
-        },
-        auto_approve = true,
-      }
-    end,
-  },
+  -- {
+  --   cond = vim.fn.has "win32" ~= 1 and not vim.g.vscode,
+  --   "ravitemer/mcphub.nvim",
+  --   lazy = false,
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --   },
+  --   cmd = "MCPHub",
+  --   build = "bundled_build.lua", -- Bundles mcp-hub locally
+  --   config = function()
+  --     require("mcphub").setup {
+  --       use_bundled_binary = true,
+  --       extensions = {
+  --         avante = {
+  --           make_slash_commands = true,
+  --         },
+  --       },
+  --       auto_approve = true,
+  --     }
+  --   end,
+  -- },
   {
     enabled = true,
     cond = not vim.g.vscode,
@@ -84,148 +96,53 @@ local plugins = {
     end,
   },
   {
+    "yetone/avante.nvim",
     enabled = true,
-    cond = not vim.g.vscode,
-    "joshuavial/aider.nvim",
     event = "VeryLazy",
+    version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
+    cond = function()
+      return not vim.g.vscode
+    end,
+    build = function()
+      -- conditionally use the correct build system for the current OS
+      if vim.fn.has "win32" == 1 then
+        return "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
+      else
+        return "make"
+      end
+    end,
+    ---@module 'avante'
+    ---@type avante.Config
     opts = {
-      -- your configuration comes here
-      -- if you don't want to use the default settings
-      auto_manage_context = true, -- automatically manage buffer context
-      default_bindings = false,
-      vim = true,
-    },
-    config = function(opts)
-      map("n", "<leader>Ao", ":AiderOpen<CR>", { noremap = true, silent = true })
-      map("n", "<leader>Am", ":AiderAddModifiedFiles<CR>", { noremap = true, silent = true })
-      require("aider").setup(opts)
-    end,
-  },
-  {
-    enabled = true,
-    cond = not vim.g.vscode,
-    "olimorris/codecompanion.nvim",
-    lazy = false,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    config = function()
-      require("codecompanion").setup {
-        strategies = {
-          chat = {
-            adapter = "copilot",
-          },
-          inline = {
-            adapter = "copilot",
-          },
+      provider = "copilot", -- Recommend using Claude
+      behaviour = {
+        auto_suggestions = false,
+        enable_cursor_planning_mode = true,
+      },
+      windows = {
+        edit = {
+          border = "rounded",
+          start_insert = true, -- Start insert mode when opening the edit window
         },
-        -- extensions = {
-        --   mcphub = {
-        --     callback = "mcphub.extensions.codecompanion",
-        --     opts = {
-        --       show_result_in_chat = true,
-        --       make_vars = true,
-        --       make_slash_commands = true,
-        --     },
-        --   },
-        -- },
-      }
-      vim.keymap.set("n", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
-      vim.keymap.set("n", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Edit" })
-      vim.keymap.set("x", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
-      vim.keymap.set("x", "<leader>ae", ":CodeCompanion ", { desc = "CodeCompanion Chat" })
+      },
+    },
+    config = function(_, opts)
+      require("avante").setup(opts)
+      vim.keymap.set("n", "<leader>ccn", "<CMD>AvanteChat<CR>", { desc = "Avante Chat" })
+      vim.keymap.set("n", "<leader>cce", "<CMD>AvanteEdit<CR>", { desc = "Avante Edit" })
+      vim.keymap.set("n", "<leader>cca", "<CMD>AvanteAsk<CR>", { desc = "Avante Ask" })
     end,
+    cmd = { "AvanteChat", "AvanteEdit", "AvanteAsk" },
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+      {
+        "zbirenbaum/copilot.lua",
+        config = function()
+          require("copilot").setup()
+        end,
+      },
+    },
   },
-  -- {
-  -- enabled = true,
-  --   "yetone/avante.nvim",
-  --   enabled = true,
-  --   version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
-  --   build = "make BUILD_FROM_SOURCE=true",
-  --   -- build = "make",
-  --   opts = function()
-  --     return {
-  --       provider = "copilot", -- Recommend using Claude
-  --       -- cursor_applying_provider = "copilot",
-  --       behaviour = {
-  --         auto_suggestions = false,
-  --         -- enable_cursor_planning_mode = true,
-  --       },
-  --       mappings = {
-  --         sidebar = {
-  --           switch_windows = nil,
-  --           reverse_switch_windows = nil,
-  --         },
-  --       },
-  --       windows = {
-  --         ---@type "right" | "left" | "top" | "bottom"
-  --         position = "right", -- the position of the sidebar
-  --         wrap = true, -- similar to vim.o.wrap
-  --         width = 40, -- default % based on available width
-  --         edit = {
-  --           border = "rounded",
-  --           start_insert = true,
-  --         },
-  --         ask = {
-  --           floating = false,
-  --         },
-  --       },
-  --       system_prompt = function()
-  --         local hub = require("mcphub").get_hub_instance()
-  --         return hub:get_active_servers_prompt()
-  --       end,
-  --       custom_tools = function()
-  --         return {
-  --           require("mcphub.extensions.avante").mcp_tool(),
-  --         }
-  --       end,
-  --       disabled_tools = {
-  --         "list_files",
-  --         "search_files",
-  --         "read_file",
-  --         "create_file",
-  --         "rename_file",
-  --         "delete_file",
-  --         "create_dir",
-  --         "rename_dir",
-  --         "delete_dir",
-  --         "bash",
-  --       },
-  --     }
-  --   end,
-  --   config = function(_, opts)
-  --     require("avante").setup(opts)
-  --     vim.keymap.set("n", "<leader>ccn", "<CMD>AvanteChat<CR>", { desc = "Avante Chat" })
-  --     vim.keymap.set("n", "<leader>cce", "<CMD>AvanteEdit<CR>", { desc = "Avante Edit" })
-  --     vim.keymap.set("n", "<leader>cca", "<CMD>AvanteAsk<CR>", { desc = "Avante Ask" })
-  --   end,
-  --   dependencies = {
-  --     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-  --     {
-  --       "zbirenbaum/copilot.lua",
-  --       config = function()
-  --         require("copilot").setup()
-  --       end,
-  --     },
-  --     -- {
-  --     --   -- support for image pasting
-  --     --   "HakonHarnes/img-clip.nvim",
-  --     --   event = "VeryLazy",
-  --     --   opts = {
-  --     --     -- recommended settings
-  --     --     default = {
-  --     --       embed_image_as_base64 = false,
-  --     --       prompt_for_file_name = false,
-  --     --       drag_and_drop = {
-  --     --         insert_mode = true,
-  --     --       },
-  --     --       use_absolute_path = true,
-  --     --     },
-  --     --   },
-  --     -- },
-  --   },
-  -- },
   {
     enabled = true,
     cond = not vim.g.vscode,
@@ -424,6 +341,14 @@ local plugins = {
     enabled = true,
     cond = not vim.g.vscode,
     "sindrets/diffview.nvim",
+    cmd = {
+      "DiffviewOpen",
+      "DiffviewClose",
+      "DiffviewFileHistory",
+      "DiffviewFocusFiles",
+      "DiffviewToggleFiles",
+      "DiffviewRefresh",
+    },
   },
   {
     enabled = true,

@@ -104,10 +104,10 @@ else
   map("v", "<C-_>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle Comment (Visual)" })
   map("n", "<C-_>", "<Plug>(comment_toggle_linewise_current)", { desc = "Toggle Comment" })
 
-  -- leap mapping
-  map("n", "c", function()
-    require("leap").leap { target_windows = { vim.api.nvim_get_current_win() } }
-  end)
+  -- -- leap mapping
+  -- map("n", "c", function()
+  --   require("leap").leap { target_windows = { vim.api.nvim_get_current_win() } }
+  -- end)
 
   -- codecompanion mappings
   -- map("n", "<leader>aa", ":CodeCompanionChat<CR>", { desc = "CodeCompanion Chat", silent = true })
@@ -131,8 +131,6 @@ else
   -- map("n", "<leader>cah", "<CMD>GpAgent<CR>", { desc = "Agent Help" })
   -- map("n", "<leader>can", "<CMD>GpNextAgent<CR>", { desc = "Agent Next" })
   -- map("x", "<leader>ccn", "<CMD>GpExplain vsplit<CR>", { desc = "Chat Selection" })
-
-  -- avante mappings
 
   -- overseer mappings
   map("n", "<leader>tr", "<CMD>OverseerRun<CR>", { desc = "Task Run" })
