@@ -1,10 +1,10 @@
 local options = {
   formatters_by_ft = {
     lua = { "stylua" },
-    css = { "prettier" },
-    html = { "prettier" },
-    typescript = { "prettier" },
-    typescriptreact = { "prettier" },
+    css = { "biome" },
+    html = { "biome" },
+    typescript = { "biome" },
+    typescriptreact = { "biome" },
     python = { "ruff_format" },
     cpp = { "clang-format" },
     sql = { "sleek" },
