@@ -43,27 +43,6 @@ local plugins = {
     },
     ft = { "markdown", "Avante", "CodeCompanion" },
   },
-  -- {
-  --   cond = vim.fn.has "win32" ~= 1 and not vim.g.vscode,
-  --   "ravitemer/mcphub.nvim",
-  --   lazy = false,
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --   },
-  --   cmd = "MCPHub",
-  --   build = "bundled_build.lua", -- Bundles mcp-hub locally
-  --   config = function()
-  --     require("mcphub").setup {
-  --       use_bundled_binary = true,
-  --       extensions = {
-  --         avante = {
-  --           make_slash_commands = true,
-  --         },
-  --       },
-  --       auto_approve = true,
-  --     }
-  --   end,
-  -- },
   {
     enabled = true,
     cond = not vim.g.vscode,
@@ -115,6 +94,11 @@ local plugins = {
     ---@type avante.Config
     opts = {
       provider = "copilot", -- Recommend using Claude
+      providers = {
+        copilot = {
+          model = "gpt-4.1",
+        },
+      },
       behaviour = {
         auto_suggestions = false,
         enable_cursor_planning_mode = true,

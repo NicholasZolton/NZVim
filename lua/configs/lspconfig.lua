@@ -7,7 +7,7 @@ local lspconfig = require "lspconfig"
 local servers = {
   -- "html",
   -- "cssls",
-  -- "jsonls",
+  "jsonls",
   -- "svelte",
   -- "astro",
   "biome",
