@@ -4,12 +4,16 @@ local map = vim.keymap.set
 local plugins = {
   {
     "amitds1997/remote-nvim.nvim",
-    version = "*", -- Pin to GitHub releases
     cmd = { "RemoteStart", "RemoteStop", "RemoteInfo", "RemoteCleanup", "RemoteConfigDel", "RemoteLog" },
     dependencies = {
       "nvim-lua/plenary.nvim", -- For standard functions
       "MunifTanjim/nui.nvim", -- To build the plugin UI
       "nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
+    },
+    opts = {
+      ssh_config = {
+        scp_binary = "rsync --perms --chmod=u+rwx,g+rwx,o+rwx",
+      },
     },
     config = true,
     cond = not vim.g.vscode,
@@ -245,8 +249,45 @@ local plugins = {
     enabled = true,
     cond = not vim.g.vscode,
     "nvimdev/lspsaga.nvim",
-    config = function()
-      require("lspsaga").setup {}
+    opts = {
+      finder = {
+        keys = {
+          toggle_or_open = "<CR>",
+          quit = "<ESC>",
+        },
+      },
+    },
+    config = function(_, opts)
+      require("lspsaga").setup(opts)
+      map("n", "K", "<CMD>Lspsaga hover_doc<CR>", { desc = "Hover Doc", remap = true, silent = true })
+      map("n", "<leader>ra", "<CMD>Lspsaga lsp_rename ++project<CR>", { desc = "Rename", remap = true, silent = true })
+      map("n", "<leader>ca", "<CMD>Lspsaga code_action<CR>", { desc = "Code Action", remap = true })
+      map("n", "<C-.>", "<CMD>Lspsaga code_action<CR>", { desc = "Code Action", remap = true })
+      map("n", "<C-]>", "<CMD>Lspsaga finder<CR>", { desc = "Code Action", remap = true })
+      map(
+        "n",
+        "[e",
+        '<CMD>lua require("lspsaga.diagnostic"):goto_prev { severity = vim.diagnostic.severity.ERROR }<CR>',
+        { desc = "Prev Error" }
+      )
+      map(
+        "n",
+        "]e",
+        '<CMD>lua require("lspsaga.diagnostic"):goto_next { severity = vim.diagnostic.severity.ERROR }<CR>',
+        { desc = "Next Error" }
+      )
+      map(
+        "n",
+        "[d",
+        '<CMD>lua require("lspsaga.diagnostic"):goto_prev()<CR>',
+        { desc = "Prev Diagnostic", remap = true }
+      )
+      map(
+        "n",
+        "]d",
+        '<CMD>lua require("lspsaga.diagnostic"):goto_next()<CR>',
+        { desc = "Next Diagnostic", remap = true }
+      )
     end,
     event = "LspAttach",
     dependencies = {
@@ -415,6 +456,7 @@ local plugins = {
     config = function()
       require("project_nvim").setup {
         show_hidden = false,
+        patterns = { "!^.git", "!^.hg", ".git", ".hg", "Makefile" },
       }
     end,
   },

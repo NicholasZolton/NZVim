@@ -5,11 +5,10 @@ local lspconfig = require "lspconfig"
 
 -- check for the servers in https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 local servers = {
-  -- "html",
-  -- "cssls",
+  "html",
+  "cssls",
   "jsonls",
-  -- "svelte",
-  -- "astro",
+  "ts_ls",
   "biome",
   "clangd",
   "rnix",

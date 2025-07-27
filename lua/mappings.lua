@@ -165,24 +165,6 @@ else
   map("x", "<leader>emp", ":PyMath<CR>", { desc = "Eval Math Python", silent = true })
 
   -- lspsaga mappings
-  map("n", "K", "<CMD>Lspsaga hover_doc<CR>", { desc = "Hover Doc", remap = true, silent = true })
-  map("n", "<leader>ra", "<CMD>Lspsaga lsp_rename ++project<CR>", { desc = "Rename", remap = true, silent = true })
-  map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action", remap = true })
-  map("n", "<C-.>", vim.lsp.buf.code_action, { desc = "Code Action", remap = true })
-  map(
-    "n",
-    "[e",
-    '<CMD>lua require("lspsaga.diagnostic"):goto_prev { severity = vim.diagnostic.severity.ERROR }<CR>',
-    { desc = "Prev Error" }
-  )
-  map(
-    "n",
-    "]e",
-    '<CMD>lua require("lspsaga.diagnostic"):goto_next { severity = vim.diagnostic.severity.ERROR }<CR>',
-    { desc = "Next Error" }
-  )
-  map("n", "[d", '<CMD>lua require("lspsaga.diagnostic"):goto_prev()<CR>', { desc = "Prev Diagnostic", remap = true })
-  map("n", "]d", '<CMD>lua require("lspsaga.diagnostic"):goto_next()<CR>', { desc = "Next Diagnostic", remap = true })
 
   -- remap scroll to add zz after
   map(
