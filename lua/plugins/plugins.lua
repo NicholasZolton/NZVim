@@ -456,6 +456,7 @@ local plugins = {
     config = function()
       require("project_nvim").setup {
         show_hidden = false,
+        detection_methods = { "pattern" },
         patterns = { "!^.git", "!^.hg", ".git", ".hg", "Makefile" },
       }
     end,
