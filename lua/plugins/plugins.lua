@@ -3,17 +3,16 @@ local map = vim.keymap.set
 
 local plugins = {
   {
+    "markonm/traces.vim",
+    event = "VeryLazy",
+  },
+  {
     "amitds1997/remote-nvim.nvim",
     cmd = { "RemoteStart", "RemoteStop", "RemoteInfo", "RemoteCleanup", "RemoteConfigDel", "RemoteLog" },
     dependencies = {
       "nvim-lua/plenary.nvim", -- For standard functions
       "MunifTanjim/nui.nvim", -- To build the plugin UI
       "nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
-    },
-    opts = {
-      ssh_config = {
-        scp_binary = "rsync --perms --chmod=u+rwx,g+rwx,o+rwx",
-      },
     },
     config = true,
     cond = not vim.g.vscode,
@@ -79,6 +78,17 @@ local plugins = {
     end,
   },
   {
+    "ravitemer/mcphub.nvim",
+    cmd = { "MCPHub" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    build = "bun add -g mcp-hub@latest", -- Installs `mcp-hub` node binary globally
+    config = function()
+      require("mcphub").setup()
+    end,
+  },
+  {
     "yetone/avante.nvim",
     enabled = true,
     event = "VeryLazy",
@@ -94,28 +104,70 @@ local plugins = {
         return "make"
       end
     end,
-    ---@module 'avante'
-    ---@type avante.Config
-    opts = {
-      provider = "copilot", -- Recommend using Claude
-      providers = {
-        copilot = {
-          model = "gpt-4.1",
+    config = function()
+      local cached_local_instructions = (function()
+        local path = vim.fs.joinpath(vim.fn.stdpath "config", "prompts", "global_instructions.txt")
+        local file = io.open(path, "r")
+        if not file then
+          return ""
+        end
+        local content = file:read "*a"
+        file:close()
+        return content
+      end)()
+      require("avante").setup {
+        provider = "claude",
+        providers = {
+          copilot = {
+            model = "openai/gpt-4.1",
+          },
+          openai = {
+            endpoint = "https://api.openai.com/v1",
+            model = "gpt-5",
+            timeout = 30000, -- Timeout in milliseconds
+            extra_request_body = {
+              temperature = 1,
+              max_completion_tokens = 20480,
+            },
+          },
+          claude = {
+            endpoint = "https://api.anthropic.com",
+            model = "claude-sonnet-4-20250514",
+            timeout = 30000, -- Timeout in milliseconds
+            extra_request_body = {
+              temperature = 0.75,
+              max_tokens = 20480,
+            },
+          },
         },
-      },
-      behaviour = {
-        auto_suggestions = false,
-        enable_cursor_planning_mode = true,
-      },
-      windows = {
-        edit = {
-          border = "rounded",
-          start_insert = true, -- Start insert mode when opening the edit window
+        behaviour = {
+          auto_suggestions = false,
+          enable_cursor_planning_mode = true,
         },
-      },
-    },
-    config = function(_, opts)
-      require("avante").setup(opts)
+        windows = {
+          edit = {
+            border = "rounded",
+            start_insert = true, -- Start insert mode when opening the edit window
+          },
+        },
+        disabled_tools = {
+          "web_search",
+          "dispatch_agent",
+        },
+        -- MCPHub Integration
+        system_prompt = function()
+          local hub = require("mcphub").get_hub_instance()
+          local mcp_prompt = hub and hub:get_active_servers_prompt() or ""
+          local final_prompt = mcp_prompt .. "\n" .. cached_local_instructions
+          return final_prompt
+        end,
+        custom_tools = function()
+          return {
+            require("mcphub.extensions.avante").mcp_tool(),
+          }
+        end,
+        -- MCPHub Integration
+      }
       vim.keymap.set("n", "<leader>ccn", "<CMD>AvanteChat<CR>", { desc = "Avante Chat" })
       vim.keymap.set("n", "<leader>cce", "<CMD>AvanteEdit<CR>", { desc = "Avante Edit" })
       vim.keymap.set("n", "<leader>cca", "<CMD>AvanteAsk<CR>", { desc = "Avante Ask" })

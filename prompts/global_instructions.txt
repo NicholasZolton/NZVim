@@ -1,0 +1,2 @@
+If you are working with a langauge that does not require explicit types, always use explicit types. There should never be an implicit any.
+Simiarly, if you are using hasattr() to check for a proprerty, you are likely doing something wrong and should use the proper typing from the start.
