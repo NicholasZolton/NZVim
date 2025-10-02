@@ -14,6 +14,18 @@ if vim.g.vscode == 1 then
   map("n", "<leader>ra", function()
     require("vscode").action "editor.action.rename"
   end, { desc = "Rename Symbol", remap = true })
+
+  map("n", "<leader>bk", function()
+    require("vscode").action "workbench.action.closeActiveEditor"
+  end, { desc = "Buffer Kill" })
+
+  map("n", "<leader>ae", function()
+    require("vscode").action "inlineChat.start"
+  end, { desc = "Open Inline Chat" })
+
+  map("n", "<leader>aa", function()
+    require("vscode").action "workbench.action.chat.openAgent"
+  end, { desc = "Open Chat" })
 else
   -- personal remappings
   map("n", "<tab>", "za")

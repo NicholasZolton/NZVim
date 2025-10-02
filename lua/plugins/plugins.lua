@@ -116,10 +116,10 @@ local plugins = {
         return content
       end)()
       require("avante").setup {
-        provider = "claude",
+        provider = "copilot",
         providers = {
           copilot = {
-            model = "openai/gpt-4.1",
+            model = "gpt-4.1",
           },
           openai = {
             endpoint = "https://api.openai.com/v1",
