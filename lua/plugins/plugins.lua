@@ -175,14 +175,19 @@ local plugins = {
     cmd = { "AvanteChat", "AvanteEdit", "AvanteAsk" },
     dependencies = {
       "nvim-tree/nvim-web-devicons",
-      {
-        "zbirenbaum/copilot.lua",
-        config = function()
-          require("copilot").setup()
-        end,
-      },
     },
   },
+	{
+		"zbirenbaum/copilot.lua",
+		server = {
+			type = "binary",
+		},
+		cmd = "Copilot",
+		event = "InsertEnter",
+		config = function()
+			require("copilot").setup({})
+		end,
+	},
   {
     enabled = true,
     cond = not vim.g.vscode,
