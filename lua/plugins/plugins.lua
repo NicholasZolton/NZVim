@@ -121,6 +121,12 @@ local plugins = {
           copilot = {
             model = "gpt-4.1",
           },
+          acp_providers = {
+            ["opencode"] = {
+              command = "opencode",
+              args = { "acp" },
+            },
+          },
           openai = {
             endpoint = "https://api.openai.com/v1",
             model = "gpt-5",
@@ -128,15 +134,6 @@ local plugins = {
             extra_request_body = {
               temperature = 1,
               max_completion_tokens = 20480,
-            },
-          },
-          claude = {
-            endpoint = "https://api.anthropic.com",
-            model = "claude-sonnet-4-20250514",
-            timeout = 30000, -- Timeout in milliseconds
-            extra_request_body = {
-              temperature = 0.75,
-              max_tokens = 20480,
             },
           },
         },
@@ -177,17 +174,17 @@ local plugins = {
       "nvim-tree/nvim-web-devicons",
     },
   },
-	{
-		"zbirenbaum/copilot.lua",
-		server = {
-			type = "binary",
-		},
-		cmd = "Copilot",
-		event = "InsertEnter",
-		config = function()
-			require("copilot").setup({})
-		end,
-	},
+  {
+    "zbirenbaum/copilot.lua",
+    server = {
+      type = "binary",
+    },
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup {}
+    end,
+  },
   {
     enabled = true,
     cond = not vim.g.vscode,
@@ -543,7 +540,7 @@ local plugins = {
     cmd = { "OverseerRun", "OverseerToggle" },
     config = function()
       require("overseer").setup {
-        templates = { "builtin", "run_file" },
+        templates = { "builtin", "run_file", "run_mise" },
       }
     end,
   },
