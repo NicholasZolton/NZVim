@@ -223,6 +223,11 @@ local plugins = {
     event = "VeryLazy",
     config = function()
       require("nvim-surround").setup {}
+      local map = vim.keymap.set
+      map("n", "Y", "<Plug>(nvim-surround-normal)", { desc = "Add Surround (Normal)", remap = true })
+      map("x", "Y", "<Plug>(nvim-surround-visual)", { desc = "Add Surround (Visual)", remap = true })
+      map("n", "C", "<Plug>(nvim-surround-change)", { desc = "Change Surround (Normal)", remap = true })
+      map("n", "X", "<Plug>(nvim-surround-delete)", { desc = "Delete Surround (Normal)", remap = true })
     end,
   },
   {
@@ -242,6 +247,7 @@ local plugins = {
     init = function()
       vim.g.db_ui_use_nerd_fonts = 1
       vim.g.db_ui_execute_on_save = 0 --disable auto-execution on save
+      vim.keymap.set("n", "<leader>db", "<CMD>DBUIToggle<CR>", { desc = "DB Open" })
     end,
   },
   {
@@ -264,6 +270,7 @@ local plugins = {
 
       local opts = require "configs.oilopts"
       require("oil").setup(opts)
+      vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
     end,
     dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
   },
@@ -297,6 +304,9 @@ local plugins = {
         mappings = {},
         easing = "quadratic",
       }
+      local map = vim.keymap.set
+      map("n", "<C-u>", "<CMD>lua require('neoscroll').scroll(-0.8, { duration = 400 })<CR>", { noremap = false, silent = true })
+      map("n", "<C-d>", "<CMD>lua require('neoscroll').scroll(0.8, { duration = 400 })<CR>", { noremap = false, silent = true })
     end,
   },
   {
@@ -376,6 +386,11 @@ local plugins = {
     enabled = true,
     cond = not vim.g.vscode,
     "ggandor/leap.nvim",
+    config = function()
+      vim.keymap.set("n", "c", function()
+        require("leap").leap { target_windows = { vim.api.nvim_get_current_win() } }
+      end)
+    end,
   },
   {
     enabled = true,
@@ -407,8 +422,15 @@ local plugins = {
     enabled = ENABLE_AI and true,
     opts = {
       disable_inline_completion = false, -- disables inline completion for use with cmp
-      disable_keymaps = true, -- disables keymaps so you can set them yourself (see mappings.lua)
+      disable_keymaps = true,
     },
+    config = function(_, opts)
+      require("supermaven-nvim").setup(opts)
+      local preview = require("supermaven-nvim.completion_preview")
+      vim.keymap.set("i", "<Tab>", preview.on_accept_suggestion, { noremap = true, silent = true })
+      vim.keymap.set("i", "<C-l>", preview.on_accept_suggestion_word, { noremap = true, silent = true })
+      vim.keymap.set("i", "<C-e>", preview.on_dispose_inlay, { noremap = true, silent = true })
+    end,
   },
   {
     enabled = true,
@@ -428,6 +450,17 @@ local plugins = {
       "DiffviewToggleFiles",
       "DiffviewRefresh",
     },
+    opts = {
+      keymaps = {
+        view = { { "n", "q", "<CMD>DiffviewClose<CR>", { desc = "Close Diffview" } } },
+        file_panel = { { "n", "q", "<CMD>DiffviewClose<CR>", { desc = "Close Diffview" } } },
+        file_history_panel = { { "n", "q", "<CMD>DiffviewClose<CR>", { desc = "Close Diffview" } } },
+      },
+    },
+    config = function(_, opts)
+      require("diffview").setup(opts)
+      vim.keymap.set("n", "<leader>dv", "<CMD>DiffviewOpen<CR>", { desc = "Open Diffview" })
+    end,
   },
   {
     enabled = true,
@@ -439,6 +472,24 @@ local plugins = {
       "sindrets/diffview.nvim", -- optional - Diff integration
       "nvim-telescope/telescope.nvim", -- optional
     },
+    config = function()
+      require("neogit").setup()
+
+      -- Fix low contrast diff text: Neogit defaults use darkened "bg_*" colors
+      -- as foreground text, creating poor contrast against dark line backgrounds.
+      local hl = vim.api.nvim_set_hl
+      hl(0, "NeogitDiffAdd", { fg = "#8ebaa4", bg = "#1a2e25" })
+      hl(0, "NeogitDiffAddHighlight", { fg = "#a8d4be", bg = "#1f3a2c" })
+      hl(0, "NeogitDiffDelete", { fg = "#c94f6d", bg = "#2e1a22" })
+      hl(0, "NeogitDiffDeleteHighlight", { fg = "#e26886", bg = "#3a1f2c" })
+
+      -- Fix low contrast when cursor line overlaps diff highlights
+      hl(0, "NeogitDiffAddCursor", { fg = "#a8d4be", bg = "#243d30" })
+      hl(0, "NeogitDiffDeleteCursor", { fg = "#e26886", bg = "#3d2231" })
+      hl(0, "NeogitDiffContextCursor", { fg = "#cdcecf", bg = "#2a2e33" })
+      hl(0, "NeogitHunkHeaderCursor", { fg = "#71839b", bg = "#2a2e33" })
+      vim.keymap.set("n", "<leader>gg", "<CMD>Neogit<CR>", { desc = "Open Neogit" })
+    end,
   },
   -- {
   -- enabled = true,
@@ -542,6 +593,8 @@ local plugins = {
       require("overseer").setup {
         templates = { "builtin", "run_file", "run_mise" },
       }
+      vim.keymap.set("n", "<leader>tr", "<CMD>OverseerRun<CR>", { desc = "Task Run" })
+      vim.keymap.set("n", "<leader>tt", "<CMD>OverseerToggle<CR>", { desc = "Task Toggle" })
     end,
   },
   {
@@ -736,6 +789,11 @@ local plugins = {
         enable = false,
       },
     },
+    config = function(_, opts)
+      require("obsidian").setup(opts)
+      vim.keymap.set("n", "<leader>fo", "<CMD>ObsidianSearch<CR>", { desc = "Find Obsidian", remap = true })
+      vim.keymap.set("n", "<leader>op", "<cmd>ObsidianPasteImg<cr>", { desc = "Obsidian Paste Image" })
+    end,
   },
   {
     enabled = true,
@@ -749,7 +807,10 @@ local plugins = {
     "yorickpeterse/nvim-window",
     lazy = false,
     keys = {},
-    config = true,
+    config = function()
+      require("nvim-window").setup()
+      vim.keymap.set("n", "<leader>wj", "<cmd>lua require('nvim-window').pick()<cr>", { desc = "Window Jump to Window" })
+    end,
   },
   {
     enabled = true,
@@ -837,12 +898,40 @@ local plugins = {
     opts = function()
       local conf = require "nvchad.configs.telescope"
       local actions = require "telescope.actions"
-      conf.defaults.file_ignore_patterns = { ".git", "node_modules", ".venv" }
+      conf.defaults.file_ignore_patterns = {
+        ".git/",
+        "node_modules",
+        ".venv",
+        "%_snapshot.json",
+        "bun.lock",
+        "package-lock.json",
+        ".llm-docs",
+        ".ruff_cache",
+        "__pycache__",
+        "%.pyc",
+        "dist/",
+        "build/",
+        "%.min%.js",
+        "%.min%.css",
+        "target/",
+        "%.class",
+        "coverage/",
+        "yarn.lock",
+        "pnpm%-lock.yaml",
+        ".next/",
+        ".nuxt/",
+        ".cache/",
+        "%.DS_Store",
+        "logs.log",
+        "%_tabular_2025.xml",
+      }
       conf.defaults.mappings.i = {
         ["<C-k>"] = actions.move_selection_previous,
         ["<C-j>"] = actions.move_selection_next,
         ["<C-v>"] = false,
       }
+      conf.pickers = conf.pickers or {}
+      conf.pickers.find_files = { no_ignore = true }
       return conf
     end,
     config = function(_, opts)
@@ -1032,5 +1121,24 @@ local plugins = {
     end,
   },
 }
+
+-- Apply local overrides from local_config.json (gitignored)
+local config_path = vim.fn.stdpath("config") .. "/local_config.json"
+local f = io.open(config_path, "r")
+if f then
+  local ok, config = pcall(vim.json.decode, f:read("*a"))
+  f:close()
+  if ok and config.disabled_plugins then
+    local disabled = {}
+    for _, name in ipairs(config.disabled_plugins) do
+      disabled[name] = true
+    end
+    for _, plugin in ipairs(plugins) do
+      if disabled[plugin[1]] then
+        plugin.enabled = false
+      end
+    end
+  end
+end
 
 return plugins

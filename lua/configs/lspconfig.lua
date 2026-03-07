@@ -6,7 +6,7 @@ local servers = {
   "html",
   "cssls",
   "jsonls",
-  "ts_ls",
+  "vtsls",
   "biome",
   "clangd",
   "rnix",
