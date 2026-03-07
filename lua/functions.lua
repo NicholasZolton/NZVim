@@ -8,6 +8,7 @@ NZVIM_USER_EMAIL = "nicholaszolton@gmail.com"
 NZVIM_USER_URL = "https://nicholaszolton.dev"
 
 function Messagify(msg)
+  msg = tostring(msg)
   local lines = {}
   local line = ""
   for word in msg:gmatch "%S+" do

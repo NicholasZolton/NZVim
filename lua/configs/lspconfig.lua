@@ -1,40 +1,31 @@
--- load defaults i.e lua_lsp
 require("nvchad.configs.lspconfig").defaults()
 
--- check for the servers in https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
-local servers = {
-  "html",
-  "cssls",
-  "jsonls",
-  "vtsls",
-  "biome",
-  "clangd",
-  "rnix",
-  "basedpyright",
-  "tflint",
-  "tailwindcss",
-  "gdscript",
-  "harper_ls",
-  "rust_analyzer",
-}
 local nvlsp = require "nvchad.configs.lspconfig"
 
--- lsps with default config
-for _, lsp in ipairs(servers) do
-  if lsp == "harper_ls" then
-    vim.lsp.config(lsp, {
-      on_attach = nvlsp.on_attach,
-      on_init = nvlsp.on_init,
-      capabilities = nvlsp.capabilities,
-      filetypes = { "markdown", "txt" },
-    })
-    vim.lsp.enable(lsp)
-  else
-    vim.lsp.config(lsp, {
-      on_attach = nvlsp.on_attach,
-      on_init = nvlsp.on_init,
-      capabilities = nvlsp.capabilities,
-    })
-    vim.lsp.enable(lsp)
-  end
+local servers = {
+  html = {},
+  cssls = {},
+  jsonls = {},
+  vtsls = {},
+  biome = {},
+  clangd = {},
+  rnix = {},
+  basedpyright = {},
+  tflint = {},
+  tailwindcss = {},
+  gdscript = {},
+  rust_analyzer = {},
+
+  harper_ls = {
+    filetypes = { "markdown", "txt" },
+  },
+}
+
+for name, opts in pairs(servers) do
+  opts.on_attach = nvlsp.on_attach
+  opts.on_init = nvlsp.on_init
+  opts.capabilities = nvlsp.capabilities
+  vim.lsp.config(name, opts)
 end
+
+vim.lsp.enable(vim.tbl_keys(servers))

@@ -1,0 +1,53 @@
+return {
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "sindrets/diffview.nvim",
+    cmd = {
+      "DiffviewOpen",
+      "DiffviewClose",
+      "DiffviewFileHistory",
+      "DiffviewFocusFiles",
+      "DiffviewToggleFiles",
+      "DiffviewRefresh",
+    },
+    keys = {
+      { "<leader>dv", "<CMD>DiffviewOpen<CR>", desc = "Open Diffview" },
+    },
+    opts = {
+      keymaps = {
+        view = { { "n", "q", "<CMD>DiffviewClose<CR>", { desc = "Close Diffview" } } },
+        file_panel = { { "n", "q", "<CMD>DiffviewClose<CR>", { desc = "Close Diffview" } } },
+        file_history_panel = { { "n", "q", "<CMD>DiffviewClose<CR>", { desc = "Close Diffview" } } },
+      },
+    },
+  },
+  {
+    enabled = true,
+    cond = not vim.g.vscode,
+    "NeogitOrg/neogit",
+    cmd = { "Neogit", "NeogitCommit", "NeogitPush", "NeogitPull" },
+    keys = {
+      { "<leader>gg", "<CMD>Neogit<CR>", desc = "Open Neogit" },
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    config = function()
+      require("neogit").setup()
+
+      local hl = vim.api.nvim_set_hl
+      hl(0, "NeogitDiffAdd", { fg = "#8ebaa4", bg = "#1a2e25" })
+      hl(0, "NeogitDiffAddHighlight", { fg = "#a8d4be", bg = "#1f3a2c" })
+      hl(0, "NeogitDiffDelete", { fg = "#c94f6d", bg = "#2e1a22" })
+      hl(0, "NeogitDiffDeleteHighlight", { fg = "#e26886", bg = "#3a1f2c" })
+
+      hl(0, "NeogitDiffAddCursor", { fg = "#a8d4be", bg = "#243d30" })
+      hl(0, "NeogitDiffDeleteCursor", { fg = "#e26886", bg = "#3d2231" })
+      hl(0, "NeogitDiffContextCursor", { fg = "#cdcecf", bg = "#2a2e33" })
+      hl(0, "NeogitHunkHeaderCursor", { fg = "#71839b", bg = "#2a2e33" })
+    end,
+  },
+}

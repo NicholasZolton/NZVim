@@ -36,8 +36,6 @@ require("lazy").setup({
 
 if vim.g.vscode then
   vim.notify = require("vscode").notify
-else
-  vim.notify = require "notify"
 end
 
 -- load theme

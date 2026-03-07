@@ -33,20 +33,19 @@ else
   map("n", "<leader>qq", "<CMD>q<CR>", { desc = "Close file nosave" })
   map("n", "<C-a>", "ggVG", { desc = "Select all" })
 
-  -- telescope mappings
-  map("n", "<leader>ff", "<CMD>Telescope find_files<CR>", { desc = "Find files" })
-  map("n", "<leader>fw", "<CMD>lua require('telescope.builtin').live_grep()<CR>", { desc = "Find word" })
-  map("n", "<leader>fb", "<CMD>lua require('telescope.builtin').buffers()<CR>", { desc = "Find buffers" })
-  map("n", "<leader>fh", "<CMD>lua require('telescope.builtin').help_tags()<CR>", { desc = "Find help" })
-  map("n", "<leader>fk", "<CMD>lua require('telescope.builtin').keymaps()<CR>", { desc = "Find keymaps" })
-  map("v", "<leader>fk", "<CMD>lua require('telescope.builtin').keymaps()<CR>", { desc = "Find keymaps" })
-  map("n", "<leader>fr", "<CMD>Telescope frecency<CR>", { desc = "Find recent files" })
-  map("n", "<leader>fc", '<CMD>lua require"telescope.builtin".commands()<CR>', { desc = "Find commands" })
-  map("n", "<leader>fp", "<CMD>Telescope projects<CR>", { desc = "Find projects" })
-  map("n", "<leader>fb", "<CMD>Telescope file_browser<CR>", { desc = "Find projects" })
-  map("n", "<leader>fs", "<CMD>lua require('telescope.builtin').treesitter()<CR>", { desc = "Find symbols" })
+  -- picker mappings
+  map("n", "<leader>ff", function() Snacks.picker.files() end, { desc = "Find files" })
+  map("n", "<leader>fw", function() Snacks.picker.grep() end, { desc = "Find word" })
+  map("n", "<leader>fb", function() Snacks.picker.buffers() end, { desc = "Find buffers" })
+  map("n", "<leader>fh", function() Snacks.picker.help({ confirm = "edit" }) end, { desc = "Find help" })
+  map("n", "<leader>fk", function() Snacks.picker.keymaps() end, { desc = "Find keymaps" })
+  map("v", "<leader>fk", function() Snacks.picker.keymaps() end, { desc = "Find keymaps" })
+  map("n", "<leader>fr", function() Snacks.picker.recent() end, { desc = "Find recent files" })
+  map("n", "<leader>fc", function() Snacks.picker.commands() end, { desc = "Find commands" })
+  map("n", "<leader>fp", function() Snacks.picker.projects() end, { desc = "Find projects" })
+  map("n", "<leader>fs", function() Snacks.picker.lsp_symbols() end, { desc = "Find symbols" })
 
-  map("n", "<leader>e", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle file explorer", remap = true })
+  map("n", "<leader>e", function() Snacks.explorer() end, { desc = "Toggle file explorer" })
   map("n", "<leader>pi", "<CMD>Lazy install<CR>", { desc = "Install plugins" })
   map("n", "<leader>pu", "<CMD>Lazy update<CR>", { desc = "Update plugins" })
   map("n", "<leader>pc", "<CMD>Lazy clean<CR>", { desc = "Clean plugins" })
@@ -59,13 +58,10 @@ else
   map("n", "<leader>wk", "<C-k>", { desc = "Switch to up window" })
 
   -- open commands
-  map("n", "<leader>gn", "<CMD>NvimTreeOpen ~/orgfiles/<CR>", { desc = "Open Notes" })
-  local conf_path = vim.fn.stdpath "config"
-  map("n", "<leader>gc", "<CMD>NvimTreeOpen " .. conf_path .. "<CR>", { desc = "Open Config" })
-  local data_path = vim.fn.stdpath "data"
-  map("n", "<leader>god", "<CMD>NvimTreeOpen " .. data_path .. "<CR>", { desc = "Open Nvim Data" })
-  map("n", "<leader>g.", "<CMD>NvimTreeOpen .<CR>", { desc = "Open Here" })
-  map("n", "<leader>gd", "<CMD>Dashboard<CR>", { desc = "Open Dashboard" })
+  map("n", "<leader>gn", function() Snacks.explorer({ cwd = "~/orgfiles/" }) end, { desc = "Open Notes" })
+  map("n", "<leader>gc", function() Snacks.explorer({ cwd = vim.fn.stdpath("config") }) end, { desc = "Open Config" })
+  map("n", "<leader>g.", function() Snacks.explorer({ cwd = "." }) end, { desc = "Open Here" })
+  map("n", "<leader>gd", function() Snacks.dashboard() end, { desc = "Open Dashboard" })
 
   -- tab/window management
   map("n", "<C-h>", "<CMD>TmuxNavigateLeft<CR>", { desc = "Navigate Left", remap = true, silent = true })
@@ -103,7 +99,6 @@ else
     require("nvchad.tabufline").close_buffer()
   end, { desc = "buffer close" })
 
-  map("n", "<leader>bn", "<cmd>enew<CR>", { desc = "buffer new" })
 
   -- add comment.nvim mappings
   map("v", "<C-/>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle Comment (Visual)" })
@@ -113,7 +108,7 @@ else
 
 
   -- lsp mappings
-  map("n", "<S-d>", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "Show Error", noremap = false })
+  Snacks.keymap.set("n", "<S-d>", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "Show Error", noremap = false, lsp = {} })
 
   -- map paste for command/terminal mode
   map("c", "<C-v>", "substitute(getreg('+'), '\\n', '', 'g') .. ''", { noremap = true, silent = false, expr = true })
@@ -126,9 +121,6 @@ else
   map("t", "<C-H>", "<C-W>", { noremap = false, silent = false })
   map("i", "<C-H>", "<C-W>", { noremap = false, silent = false })
 
-  -- map very magicness (basically default magic mode, quite hacky)
-  map("n", "/", "/\\v", { noremap = true })
-  -- map("c", "%s/", "s/\\v", { noremap = true })
 
   -- map paste for insert mode
   map("i", "<C-v>", "<C-r>+")
@@ -158,32 +150,4 @@ else
     vim.cmd("'<,'>s/\\%V\\v" .. search .. "/" .. replace .. "/g")
   end
   map("x", "<C-r>", ":lua FindReplaceVisual()<CR>", { noremap = false, silent = true })
-
-  -- personal remappings
-  map("n", "<tab>", "za")
-  map("n", "<C-a>", "ggVG", { desc = "Select all" })
-
-  -- add comment.nvim mappings
-  map("v", "<C-/>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle Comment (Visual)" })
-  map("n", "<C-/>", "<Plug>(comment_toggle_linewise_current)", { desc = "Toggle Comment" })
-  map("v", "<C-_>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle Comment (Visual)" })
-  map("n", "<C-_>", "<Plug>(comment_toggle_linewise_current)", { desc = "Toggle Comment" })
-
-  map("c", "<C-v>", "substitute(getreg('+'), '\\n', '', 'g') .. ''", { noremap = true, silent = false, expr = true })
-  map("t", "<C-v>", "substitute(getreg('+'), '\\n', '', 'g') .. ''", { noremap = false, silent = false, expr = true })
-
-  -- map ctrl-backspace for terminal mode
-  map("t", "<C-BS>", "<C-W>", { noremap = false, silent = false })
-
-  -- map very magicness (basically default magic mode, quite hacky)
-  map("n", "/", "/\\v", { noremap = true })
-
-  -- map paste for insert mode
-  map("i", "<C-v>", "<C-r>+")
-
-  -- eval mappings
-  map("x", "<leader>el", ":EvalLua<CR>", { desc = "Eval Lua", silent = true })
-  map("x", "<leader>ep", ":PyBlock<CR>", { desc = "Eval Python (Linewise)", silent = true })
-  map("x", "<leader>eml", ":LuaMath<CR>", { desc = "Eval Math Lua", silent = true })
-  map("x", "<leader>emp", ":PyMath<CR>", { desc = "Eval Math Python", silent = true })
 end
