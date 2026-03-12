@@ -106,12 +106,14 @@ return {
     "stevearc/overseer.nvim",
     version = "*",
     cmd = { "OverseerRun", "OverseerToggle" },
+    keys = {
+      { "<leader>tr", "<CMD>OverseerRun<CR>", desc = "Task Run" },
+      { "<leader>tt", "<CMD>OverseerToggle<CR>", desc = "Task Toggle" },
+    },
     config = function()
       require("overseer").setup {
-        templates = { "builtin", "run_file", "run_mise" },
+        templates = { "builtin", "run_file" },
       }
-      vim.keymap.set("n", "<leader>tr", "<CMD>OverseerRun<CR>", { desc = "Task Run" })
-      vim.keymap.set("n", "<leader>tt", "<CMD>OverseerToggle<CR>", { desc = "Task Toggle" })
     end,
   },
   {
@@ -270,8 +272,18 @@ return {
     },
     config = function(_, opts)
       require("obsidian").setup(opts)
-      Snacks.keymap.set("n", "<leader>fo", "<CMD>ObsidianSearch<CR>", { desc = "Find Obsidian", remap = true, ft = "markdown" })
-      Snacks.keymap.set("n", "<leader>op", "<cmd>ObsidianPasteImg<cr>", { desc = "Obsidian Paste Image", ft = "markdown" })
+      Snacks.keymap.set(
+        "n",
+        "<leader>fo",
+        "<CMD>ObsidianSearch<CR>",
+        { desc = "Find Obsidian", remap = true, ft = "markdown" }
+      )
+      Snacks.keymap.set(
+        "n",
+        "<leader>op",
+        "<cmd>ObsidianPasteImg<cr>",
+        { desc = "Obsidian Paste Image", ft = "markdown" }
+      )
     end,
   },
 }

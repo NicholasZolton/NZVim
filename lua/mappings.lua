@@ -45,22 +45,19 @@ else
   map("n", "<leader>fp", function() Snacks.picker.projects() end, { desc = "Find projects" })
   map("n", "<leader>fs", function() Snacks.picker.lsp_symbols() end, { desc = "Find symbols" })
 
-  map("n", "<leader>e", function() Snacks.explorer() end, { desc = "Toggle file explorer" })
+  map("n", "<leader>e", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle file explorer", remap = true })
   map("n", "<leader>pi", "<CMD>Lazy install<CR>", { desc = "Install plugins" })
   map("n", "<leader>pu", "<CMD>Lazy update<CR>", { desc = "Update plugins" })
   map("n", "<leader>pc", "<CMD>Lazy clean<CR>", { desc = "Clean plugins" })
   map("n", "<leader>ps", "<CMD>Lazy sync<CR>", { desc = "Sync plugins" })
   map("n", "<leader>pk", "<CMD>Lazy check<CR>", { desc = "Check plugins" })
 
-  map("n", "<leader>wh", "<C-h>", { desc = "Switch to left window" })
-  map("n", "<leader>wl", "<C-l>", { desc = "Switch to right window" })
-  map("n", "<leader>wj", "<C-j>", { desc = "Switch to down window" })
-  map("n", "<leader>wk", "<C-k>", { desc = "Switch to up window" })
 
   -- open commands
-  map("n", "<leader>gn", function() Snacks.explorer({ cwd = "~/orgfiles/" }) end, { desc = "Open Notes" })
-  map("n", "<leader>gc", function() Snacks.explorer({ cwd = vim.fn.stdpath("config") }) end, { desc = "Open Config" })
-  map("n", "<leader>g.", function() Snacks.explorer({ cwd = "." }) end, { desc = "Open Here" })
+  map("n", "<leader>gn", "<CMD>NvimTreeOpen ~/orgfiles/<CR>", { desc = "Open Notes" })
+  local conf_path = vim.fn.stdpath "config"
+  map("n", "<leader>gc", "<CMD>NvimTreeOpen " .. conf_path .. "<CR>", { desc = "Open Config" })
+  map("n", "<leader>g.", "<CMD>NvimTreeOpen .<CR>", { desc = "Open Here" })
   map("n", "<leader>gd", function() Snacks.dashboard() end, { desc = "Open Dashboard" })
 
   -- tab/window management

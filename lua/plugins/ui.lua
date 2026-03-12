@@ -150,7 +150,16 @@ return {
     end,
     event = "VeryLazy",
   },
-  { "nvim-tree/nvim-tree.lua", enabled = false },
+  {
+    "nvim-tree/nvim-tree.lua",
+    cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeOpen" },
+    opts = function()
+      local conf = require "nvchad.configs.nvimtree"
+      conf.renderer.root_folder_label = true
+      conf.filters = { dotfiles = false, git_ignored = false }
+      return conf
+    end,
+  },
   {
     enabled = true,
     "folke/which-key.nvim",

@@ -204,6 +204,8 @@ return {
         enabled = true,
         sources = {
           explorer = {
+            hidden = true,
+            ignored = true,
             actions = {
               yank_relative = function(picker, item)
                 if item then
@@ -245,7 +247,7 @@ return {
           },
         },
       },
-      explorer = { enabled = true },
+      explorer = { enabled = false },
       gh = {},
       scroll = { enabled = true },
       scratch = {
