@@ -34,16 +34,36 @@ else
   map("n", "<C-a>", "ggVG", { desc = "Select all" })
 
   -- picker mappings
-  map("n", "<leader>ff", function() Snacks.picker.files() end, { desc = "Find files" })
-  map("n", "<leader>fw", function() Snacks.picker.grep() end, { desc = "Find word" })
-  map("n", "<leader>fb", function() Snacks.picker.buffers() end, { desc = "Find buffers" })
-  map("n", "<leader>fh", function() Snacks.picker.help({ confirm = "edit" }) end, { desc = "Find help" })
-  map("n", "<leader>fk", function() Snacks.picker.keymaps() end, { desc = "Find keymaps" })
-  map("v", "<leader>fk", function() Snacks.picker.keymaps() end, { desc = "Find keymaps" })
-  map("n", "<leader>fr", function() Snacks.picker.recent() end, { desc = "Find recent files" })
-  map("n", "<leader>fc", function() Snacks.picker.commands() end, { desc = "Find commands" })
-  map("n", "<leader>fp", function() Snacks.picker.projects() end, { desc = "Find projects" })
-  map("n", "<leader>fs", function() Snacks.picker.lsp_symbols() end, { desc = "Find symbols" })
+  map("n", "<leader>ff", function()
+    Snacks.picker.files()
+  end, { desc = "Find files" })
+  map("n", "<leader>fw", function()
+    Snacks.picker.grep()
+  end, { desc = "Find word" })
+  map("n", "<leader>fb", function()
+    Snacks.picker.buffers()
+  end, { desc = "Find buffers" })
+  map("n", "<leader>fh", function()
+    Snacks.picker.help { confirm = "edit" }
+  end, { desc = "Find help" })
+  map("n", "<leader>fk", function()
+    Snacks.picker.keymaps()
+  end, { desc = "Find keymaps" })
+  map("v", "<leader>fk", function()
+    Snacks.picker.keymaps()
+  end, { desc = "Find keymaps" })
+  map("n", "<leader>fr", function()
+    Snacks.picker.recent()
+  end, { desc = "Find recent files" })
+  map("n", "<leader>fc", function()
+    Snacks.picker.commands()
+  end, { desc = "Find commands" })
+  map("n", "<leader>fp", function()
+    Snacks.picker.projects()
+  end, { desc = "Find projects" })
+  map("n", "<leader>fs", function()
+    Snacks.picker.lsp_symbols()
+  end, { desc = "Find symbols" })
 
   map("n", "<leader>e", "<CMD>NvimTreeToggle<CR>", { desc = "Toggle file explorer", remap = true })
   map("n", "<leader>pi", "<CMD>Lazy install<CR>", { desc = "Install plugins" })
@@ -52,13 +72,14 @@ else
   map("n", "<leader>ps", "<CMD>Lazy sync<CR>", { desc = "Sync plugins" })
   map("n", "<leader>pk", "<CMD>Lazy check<CR>", { desc = "Check plugins" })
 
-
   -- open commands
   map("n", "<leader>gn", "<CMD>NvimTreeOpen ~/orgfiles/<CR>", { desc = "Open Notes" })
   local conf_path = vim.fn.stdpath "config"
   map("n", "<leader>gc", "<CMD>NvimTreeOpen " .. conf_path .. "<CR>", { desc = "Open Config" })
   map("n", "<leader>g.", "<CMD>NvimTreeOpen .<CR>", { desc = "Open Here" })
-  map("n", "<leader>gd", function() Snacks.dashboard() end, { desc = "Open Dashboard" })
+  map("n", "<leader>gd", function()
+    Snacks.dashboard()
+  end, { desc = "Open Dashboard" })
 
   -- tab/window management
   map("n", "<C-h>", "<CMD>TmuxNavigateLeft<CR>", { desc = "Navigate Left", remap = true, silent = true })
@@ -96,16 +117,19 @@ else
     require("nvchad.tabufline").close_buffer()
   end, { desc = "buffer close" })
 
-
   -- add comment.nvim mappings
   map("v", "<C-/>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle Comment (Visual)" })
   map("n", "<C-/>", "<Plug>(comment_toggle_linewise_current)", { desc = "Toggle Comment" })
   map("v", "<C-_>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle Comment (Visual)" })
   map("n", "<C-_>", "<Plug>(comment_toggle_linewise_current)", { desc = "Toggle Comment" })
 
-
   -- lsp mappings
-  Snacks.keymap.set("n", "<S-d>", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "Show Error", noremap = false, lsp = {} })
+  Snacks.keymap.set(
+    "n",
+    "<S-d>",
+    "<cmd>lua vim.diagnostic.open_float()<CR>",
+    { desc = "Show Error", noremap = false, lsp = {} }
+  )
 
   -- map paste for command/terminal mode
   map("c", "<C-v>", "substitute(getreg('+'), '\\n', '', 'g') .. ''", { noremap = true, silent = false, expr = true })
@@ -118,10 +142,8 @@ else
   map("t", "<C-H>", "<C-W>", { noremap = false, silent = false })
   map("i", "<C-H>", "<C-W>", { noremap = false, silent = false })
 
-
   -- map paste for insert mode
   map("i", "<C-v>", "<C-r>+")
-
 
   -- eval mappings
   map("x", "<leader>el", ":EvalLua<CR>", { desc = "Eval Lua", silent = true })
