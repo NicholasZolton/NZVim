@@ -61,8 +61,7 @@ return {
   {
     enabled = true,
     cond = not vim.g.vscode,
-    dir = "~/Documents/Projects/NeoJJ",
-    name = "neojj",
+    "NicholasZolton/NeoJJ",
     cmd = { "Neojj" },
     keys = {
       { "<leader>gj", "<CMD>Neojj<CR>", desc = "Open Neojj" },
