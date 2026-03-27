@@ -1,3 +1,5 @@
 !.gitignore
 .env
 plugin-backups
+local_config.json
+.jj
