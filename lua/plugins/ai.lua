@@ -14,7 +14,7 @@ return {
   },
   {
     "yetone/avante.nvim",
-    enabled = true,
+    enabled = false,
     event = "VeryLazy",
     version = false,
     cond = function()
@@ -115,7 +115,7 @@ return {
     },
     config = function(_, opts)
       require("supermaven-nvim").setup(opts)
-      local preview = require("supermaven-nvim.completion_preview")
+      local preview = require "supermaven-nvim.completion_preview"
       vim.keymap.set("i", "<Tab>", preview.on_accept_suggestion, { noremap = true, silent = true })
       vim.keymap.set("i", "<C-l>", preview.on_accept_suggestion_word, { noremap = true, silent = true })
       vim.keymap.set("i", "<C-e>", preview.on_dispose_inlay, { noremap = true, silent = true })
