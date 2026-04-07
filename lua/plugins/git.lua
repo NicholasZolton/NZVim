@@ -24,10 +24,12 @@ return {
       }
 
       local hl = vim.api.nvim_set_hl
-      hl(0, "DiffAdd", { bg = "#1a2e25" })
-      hl(0, "DiffChange", { bg = "#1a2a2e" })
-      hl(0, "DiffDelete", { fg = "#c94f6d", bg = "#2e1a22" })
-      hl(0, "DiffText", { bg = "#1f3a2c" })
+      hl(0, "DiffAdd", { bg = "#1f3a2c" })
+      hl(0, "DiffChange", { bg = "#1a2840" })
+      hl(0, "DiffDelete", { fg = "#c94f6d", bg = "#3a1f2c" })
+      hl(0, "DiffText", { bg = "#2a4a35" })
+      hl(0, "DiffviewDiffDeleteDim", { bg = "#3d2230" })
+      hl(0, "DiffviewDiffAddAsDelete", { bg = "#5c2d3e" })
     end,
   },
   {
@@ -61,7 +63,7 @@ return {
   {
     enabled = true,
     cond = not vim.g.vscode,
-    "NicholasZolton/NeoJJ",
+    dir = "~/Documents/Projects/NeoJJ",
     cmd = { "Neojj" },
     keys = {
       { "<leader>gj", "<CMD>Neojj<CR>", desc = "Open Neojj" },

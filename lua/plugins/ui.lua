@@ -45,29 +45,27 @@ return {
     enabled = true,
     cond = not vim.g.vscode,
     "nvim-treesitter/nvim-treesitter",
-    lazy = true,
-    config = function()
-      local opts = require "configs.custom-treesitter"
-      require("nvim-treesitter.configs").setup(opts)
-    end,
-    dependencies = {
-      {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        lazy = true,
-        config = function()
-          local options = require "configs.treesitter-textobjects"
-          require("nvim-treesitter.configs").setup(options)
-          local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
-
-          vim.keymap.set({ "n", "x", "o" }, "'", ts_repeat_move.repeat_last_move)
-          vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_opposite)
-          vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f_expr, { expr = true })
-          vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F_expr, { expr = true })
-          vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = true })
-          vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T_expr, { expr = true })
-        end,
+    event = { "BufReadPost", "BufNewFile" },
+    cmd = { "TSInstall", "TSUpdate", "TSUninstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
+    build = ":TSUpdate | TSInstallAll",
+    opts = {
+      ensure_installed = {
+        "lua",
+        "luadoc",
+        "printf",
+        "vim",
+        "vimdoc",
+        "python",
+        "java",
+        "markdown",
+        "markdown_inline",
+        "cpp",
+        "svelte",
       },
     },
+    config = function()
+      require "configs.custom-treesitter"
+    end,
   },
   {
     enabled = true,
