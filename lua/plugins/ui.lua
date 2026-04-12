@@ -24,7 +24,7 @@ return {
   { "nvimdev/dashboard-nvim", enabled = false },
   { "rcarriga/nvim-notify", enabled = false },
   {
-    enabled = true,
+    enabled = false,
     "3rd/image.nvim",
     lazy = false,
     cond = function()
