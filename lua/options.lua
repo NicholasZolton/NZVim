@@ -3,6 +3,12 @@ require "nvchad.options"
 vim.cmd.filetype "on"
 vim.cmd.filetype "plugin on"
 
+vim.filetype.add {
+  filename = {
+    ["Tiltfile"] = "starlark",
+  },
+}
+
 vim.opt.expandtab = true
 vim.opt.shiftround = true
 vim.opt.shiftwidth = 4
