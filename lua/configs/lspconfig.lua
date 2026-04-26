@@ -7,7 +7,6 @@ local servers = {
   cssls = {},
   jsonls = {},
   vtsls = {},
-  biome = {},
   clangd = {},
   rnix = {},
   basedpyright = {},

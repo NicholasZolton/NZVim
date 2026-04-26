@@ -23,13 +23,20 @@ return {
         },
       }
 
-      local hl = vim.api.nvim_set_hl
-      hl(0, "DiffAdd", { bg = "#1f3a2c" })
-      hl(0, "DiffChange", { bg = "#1a2840" })
-      hl(0, "DiffDelete", { fg = "#c94f6d", bg = "#3a1f2c" })
-      hl(0, "DiffText", { bg = "#2a4a35" })
-      hl(0, "DiffviewDiffDeleteDim", { bg = "#3d2230" })
-      hl(0, "DiffviewDiffAddAsDelete", { bg = "#5c2d3e" })
+      local function apply_diff_hl()
+        local hl = vim.api.nvim_set_hl
+        hl(0, "DiffAdd", { bg = "#1f3a2c" })
+        hl(0, "DiffChange", { bg = "#1a2840" })
+        hl(0, "DiffDelete", { fg = "#5a3a44", bg = "#3a1f2c" })
+        hl(0, "DiffText", { bg = "#2a4a35" })
+        hl(0, "DiffviewDiffDeleteDim", { bg = "#3d2230" })
+        hl(0, "DiffviewDiffAddAsDelete", { bg = "#5c2d3e" })
+      end
+      apply_diff_hl()
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "DiffviewDiffBufWinEnter",
+        callback = apply_diff_hl,
+      })
     end,
   },
   {
@@ -49,15 +56,15 @@ return {
       require("neogit").setup()
 
       local hl = vim.api.nvim_set_hl
-      hl(0, "NeogitDiffAdd", { fg = "#8ebaa4", bg = "#1a2e25" })
-      hl(0, "NeogitDiffAddHighlight", { fg = "#a8d4be", bg = "#1f3a2c" })
-      hl(0, "NeogitDiffDelete", { fg = "#c94f6d", bg = "#2e1a22" })
-      hl(0, "NeogitDiffDeleteHighlight", { fg = "#e26886", bg = "#3a1f2c" })
+      hl(0, "NeogitDiffAdd", { bg = "#1a2e25" })
+      hl(0, "NeogitDiffAddHighlight", { bg = "#1f3a2c" })
+      hl(0, "NeogitDiffDelete", { bg = "#2e1a22" })
+      hl(0, "NeogitDiffDeleteHighlight", { bg = "#3a1f2c" })
 
-      hl(0, "NeogitDiffAddCursor", { fg = "#a8d4be", bg = "#243d30" })
-      hl(0, "NeogitDiffDeleteCursor", { fg = "#e26886", bg = "#3d2231" })
-      hl(0, "NeogitDiffContextCursor", { fg = "#cdcecf", bg = "#2a2e33" })
-      hl(0, "NeogitHunkHeaderCursor", { fg = "#71839b", bg = "#2a2e33" })
+      hl(0, "NeogitDiffAddCursor", { bg = "#243d30" })
+      hl(0, "NeogitDiffDeleteCursor", { bg = "#3d2231" })
+      hl(0, "NeogitDiffContextCursor", { bg = "#2a2e33" })
+      hl(0, "NeogitHunkHeaderCursor", { bg = "#2a2e33" })
     end,
   },
   {
@@ -74,6 +81,19 @@ return {
       "nvim-telescope/telescope.nvim",
     },
     config = function()
+      local function tmux(args)
+        local argv = { "tmux" }
+        for _, a in ipairs(args) do
+          table.insert(argv, a)
+        end
+        local r = vim.system(argv, { text = true }):wait()
+        return r.stdout and vim.trim(r.stdout) or ""
+      end
+
+      local function in_tmux()
+        return vim.env.TMUX ~= nil and vim.env.TMUX ~= ""
+      end
+
       require("neojj").setup {
         filewatcher = {
           enabled = true,
@@ -90,18 +110,64 @@ return {
           recent = { folded = false },
           bookmarks = { folded = false },
         },
-        workspace_open_command = "tmux new-window -c {path} 'mise trust && $SHELL'",
+
+        workspace_initialize_command = function(ctx)
+          vim.system({ "jj", "git", "fetch" }, { cwd = ctx.path }):wait()
+          vim.system({ "jj", "new", "trunk()" }, { cwd = ctx.path }):wait()
+        end,
+
+        workspace_open_command = function(ctx)
+          if not in_tmux() then
+            vim.notify("neojj: not inside tmux, skipping workspace window", vim.log.levels.WARN)
+            return
+          end
+
+          local name = vim.fn.fnamemodify(ctx.path:gsub("/$", ""), ":t")
+          if name == "" then
+            name = "workspace"
+          end
+
+          local win_id = tmux {
+            "new-window",
+            "-n",
+            name,
+            "-c",
+            ctx.path,
+            "-P",
+            "-F",
+            "#{window_id}",
+            "nvim",
+            ".",
+          }
+          tmux { "set-window-option", "-t", win_id, "@neojj-workspace-path", ctx.path }
+          tmux { "set-window-option", "-t", win_id, "automatic-rename", "off" }
+        end,
+
+        workspace_delete_command = function(ctx)
+          if not in_tmux() then
+            return
+          end
+          local r = vim
+            .system({ "tmux", "list-windows", "-a", "-F", "#{window_id} #{@neojj-workspace-path}" }, { text = true })
+            :wait()
+          for line in (r.stdout or ""):gmatch "[^\n]+" do
+            local win_id, path = line:match "^(%S+)%s+(.+)$"
+            if path == ctx.path then
+              vim.system({ "tmux", "kill-window", "-t", win_id }):wait()
+            end
+          end
+        end,
       }
 
       local hl = vim.api.nvim_set_hl
-      hl(0, "NeojjDiffAdd", { fg = "#8ebaa4", bg = "#1a2e25" })
-      hl(0, "NeojjDiffAddHighlight", { fg = "#a8d4be", bg = "#1f3a2c" })
-      hl(0, "NeojjDiffDelete", { fg = "#c94f6d", bg = "#2e1a22" })
-      hl(0, "NeojjDiffDeleteHighlight", { fg = "#e26886", bg = "#3a1f2c" })
-      hl(0, "NeojjDiffAddCursor", { fg = "#a8d4be", bg = "#243d30" })
-      hl(0, "NeojjDiffDeleteCursor", { fg = "#e26886", bg = "#3d2231" })
-      hl(0, "NeojjDiffContextCursor", { fg = "#cdcecf", bg = "#2a2e33" })
-      hl(0, "NeojjHunkHeaderCursor", { fg = "#71839b", bg = "#2a2e33" })
+      hl(0, "NeojjDiffAdd", { bg = "#1a2e25" })
+      hl(0, "NeojjDiffAddHighlight", { bg = "#1f3a2c" })
+      hl(0, "NeojjDiffDelete", { bg = "#2e1a22" })
+      hl(0, "NeojjDiffDeleteHighlight", { bg = "#3a1f2c" })
+      hl(0, "NeojjDiffAddCursor", { bg = "#243d30" })
+      hl(0, "NeojjDiffDeleteCursor", { bg = "#3d2231" })
+      hl(0, "NeojjDiffContextCursor", { bg = "#2a2e33" })
+      hl(0, "NeojjHunkHeaderCursor", { bg = "#2a2e33" })
     end,
   },
 }

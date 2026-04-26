@@ -35,10 +35,10 @@ else
 
   -- picker mappings
   map("n", "<leader>ff", function()
-    Snacks.picker.files()
+    require("fff").find_files()
   end, { desc = "Find files" })
   map("n", "<leader>fw", function()
-    Snacks.picker.grep()
+    require("fff").live_grep()
   end, { desc = "Find word" })
   map("n", "<leader>fb", function()
     Snacks.picker.buffers()
