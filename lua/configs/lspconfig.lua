@@ -14,7 +14,6 @@ local servers = {
   tailwindcss = {},
   gdscript = {},
   rust_analyzer = {},
-
   harper_ls = {
     filetypes = { "markdown", "txt" },
   },

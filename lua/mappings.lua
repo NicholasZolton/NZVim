@@ -101,8 +101,8 @@ else
   map("c", "<C-BS>", "<C-W>", { noremap = false, silent = false })
   map("n", "<C-/>", "<C-_>", { noremap = false, silent = true })
   map("v", "<C-/>", "<C-_>", { noremap = false, silent = true })
-  map("t", "<Esc>", "<C-\\><C-n>", { noremap = false })
-  map("t", "<C-Esc>", "<Esc>", { noremap = false })
+  -- map("t", "<Esc>", "<C-\\><C-n>", { noremap = false })
+  -- map("t", "<C-Esc>", "<Esc>", { noremap = false })
 
   -- remap nvchad tabs
   map("n", "<S-h>", function()
