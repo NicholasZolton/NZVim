@@ -70,7 +70,7 @@ return {
   {
     enabled = true,
     cond = not vim.g.vscode,
-    dir = "~/.herdr/worktrees/NeoJJ/handle-issues",
+    dir = "~/Documents/Projects/NeoJJ",
     cmd = { "Neojj" },
     keys = {
       { "<leader>gj", "<CMD>Neojj<CR>", desc = "Open Neojj" },
