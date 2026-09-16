@@ -13,8 +13,6 @@ return {
       { "<leader>ts", "<CMD>TodoSchedule<CR>", desc = "Todo Schedule" },
       { "<leader>td", "<CMD>TodoDeadline<CR>", desc = "Todo Deadline" },
     },
-    opts = {
-      inbox = "TASKS.md",
-    },
+    opts = {},
   },
 }
