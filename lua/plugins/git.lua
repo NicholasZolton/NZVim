@@ -95,6 +95,7 @@ return {
       end
 
       require("neojj").setup {
+        treesitter_diff_highlight = true,
         filewatcher = {
           enabled = true,
           poll_interval = 500,
