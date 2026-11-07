@@ -1,7 +1,7 @@
 return {
   {
     "nicholaszolton/fancymd.nvim",
-    -- Local checkout for now; drop `dir` once it's pushed to GitHub.
+    -- Local dev checkout, cloned by home-manager main.py.
     dir = "/Users/nicholas/Documents/Projects/fancymd",
     enabled = true,
     cond = not vim.g.vscode,
